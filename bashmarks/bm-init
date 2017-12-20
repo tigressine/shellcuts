@@ -1,0 +1,37 @@
+SOURCE=".bash_marks"
+
+clear
+echo "Thank you for downloading Bashmarks!"
+echo ""
+echo "Enter the number corresponding to the action you wish to perform:"
+echo "0) Automatically modify bashrc to complete installation"
+echo "1) Manually modify bashrc"
+echo "2) Display contents of this script"
+read COMMAND
+
+if [ "$COMMAND" == "0" ]; then
+    echo "" >> ~/.bashrc
+    echo "# checks if the bashmarks source file exists and includes it" >> ~/.bashrc
+    echo "if [ -f ~/$SOURCE ]; then" >> ~/.bashrc
+    echo "    . ~/$SOURCE" >> ~/.bashrc
+    echo "fi" >> ~/.bashrc
+
+    . ~/.bashrc
+
+elif [ "$COMMAND" == "1" ]; then
+    echo ""
+    echo "Add these lines to your .bashrc:"
+    echo ""
+    echo "if [ -f ~/$SOURCE ]; then"
+    echo "    . ~/$SOURCE"
+    echo "fi"
+    echo ""
+    echo "Then run 'source ~/.bashrc' to begin using Bashmarks!"
+
+elif [ "$COMMAND" == "2" ]; then
+    echo "LOCATION: $(pwd)"
+    echo ""
+    echo "CONTENTS:"
+    cat "$0"
+
+fi
