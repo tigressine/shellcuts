@@ -1,0 +1,30 @@
+function bm {
+    case $1 in
+        -n)
+            bm-handler -n $2
+            ;;
+        -d)
+            bm-handler -d $2
+            ;;
+        -h)
+            bm-handler -h
+            ;;
+        -p)
+            bm-handler -p $2
+            ;;
+        -l)
+            bm-handler -l
+            ;;
+        *)
+            DEST="$(bm-handler $1)"
+            if [ "$DEST" == "-1" ]; then
+                echo "ERROR 2: invalid flag or bashmark name"
+            elif [ ! -d "$DEST" ]; then
+                echo "ERROR 3: destination no longer exists"
+                bm-handler -d $1
+            else
+                cd $DEST
+            fi
+            ;;
+    esac
+}
