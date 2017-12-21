@@ -15,6 +15,9 @@ function bm {
         -l)
             bm-handler -l
             ;;
+        '')
+            bm-handler -h
+            ;;
         *)
             DEST="$(bm-handler $1)"
             if [ "$DEST" == "-1" ]; then

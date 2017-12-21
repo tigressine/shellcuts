@@ -1,4 +1,4 @@
-SOURCE=".bash_marks"
+SOURCE="/usr/local/bin/bash_marks"
 
 clear
 echo "Thank you for downloading Bashmarks!"
@@ -10,26 +10,29 @@ echo "2) Display contents of this script"
 read COMMAND
 
 if [ "$COMMAND" == "0" ]; then
+    echo "Adding to bashrc..."
     echo "" >> ~/.bashrc
     echo "# checks if the bashmarks source file exists and includes it" >> ~/.bashrc
-    echo "if [ -f ~/$SOURCE ]; then" >> ~/.bashrc
-    echo "    . ~/$SOURCE" >> ~/.bashrc
+    echo "if [ -f $SOURCE ]; then" >> ~/.bashrc
+    echo "    . $SOURCE" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
 
+    echo "Sourcing from bashrc..."
     . ~/.bashrc
+    echo "Done!"
 
 elif [ "$COMMAND" == "1" ]; then
     echo ""
     echo "Add these lines to your .bashrc:"
     echo ""
-    echo "if [ -f ~/$SOURCE ]; then"
-    echo "    . ~/$SOURCE"
+    echo "if [ -f $SOURCE ]; then"
+    echo "    . $SOURCE"
     echo "fi"
     echo ""
     echo "Then run 'source ~/.bashrc' to begin using Bashmarks!"
 
 elif [ "$COMMAND" == "2" ]; then
-    echo "LOCATION: $(pwd)"
+    echo "LOCATION: $(dirname $0)"
     echo ""
     echo "CONTENTS:"
     cat "$0"
