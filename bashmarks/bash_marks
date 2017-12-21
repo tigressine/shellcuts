@@ -28,3 +28,10 @@ function bm {
             ;;
     esac
 }
+
+# Comment these out if they are causing conficts.
+alias b="bm"
+alias bashmark="bm"
+alias bashmarks="bm"
+alias bmark="bm"
+alias bshmrk="bm"
