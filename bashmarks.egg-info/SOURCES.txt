@@ -1,0 +1,8 @@
+setup.py
+bashmarks/.bash_marks
+bashmarks/bm-handler
+bashmarks/bm-init
+bashmarks.egg-info/PKG-INFO
+bashmarks.egg-info/SOURCES.txt
+bashmarks.egg-info/dependency_links.txt
+bashmarks.egg-info/top_level.txt
