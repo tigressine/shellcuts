@@ -1,31 +1,19 @@
 #! /usr/bin/env python3
 import os
-import sys
 import json
+import argparse
 
-def command_delete(mark):
-    marks.pop(mark, None)
-    write_marks()
+F_MARKS = os.path.expanduser('bashmarks.json')#
 
-def command_help():
-    print("Bashmarks Help")
+def create_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('mark', default=None, nargs='?')
+    parser.add_argument('-n', '--new')
+    parser.add_argument('-d', '--delete')
+    parser.add_argument('-p', '--print')
+    parser.add_argument('-l', '--list', action='store_true')
 
-def command_list():
-    for mark in marks.keys():
-        command_print(mark)
-
-def command_new(mark):
-    if mark != None:
-        marks[mark] = os.getcwd()
-        write_marks()
-    else:
-        print("ERROR 4: no name for new bashmark")
-
-def command_print(mark):
-    try:
-        print(mark, ":", marks[mark])
-    except KeyError:
-        print("ERROR 1: bashmark '{0}' does not exist".format(mark))
+    return parser
 
 def load_marks():
     try:
@@ -36,40 +24,40 @@ def load_marks():
 
     return marks
 
-def parse_argv():
-    try:
-        flag, parameter = sys.argv[1], sys.argv[2]
-    except IndexError:
-        try:
-            if sys.argv[1][0] == '-':
-                flag, parameter = sys.argv[1], None
-            else:
-                flag, parameter = None, sys.argv[1]
-        except IndexError:
-            flag, parameter = '-h', None
-
-    return flag, parameter
-
-def write_marks():
+def write_marks(marks):
     with open(F_MARKS, 'w') as f:
         json.dump(marks, f)
 
-F_MARKS= os.path.expanduser('~/.bookmarks.json')
+def main():
+    parser = create_parser()
+    arguments = parser.parse_args()
+    marks = load_marks()
+    
+    if arguments.mark:
+        print(marks[arguments.mark])
 
-flag, parameter = parse_argv()
-marks = load_marks()
-flags = {'-d' : command_delete,
-         '-h' : command_help,
-         '-l' : command_list,
-         '-n' : command_new,
-         '-p' : command_print}
+    elif arguments.delete:
+        marks.pop(arguments.delete, None)
+        write_marks(marks)
+        print("TERMINATED")
 
-if flag in flags.keys():
-    try:
-        flags[flag](parameter)
-    except TypeError:
-        flags[flag]()
-elif parameter in marks.keys():
-    print(marks[parameter])
-else:
-    print(-1)
+    elif arguments.new:
+        marks[arguments.new] = os.getcwd()
+        write_marks(marks)
+        print("TERMINATED")
+
+    elif arguments.print:
+        try:
+            print(arguments.print, ":", marks[arguments.print])
+            print("TERMINATED")
+        except KeyError:
+            print("ERROR: That mark does not exist.")#
+
+    elif arguments.list:
+        print("BASHMARKS")
+        for mark in marks:
+            print(mark, ":", marks[mark])
+        print("TERMINATED")
+
+if __name__ == '__main__':
+    main()

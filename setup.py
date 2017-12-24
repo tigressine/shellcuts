@@ -5,8 +5,9 @@ from setuptools import setup
 # Add -v version
 # Support original bashmarks commands
 # Add support for tab completion
-# Write setup script
 # Write readme
+# Comments
+# Move arg handling around
 # Get into ubuntu repos?
 # Get working with zsh
 
