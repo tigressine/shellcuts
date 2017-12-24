@@ -1,40 +1,30 @@
+# Core function of program. Sends first two arguments to bm-handler.
+# The resulting output determines if the script prints an error message,
+# exits quietly, or changes the user's directory.
 function bm {
-    case $1 in
-        -n)
-            bm-handler -n $2
-            ;;
-        -d)
-            bm-handler -d $2
-            ;;
-        -h)
-            bm-handler -h
-            ;;
-        -p)
-            bm-handler -p $2
-            ;;
-        -l)
-            bm-handler -l
-            ;;
-        '')
-            bm-handler -h
-            ;;
-        *)
-            DEST="$(bm-handler $1)"
-            if [ "$DEST" == "-1" ]; then
-                echo "ERROR 2: invalid flag or bashmark name"
-            elif [ ! -d "$DEST" ]; then
-                echo "ERROR 3: destination no longer exists"
-                bm-handler -d $1
-            else
-                cd $DEST
-            fi
-            ;;
-    esac
+    OUTCOME="$(bm-handler $1 $2)"
+
+    if [ "$OUTCOME{:0:5}" == "ERROR" ]; then
+        echo "$OUTCOME"
+    elif [ "$OUTCOME{:0:10}" == "TERMINATED" ]; then
+        exit
+    else
+        cd $OUTCOME
+    fi
 }
 
-# Comment these out if they are causing conficts.
+# Aliases to make use of this program more familiar. Can be broken down
+# into two catagories: short-hand/long-hand and original bashmarks syntax.
+# These first aliases are short-hand/long-hand.
 alias b="bm"
 alias bashmark="bm"
 alias bashmarks="bm"
 alias bmark="bm"
 alias bshmrk="bm"
+
+# These aliases are meant to emulate the original bashmarks syntax.
+alias s="bm -n"
+alias g="bm"
+alias p="bm -p"
+alias d="bm -d"
+alias l="bm -l"
