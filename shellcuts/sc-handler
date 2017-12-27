@@ -1,0 +1,63 @@
+#! /usr/bin/env python3
+import os
+import json
+import argparse
+
+F_CUTS = os.path.expanduser('shellcuts.json')#
+
+def create_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('cut', default=None, nargs='?')
+    parser.add_argument('-n', '--new')
+    parser.add_argument('-d', '--delete')
+    parser.add_argument('-p', '--print')
+    parser.add_argument('-l', '--list', action='store_true')
+
+    return parser
+
+def load_cuts():
+    try:
+        with open(F_CUTS, 'r') as f:
+            cuts = json.load(f)
+    except FileNotFoundError:
+        cuts = {}
+
+    return cuts
+
+def write_cuts(cuts):
+    with open(F_CUTS, 'w') as f:
+        json.dump(cuts, f)
+
+def main():
+    parser = create_parser()
+    arguments = parser.parse_args()
+    cuts = load_cuts()
+    
+    if arguments.cut:
+        print(cuts[arguments.cut])
+
+    elif arguments.delete:
+        cuts.pop(arguments.delete, None)
+        write_cuts(cuts)
+        print("TERMINATED")
+
+    elif arguments.new:
+        cuts[arguments.new] = os.getcwd()
+        write_cuts(cuts)
+        print("TERMINATED")
+
+    elif arguments.print:
+        try:
+            print(arguments.print, ":", cuts[arguments.print])
+            print("TERMINATED")
+        except KeyError:
+            print("ERROR: That shellcut does not exist.")#
+
+    elif arguments.list:
+        print("SHELLCUTS")
+        for cut in cuts:
+            print(cut, ":", cuts[cut])
+        print("TERMINATED")
+
+if __name__ == '__main__':
+    main()
