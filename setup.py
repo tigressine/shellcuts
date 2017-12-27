@@ -15,15 +15,15 @@ def get_version():
     return '1.0.1'
 
 def get_long_description():
-    return 'Bookmarks for your shell.'
+    return 'Bookmarks for your shell.' #
 
 setup(
-    name='bashmarks',
+    name='shellcuts',
     version=get_version(),
     author='Tiger Sachse',
-    description='Bookmarks for your shell.',
-    long_description=get_long_description(),
-    url='https://www.github.com/tgsachse/bashmarks',
+    description='Bookmarks for your shell.',#
+    long_description=get_long_description(),#
+    url='https://www.github.com/tgsachse/shellcuts',
     license='GPLv3',
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -40,10 +40,10 @@ setup(
         'Topic :: Terminals',
         'Topic :: Utilities'],
     keywords='bookmark bashmark shell terminal cd chdir utility workflow',
-    packages=['bashmarks'],
+    packages=['shellcuts'],
     python_requires='>=3',
     data_files=[
-        ('bin', ['bashmarks/bm-handler',
-                 'bashmarks/bm-init',
-                 'bashmarks/bash_marks'])]
+        ('bin', ['shellcuts/sc-handler',
+                 'shellcuts/sc-init',
+                 'shellcuts/shellcuts.sh'])]
 )
