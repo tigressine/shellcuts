@@ -1,2 +1,2 @@
-# bashmarks
-Bookmarks for your shell
+# Shellcuts
+
