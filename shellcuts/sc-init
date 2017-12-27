@@ -1,7 +1,7 @@
-SOURCE="/usr/local/bin/bash_marks"
+SOURCE="/usr/local/bin/shellcuts.sh"
 
 clear
-echo "Thank you for downloading Bashmarks!"
+echo "Thank you for downloading Shellcuts!"
 echo ""
 echo "Enter the number corresponding to the action you wish to perform:"
 echo "0) Automatically modify bashrc to complete installation"
@@ -12,7 +12,7 @@ read COMMAND
 if [ "$COMMAND" == "0" ]; then
     echo "Adding to bashrc..."
     echo "" >> ~/.bashrc
-    echo "# checks if the bashmarks source file exists and includes it" >> ~/.bashrc
+    echo "# checks if the Shellcuts source file exists and includes it" >> ~/.bashrc
     echo "if [ -f $SOURCE ]; then" >> ~/.bashrc
     echo "    . $SOURCE" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
@@ -29,7 +29,7 @@ elif [ "$COMMAND" == "1" ]; then
     echo "    . $SOURCE"
     echo "fi"
     echo ""
-    echo "Then run 'source ~/.bashrc' to begin using Bashmarks!"
+    echo "Then run 'source ~/.bashrc' to begin using Shellcuts!"
 
 elif [ "$COMMAND" == "2" ]; then
     echo "LOCATION: $(dirname $0)"
