@@ -2,6 +2,7 @@
 from setuptools import setup
 
 # TODO
+# rewrite init script in python
 # clean up error messaging of argparse
 # Add support for tab completion
 # Write readme
