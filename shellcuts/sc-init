@@ -12,7 +12,7 @@ read COMMAND
 if [ "$COMMAND" == "0" ]; then
     echo "Adding to bashrc..."
     echo "" >> ~/.bashrc
-    echo "# checks if the Shellcuts source file exists and includes it" >> ~/.bashrc
+    echo "# checks if the shellcuts source file exists and includes it" >> ~/.bashrc
     echo "if [ -f $SOURCE ]; then" >> ~/.bashrc
     echo "    . $SOURCE" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
@@ -29,7 +29,7 @@ elif [ "$COMMAND" == "1" ]; then
     echo "    . $SOURCE"
     echo "fi"
     echo ""
-    echo "Then run 'source ~/.bashrc' to begin using Shellcuts!"
+    echo "Then run 'source ~/.bashrc' to begin using shellcuts!"
 
 elif [ "$COMMAND" == "2" ]; then
     echo "LOCATION: $(dirname $0)"
