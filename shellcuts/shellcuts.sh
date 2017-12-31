@@ -3,13 +3,13 @@
 # exits quietly, or changes the user's directory.
 function sc {
     OUTCOME="$(sc-handler $1 $2)"
-
-    if [ "$OUTCOME{:0:5}" == "ERROR" ]; then
-        echo "$OUTCOME"
-    elif [ "$OUTCOME{:0:10}" == "TERMINATED" ]; then
-        exit
-    else
-        cd $OUTCOME
+    
+    if [ "${OUTCOME:0:5}" == "PRINT" ]; then
+        echo "${OUTCOME:6:${#OUTCOME}}"
+    elif [ "${OUTCOME:0:9}" == "TERMINATE" ]; then
+        :
+    elif [ "${OUTCOME:0:4}" == "JUMP" ]; then
+        cd "${OUTCOME:5:${#OUTCOME}}"
     fi
 }
 
