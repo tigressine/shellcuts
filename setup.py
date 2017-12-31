@@ -1,14 +1,14 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 from setuptools import setup
 
 # TODO
-# Add -v version
 # clean up error messaging of argparse
 # Add support for tab completion
 # Write readme
-# Comments
+# Add comments
 # Get into ubuntu repos?
 # Get working with all shells
+
 
 def get_version():
     return '1.0.2'
