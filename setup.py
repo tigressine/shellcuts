@@ -3,26 +3,25 @@ from setuptools import setup
 
 # TODO
 # Add -v version
-# Support original bashmarks commands
+# clean up error messaging of argparse
 # Add support for tab completion
 # Write readme
 # Comments
-# Move arg handling around
 # Get into ubuntu repos?
-# Get working with zsh
+# Get working with all shells
 
 def get_version():
-    return '1.0.1'
+    return '1.0.2'
 
 def get_long_description():
-    return 'Bookmarks for your shell.' #
+    return 'Shortcuts for your shell.'
 
 setup(
     name='shellcuts',
     version=get_version(),
     author='Tiger Sachse',
-    description='Bookmarks for your shell.',#
-    long_description=get_long_description(),#
+    description='Shortcuts for your shell.',
+    long_description=get_long_description(),
     url='https://www.github.com/tgsachse/shellcuts',
     license='GPLv3',
     classifiers=[

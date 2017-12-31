@@ -1,13 +1,13 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 import os
 import json
 import argparse
 
-F_CUTS = os.path.expanduser('shellcuts.json')#
+F_SHELLCUTS = os.path.expanduser('~/.shellcuts.json')
 
 def create_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('cut', default=None, nargs='?')
+    parser.add_argument('shellcut', default=None, nargs='?')
     parser.add_argument('-n', '--new')
     parser.add_argument('-d', '--delete')
     parser.add_argument('-p', '--print')
@@ -15,49 +15,52 @@ def create_parser():
 
     return parser
 
-def load_cuts():
+def load_shellcuts():
     try:
-        with open(F_CUTS, 'r') as f:
-            cuts = json.load(f)
+        with open(F_SHELLCUTS, 'r') as f:
+            shellcuts = json.load(f)
     except FileNotFoundError:
-        cuts = {}
+        shellcuts = {}
 
-    return cuts
+    return shellcuts
 
-def write_cuts(cuts):
-    with open(F_CUTS, 'w') as f:
-        json.dump(cuts, f)
+def write_shellcuts(shellcuts):
+    with open(F_SHELLCUTS, 'w') as f:
+        json.dump(shellcuts, f)
 
 def main():
     parser = create_parser()
     arguments = parser.parse_args()
-    cuts = load_cuts()
+    shellcuts = load_shellcuts()
     
-    if arguments.cut:
-        print(cuts[arguments.cut])
+    if arguments.delete or arguments.new:
+        if arguments.delete:
+            shellcuts.pop(arguments.delete, None)
+        elif arguments.new:
+            shellcuts[arguments.new] = os.getcwd()
+        write_shellcuts(shellcuts)
+        print("TERMINATE")
 
-    elif arguments.delete:
-        cuts.pop(arguments.delete, None)
-        write_cuts(cuts)
-        print("TERMINATED")
+    elif arguments.print or arguments.list:
+        print("PRINT")
+        if arguments.print:
+            try:
+                print(arguments.print, ":", shellcuts[arguments.print])
+            except KeyError:
+                print("ERROR: That shellcut does not exist.")
+        elif arguments.list:
+            print("SHELLCUTS")
+            for shellcut in shellcuts:
+                print(shellcut, ":", shellcuts[shellcut])
 
-    elif arguments.new:
-        cuts[arguments.new] = os.getcwd()
-        write_cuts(cuts)
-        print("TERMINATED")
-
-    elif arguments.print:
+    elif arguments.shellcut:
         try:
-            print(arguments.print, ":", cuts[arguments.print])
-            print("TERMINATED")
+            shellcuts[arguments.shellcut]
+            print("JUMP")
+            print(shellcuts[arguments.shellcut])
         except KeyError:
-            print("ERROR: That shellcut does not exist.")#
-
-    elif arguments.list:
-        print("SHELLCUTS")
-        for cut in cuts:
-            print(cut, ":", cuts[cut])
-        print("TERMINATED")
+            print("PRINT")
+            print("ERROR: That shellcut does not exist.")
 
 if __name__ == '__main__':
     main()
