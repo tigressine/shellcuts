@@ -1,5 +1,0 @@
-
-# checks if the shellcuts source file exists and includes it
-if [ -f /usr/local/bin/shellcuts.sh ]; then
-    source /usr/local/bin/shellcuts.sh
-fi

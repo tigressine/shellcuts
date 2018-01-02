@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Handles arguments from main shell function
+"""Handles arguments from main shell function.
 
 This is the core engine of the program. It handles all relevant options and
 commands. After the arguments are parsed and handled, an output is printed to
