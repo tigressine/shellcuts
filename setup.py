@@ -1,28 +1,47 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
+"""Builds shellcuts package.
+
+This setup script builds the shellcuts package for distribution.
+
+Arguments:
+    See arguments for setup.py
+
+Returns:
+    None.
+
+To Do:
+    -Clean up error messaging of argparse
+    -Add support for tab completion
+    -Write readme
+    -Get into ubuntu repos
+    -Get working with all shells
+
+Legal:
+    Author: Tiger Sachse
+    License: GPLv3
+    Version: 1.1.0
+    Initial Release: 12/31/2017
+    Current Release: 01/02/2018
+"""
+
 from setuptools import setup
 
-# TODO
-# Add -v version
-# Support original bashmarks commands
-# Add support for tab completion
-# Write setup script
-# Write readme
-# Get into ubuntu repos?
-# Get working with zsh
+F_DESCRIPTION = 'docs/PYPI_DESCRIPTION.txt'
 
-def get_version():
-    return '1.0.1'
+def load_long_description():
+    """Load description for PyPI from file"""
+    with open(F_DESCRIPTION, 'r') as f:
+        long_description = f.read()
 
-def get_long_description():
-    return 'Bookmarks for your shell.'
+    return long_description
 
 setup(
-    name='bashmarks',
-    version=get_version(),
+    name='shellcuts',
+    version='1.1.0',
     author='Tiger Sachse',
-    description='Bookmarks for your shell.',
-    long_description=get_long_description(),
-    url='https://www.github.com/tgsachse/bashmarks',
+    description='Shortcuts for your shell.',
+    long_description=load_long_description(),
+    url='https://www.github.com/tgsachse/shellcuts',
     license='GPLv3',
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -39,10 +58,10 @@ setup(
         'Topic :: Terminals',
         'Topic :: Utilities'],
     keywords='bookmark bashmark shell terminal cd chdir utility workflow',
-    packages=['bashmarks'],
+    packages=['shellcuts'],
     python_requires='>=3',
     data_files=[
-        ('bin', ['bashmarks/bm-handler',
-                 'bashmarks/bm-init',
-                 'bashmarks/bash_marks'])]
+        ('bin', ['shellcuts/sc-handler',
+                 'shellcuts/sc-init',
+                 'shellcuts/shellcuts.sh'])]
 )
