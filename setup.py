@@ -1,28 +1,46 @@
 #!/usr/bin/env python3
+"""Builds shellcuts package.
+
+This setup script builds the shellcuts package for distribution.
+
+Arguments:
+    See arguments for setup.py
+
+Returns:
+    None.
+
+To Do:
+    -Clean up error messaging of argparse
+    -Add support for tab completion
+    -Write readme
+    -Get into ubuntu repos
+    -Get working with all shells
+
+Legal:
+    Author: Tiger Sachse
+    License: GPLv3
+    Version: 1.1.0
+    Initial Release: 12/31/2017
+    Current Release: 01/02/2018
+"""
+
 from setuptools import setup
 
-# TODO
-# rewrite init script in python
-# clean up error messaging of argparse
-# Add support for tab completion
-# Write readme
-# Add comments
-# Get into ubuntu repos?
-# Get working with all shells
+F_DESCRIPTION = 'docs/README.md'
 
+def load_long_description():
+    """Load description for PyPI from file"""
+    with open(F_DESCRIPTION, 'r') as f:
+        long_description = f.readlines()
 
-def get_version():
-    return '1.0.2'
-
-def get_long_description():
-    return 'Shortcuts for your shell.'
+    return long_description
 
 setup(
     name='shellcuts',
-    version=get_version(),
+    version='1.1.0',
     author='Tiger Sachse',
     description='Shortcuts for your shell.',
-    long_description=get_long_description(),
+    long_description=load_long_description(),
     url='https://www.github.com/tgsachse/shellcuts',
     license='GPLv3',
     classifiers=[
