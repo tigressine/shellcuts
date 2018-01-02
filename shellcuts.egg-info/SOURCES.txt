@@ -1,0 +1,9 @@
+setup.py
+shellcuts/sc-handler
+shellcuts/sc-init
+shellcuts/sc-init.py
+shellcuts/shellcuts.sh
+shellcuts.egg-info/PKG-INFO
+shellcuts.egg-info/SOURCES.txt
+shellcuts.egg-info/dependency_links.txt
+shellcuts.egg-info/top_level.txt
