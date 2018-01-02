@@ -31,10 +31,10 @@ F_SOURCE = '/usr/local/bin/shellcuts.sh'
 
 # List of lines added to bashrc.
 BASHRC_ADD = [
-    "# checks if the shellcuts source file exists and includes it", 
-    "if [ -f {0} ]; then".format(F_SOURCE),
-    "    . {0}".format(F_SOURCE),
-    "fi"]
+    '# checks if the shellcuts source file exists and includes it', 
+    'if [ -f {0} ]; then'.format(F_SOURCE),
+    '    . {0}'.format(F_SOURCE),
+    'fi']
 
 def load_bashrc():
     """Read bashrc and returns list of lines."""
