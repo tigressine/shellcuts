@@ -1,0 +1,26 @@
+Metadata-Version: 1.2
+Name: shellcuts
+Version: 1.1.0
+Summary: Shortcuts for your shell.
+Home-page: https://www.github.com/tgsachse/shellcuts
+Author: Tiger Sachse
+Author-email: UNKNOWN
+License: GPLv3
+Description: This is the description file for PyPI
+        
+Keywords: bookmark bashmark shell terminal cd chdir utility workflow
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Natural Language :: English
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Unix Shell
+Classifier: Topic :: System
+Classifier: Topic :: Terminals
+Classifier: Topic :: Utilities
+Requires-Python: >=3

@@ -26,12 +26,12 @@ Legal:
 
 from setuptools import setup
 
-F_DESCRIPTION = 'docs/README.md'
+F_DESCRIPTION = 'docs/PYPI_DESCRIPTION.txt'
 
 def load_long_description():
     """Load description for PyPI from file"""
     with open(F_DESCRIPTION, 'r') as f:
-        long_description = f.readlines()
+        long_description = f.read()
 
     return long_description
 
