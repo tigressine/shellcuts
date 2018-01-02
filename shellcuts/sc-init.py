@@ -15,7 +15,7 @@ Returns:
 
 Legal:
     Author: Tiger Sachse
-    License: GNU v3
+    License: GPLv3
     Version: 1.1.0
     Initial Release: 12/31/2017
     Current Release: 01/02/2018
