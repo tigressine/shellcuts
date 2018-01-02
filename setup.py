@@ -15,6 +15,9 @@ To Do:
     -Write readme
     -Get into ubuntu repos
     -Get working with all shells
+    -copy docs into share
+    -write single install script?
+    -handle being installed without sudo
 
 Legal:
     Author: Tiger Sachse
