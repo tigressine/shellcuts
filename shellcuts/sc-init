@@ -26,7 +26,7 @@ import sys
 import subprocess
 
 # Location of bashrc and shellcuts source file.
-F_BASHRC = os.expanduser('~/.bashrc')
+F_BASHRC = os.path.expanduser('~/.bashrc')
 F_SOURCE = '/usr/local/bin/shellcuts.sh'
 
 # List of lines added to bashrc.
