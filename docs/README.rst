@@ -10,7 +10,7 @@ Shellcuts allow you to save locations in your file system and jump to those loca
 - supports Bashmarks syntax for user comfort and familiarity
 - written mostly in Python for portability
 - supports Bash shell
-- installable via Pip_ (change this link to link to project page)
+- installable via Pip
 
 Planned features include:
 
@@ -21,42 +21,31 @@ Planned features include:
 
 .. _Bashmarks: https://www.github.com/huyng/bashmarks
 .. _`other-shell derivatives`: https://github.com/search?utf8=%E2%9C%93&q=bashmarks&type=
-.. _Pip: https://pypi.python.org/pypi
 .. _z-like: https://github.com/rupa/z
 
 installation
 ------------
 
-Shellcuts is meant to be easy to install, as well as easy to use. To provide choices to the user I've included many methods to install. Choose any of these options to install, they all result in the same thing.
+Shellcuts is meant to be easy to install. Use any of the following methods to install Shellcuts. Since this program is written in `Python 3`_, you need the latest version installed for it to work!
 
-**Install Python 3**
+**METHOD 1:** Install with Pip_
 
-NOTE: Because this program is written in `Python 3.6`_, you will need the latest version of Python installed on your system. To check if Python is already installed (as is typically the case with modern Linux distributions) run this command:
-::
-  $ python3 --version
-If this code outputs something like 'Python 3.X.X' then you're all set! If it results in an error or says Python3 is not installed, follow `this link`_, download the latest build, and install or install through your `distribution's software repositories`_.
-
-| **Install Shellcuts**   
-| OPTION 1: Pip Installation
-
-First, make sure you have the Python 3 version of Pip (pip3). To check, run:
-::
-  $ pip3 --version
-If the output is an error, you must install pip3. Do this through your distribution's software repositories. For example, on Ubuntu run:
-::
-  $ sudo apt install python3-pip
-If you are using a different distribution, like Fedora, CentOS, Arch, etc., then do a quick Google search and figure out how to install for your distribution. :) Once pip3 is installed, run this command to install shellcuts:
+If you have pip3 installed, run this command to install shellcuts:
 ::
   $ sudo pip3 install shellcuts
 
-OPTION 2: Apt installation
+**METHOD 2:** Install with Apt (PLANNED)
 
-This method only works if you are running Ubuntu or a Debian distribution that uses Apt to manage it's packages. Run this command:
+If you are running a Linux distribution that uses Apt to manage packages (e.g. Ubuntu, Kubuntu, Debian), run this command to install shellcuts:
 ::
   $ sudo apt install shellcuts
   
-OPTION 3: Homebrew installation
+**METHOD 3:** Install with Homebrew (PLANNED)
 
-.. _`Python 3.6`:
-.. _`this link`: https://www.python.org
+If you're on Mac and have Homebrew installed, run this command to install shellcuts:
+::
+  $ brew install shellcuts
+
+.. _`Python 3`: https://www.python.org
+.. _Pip: https://pip.pypa.io/en/stable/
 .. _`distribution's software repositories`: https://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux-python.html
