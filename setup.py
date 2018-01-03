@@ -56,5 +56,8 @@ setup(
     data_files=[
         ('bin', ['shellcuts/sc-handler',
                  'shellcuts/sc-init',
-                 'shellcuts/shellcuts.sh'])]
+                 'shellcuts/shellcuts.sh']),
+        ('share/doc/shellcuts', ['docs/CHANGES.txt',
+                                 'docs/LICENSE.txt',
+                                 'docs/README.rst'])]
 )
