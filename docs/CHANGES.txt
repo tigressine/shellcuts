@@ -1,0 +1,14 @@
+Changelog for Shellcuts
+
+v1.1.0 - 01/03/2018
+  - Renamed to Shellcuts for universality
+  - Revamped readme
+  - First release to PyPI
+  - Added Bashmarks-like aliases 
+  - Rewrote init script in Python
+  
+v1.0.0 - 12/17/2017
+  - Initial release
+  - Core functionality (add, delete, list, jump) in place
+  - Supports Bash
+  - Preliminary documentation complete
