@@ -19,10 +19,6 @@ Planned features include:
 - installable via Apt, Homebrew
 - possibly include z-like_ functionality
 
-.. _Bashmarks: https://www.github.com/huyng/bashmarks
-.. _`other-shell derivatives`: https://github.com/search?utf8=%E2%9C%93&q=bashmarks&type=
-.. _z-like: https://github.com/rupa/z
-
 installation
 ------------
 
@@ -34,18 +30,101 @@ If you have pip3 installed, run this command to install shellcuts:
 ::
   $ sudo pip3 install shellcuts
 
-**METHOD 2:** Install with Apt (PLANNED)
+**METHOD 2:** Install with APT_ (PLANNED)
 
 If you are running a Linux distribution that uses Apt to manage packages (e.g. Ubuntu, Kubuntu, Debian), run this command to install shellcuts:
 ::
   $ sudo apt install shellcuts
-  
-**METHOD 3:** Install with Homebrew (PLANNED)
+
+**METHOD 3:** Install with Homebrew_ (PLANNED)
 
 If you're on Mac and have Homebrew installed, run this command to install shellcuts:
 ::
   $ brew install shellcuts
 
+**METHOD 4:** Manually Install with Git_ (PLANNED)
+
+If, for whatever reason, the other methods aren't your cup of tea, you can clone this repository and use the supplied installation script to manually install the package. This isn't recommended, however, because this method will not automatically keep Shellcuts up-to-date with the latest features. To install this way, run these commands:
+::
+  $ git clone https://www.github.com/tgsachse/shellcuts.git
+  $ ./shellcuts/install_shellcuts.sh
+
+usage
+-----
+When you first install Shellcuts, you must run the program once first to finish configuration. Simply run this command to launch the configuration utility:
+::
+  $ sc
+The configuration utility will give you the option to automatically configure your system to use Shellcuts, or it will tell you how to do the configuration manually. I highly recommend using the automatic configuration, as it is not prone to human error and it is designed to make setup super easy!
+
+The core command for Shellcuts is ``sc``. By default, Shellcuts includes these aliases for ``sc``:
+
+- ``shellcut``
+- ``shellcuts``
+- ``shellc``
+- ``scut``
+
+So feel free to use any of the above or the main ``sc`` command to operate Shellcuts. Shellcuts also includes aliases to replicate Bashmarks_ syntax. They are as follows:
+
+- ``s`` to save, equivalent to ``sc -n``
+- ``g`` to go, equivalent to ``sc``
+- ``p`` to print, equivalent to ``sc -p``
+- ``d`` to delete, equivalent to ``sc -d``
+- ``l`` to list, equivalent to ``sc -l``
+
+Here is a list of all available options/flags:
+
+NEW: ``-n, --new [name]``
+  Add a shellcut for the current working directory, named *name*.
+DELETE: ``-d, --delete [name]``
+  Delete shellcut named *name* if it exists.
+PRINT: ``-p, --print [name]``
+  Print the location saved by the shellcut named *name*.
+LIST: ``-l, --list``
+  List all available shellcuts.
+(planned) VERSION: ``-v, --version``
+  Get Shellcuts version information.
+(planned) Z SETTINGS: ``--enable-z, --disable-z``
+  Enable or disable Z-like features.
+(planned) REINITIALIZE: ``--init``
+  Rerun the initial setup script.
+(planned) HELP: ``-h, --help``
+  Launch a help menu.
+  
+examples
+--------
+Here are some examples of Shellcuts in action.
+::
+  $ pwd                               # Show current directory
+  /home/tgsachse/Downloads
+  
+  $ sc -n dloads                      # Save current directory as shellcut named 'dloads'
+  $ cd /bin                           # Change directory to /bin
+  $ pwd                               # Show current directory
+  /bin
+  
+  $ sc -n bin                         # Save current directory as shellcut named 'bin'
+  $ sc dloads                         # Move to location saved as shellcut 'bin'
+  $ pwd                               # Show current directory
+  /home/tgsachse/Downloads
+
+  $ sc -l                             # List all saved shellcuts
+  SHELLCUTS
+  dloads : /home/tgsachse/Downloads
+  bin : /bin
+
+  $ sc -d dloads                      # Delete shellcut 'dloads'
+  $ sc -l                             # List all saved shellcuts
+  SHELLCUTS
+  bin : /bin
+  
+  $ sc -p bin                         # Print a specific shellcut 'bin'
+  bin : /bin
+
+.. _Bashmarks: https://www.github.com/huyng/bashmarks
+.. _`other-shell derivatives`: https://github.com/search?utf8=%E2%9C%93&q=bashmarks&type=
+.. _z-like: https://github.com/rupa/z
 .. _`Python 3`: https://www.python.org
 .. _Pip: https://pip.pypa.io/en/stable/
-.. _`distribution's software repositories`: https://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux-python.html
+.. _APT: https://en.wikipedia.org/wiki/APT_(Debian)
+.. _Homebrew: https://brew.sh/
+.. _Git: https://git-scm.com
