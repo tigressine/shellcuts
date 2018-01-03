@@ -22,7 +22,7 @@ Planned features include:
 installation
 ------------
 
-Shellcuts is meant to be easy to install. *You can use any of the following methods.* Since this program is written in `Python 3`_, you need the latest version installed for it to work!
+Shellcuts is meant to be easy to install--use any of the following methods. You need the latest version of `Python 3`_ installed for it to work!
 
 **METHOD 1:** Install with Pip_
 
