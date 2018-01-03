@@ -1,7 +1,7 @@
 shellcuts - directory shortcuts for your shell
 ----------------------------------------------
 
-Shellcuts allow you to save locations in your file system and jump to those locations later with a simple command (like bookmarks). This program aims to include what other, similar programs are missing, and acts as a drop-in replacement for Bashmarks_ and `other-shell derivatives`_. Features include:
+Shellcuts allow you to save locations in your filesystem and jump to those locations later with a simple command (much like bookmarks). This program aims to include what other, similar programs are missing, and acts as a drop-in replacement for Bashmarks_ and `other-shell derivatives`_. Shellcuts includes the following features:
 
 - creates named shellcuts to any location in the filesystem
 - lists all saved shellcuts
@@ -16,45 +16,45 @@ Planned features include:
 
 - tab completion
 - Fish, Zsh, Csh, Korn shell support
-- installable via Apt, Homebrew
+- installable via APT, Homebrew
 - possibly include z-like_ functionality
 
 installation
 ------------
 
-Shellcuts is meant to be easy to install. Use any of the following methods to install Shellcuts. Since this program is written in `Python 3`_, you need the latest version installed for it to work!
+Shellcuts is meant to be easy to install. *You can use any of the following methods.* Since this program is written in `Python 3`_, you need the latest version installed for it to work!
 
 **METHOD 1:** Install with Pip_
 
-If you have pip3 installed, run this command to install shellcuts:
+If you have pip3 installed, run this command to install Shellcuts:
 ::
   $ sudo pip3 install shellcuts
 
 **METHOD 2:** Install with APT_ (PLANNED)
 
-If you are running a Linux distribution that uses Apt to manage packages (e.g. Ubuntu, Kubuntu, Debian), run this command to install shellcuts:
+If you are running a Linux distribution that uses Apt to manage packages (e.g. Ubuntu, Kubuntu, Debian), run this command to install Shellcuts:
 ::
   $ sudo apt install shellcuts
 
 **METHOD 3:** Install with Homebrew_ (PLANNED)
 
-If you're on Mac and have Homebrew installed, run this command to install shellcuts:
+If you're on Mac and have Homebrew installed, run this command to install Shellcuts:
 ::
   $ brew install shellcuts
 
 **METHOD 4:** Manually Install with Git_ (PLANNED)
 
-If, for whatever reason, the other methods aren't your cup of tea, you can clone this repository and use the supplied installation script to manually install the package. This isn't recommended, however, because this method will not automatically keep Shellcuts up-to-date with the latest features. To install this way, run these commands:
+If, for whatever reason, the other methods don't work for you or maybe just aren't your cup of tea, you can clone this repository and use the supplied installation script to manually install the package. This isn't recommended, however, because this method will not automatically keep Shellcuts up-to-date with the latest features. To install this way, run these commands:
 ::
   $ git clone https://www.github.com/tgsachse/shellcuts.git
   $ ./shellcuts/install_shellcuts.sh
 
 usage
 -----
-When you first install Shellcuts, you must run the program once first to finish configuration. Simply run this command to launch the configuration utility:
+When you first install Shellcuts, you must run the program initialization script once to finish configuration. Simply run this command to launch the configuration utility:
 ::
-  $ sc
-The configuration utility will give you the option to automatically configure your system to use Shellcuts, or it will tell you how to do the configuration manually. I highly recommend using the automatic configuration, as it is not prone to human error and it is designed to make setup super easy!
+  $ sc-init
+The configuration utility will give you the option to automatically configure your system to use Shellcuts, or it will tell you how to do the configuration manually. I highly recommend using the automatic configuration, as it's not prone to human error and is designed to make setup super easy!
 
 The core command for Shellcuts is ``sc``. By default, Shellcuts includes these aliases for ``sc``:
 
@@ -63,7 +63,7 @@ The core command for Shellcuts is ``sc``. By default, Shellcuts includes these a
 - ``shellc``
 - ``scut``
 
-So feel free to use any of the above or the main ``sc`` command to operate Shellcuts. Shellcuts also includes aliases to replicate Bashmarks_ syntax. They are as follows:
+Feel free to use any of the above or the main ``sc`` command to operate Shellcuts. This program also includes aliases to replicate Bashmarks_ syntax. They are as follows:
 
 - ``s`` to save, equivalent to ``sc -n``
 - ``g`` to go, equivalent to ``sc``
@@ -84,7 +84,7 @@ LIST: ``-l, --list``
 (planned) VERSION: ``-v, --version``
   Get Shellcuts version information.
 (planned) Z SETTINGS: ``--enable-z, --disable-z``
-  Enable or disable Z-like features.
+  Enable or disable z-like features.
 (planned) REINITIALIZE: ``--init``
   Rerun the initial setup script.
 (planned) HELP: ``-h, --help``
