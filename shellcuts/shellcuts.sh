@@ -1,3 +1,5 @@
+# FIX DOCUMENTATION
+
 # Core function of program. Sends first two arguments to sc-handler.
 # The resulting output determines if the script prints an error message,
 # exits quietly, or changes the user's directory.

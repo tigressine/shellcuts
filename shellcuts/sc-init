@@ -57,7 +57,12 @@ print("2) Display contents of this script")
 command = input("> ")
 
 if command == '0':
-    """Modify bashrc file and source from modified file."""
+    """Modify bashrc file and source from modified file.
+    
+    Prints 'SOURCE' to source the bashrc file after execution.
+    """
+    print("SOURCE")
+    
     print("Adding to bashrc...")
     bashrc = load_bashrc()
     bashrc.append('\n')
@@ -69,14 +74,24 @@ if command == '0':
     print("Done!")
 
 elif command == '1':
-    """Print necessary changes to screen for bashrc file."""
+    """Print necessary changes to screen for bashrc file.
+    
+    Prints 'PRINT' to tell sc shell script to print the following.
+    """
+    print("PRINT")
+    
     print("Add these three lines to your .bashrc:\n")
     for line in BASHRC_ADD[1:]:
         print(line)
     print("\nNow run '. {0}' to begin using shellcuts!".format(F_BASHRC))
 
 elif command == '2':
-    """Cat this script to screen."""
+    """Cat this script to screen.
+
+    Prints 'PRINT' to tell sc shell script to print the following.
+    """
+    print("PRINT")
+
     location = os.path.abspath(sys.argv[0])
     print("LOCATION: " + location)
     print("CONTENTS:")
