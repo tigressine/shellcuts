@@ -9,16 +9,6 @@ Arguments:
 Returns:
     None.
 
-To Do:
-    -Clean up error messaging of argparse
-    -Add support for tab completion
-    -Write readme
-    -Get into ubuntu repos
-    -Get working with all shells
-    -copy docs into share
-    -write single install script?
-    -handle being installed without sudo
-
 Legal:
     Author: Tiger Sachse
     License: GPLv3
@@ -29,7 +19,7 @@ Legal:
 
 from setuptools import setup
 
-F_DESCRIPTION = 'docs/PYPI_DESCRIPTION.txt'
+F_DESCRIPTION = 'docs/README.rst'
 
 def load_long_description():
     """Load description for PyPI from file"""
