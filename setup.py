@@ -32,7 +32,7 @@ setup(
     name='shellcuts',
     version='1.1.0',
     author='Tiger Sachse',
-    description='Shortcuts for your shell.',
+    description='Directory shortcuts for your shell.',
     long_description=load_long_description(),
     url='https://www.github.com/tgsachse/shellcuts',
     license='GPLv3',

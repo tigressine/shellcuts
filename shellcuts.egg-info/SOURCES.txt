@@ -1,0 +1,11 @@
+setup.py
+docs/CHANGES.txt
+docs/LICENSE.txt
+docs/README.rst
+shellcuts/sc-handler
+shellcuts/sc-init
+shellcuts/shellcuts.sh
+shellcuts.egg-info/PKG-INFO
+shellcuts.egg-info/SOURCES.txt
+shellcuts.egg-info/dependency_links.txt
+shellcuts.egg-info/top_level.txt
