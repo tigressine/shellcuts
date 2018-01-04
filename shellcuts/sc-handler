@@ -24,17 +24,19 @@ Returns:
 Legal:
     Author: Tiger Sachse
     License: GPLv3
-    Version: 1.1.0
+    Version: 1.2.0
     Initial Release: 12/31/2017
     Current Release: 01/02/2018
 """
 
 import os
 import json
+import pathlib
 import argparse
 
 # Can be changed to save the shellcuts in a different location.
-F_SHELLCUTS = os.path.expanduser('~/.shellcuts.json')
+D_SHELLCUTS = os.path.expanduser('~/.config/shellcuts/')
+F_SHELLCUTS = 'shellcuts.json'
 
 def create_parser():
     """Create an argparse parser.
@@ -56,7 +58,7 @@ def load_shellcuts():
     Returns empty dictionary if the file does not exist.
     """
     try:
-        with open(F_SHELLCUTS, 'r') as f:
+        with open(D_SHELLCUTS + F_SHELLCUTS, 'r') as f:
             shellcuts = json.load(f)
     except FileNotFoundError:
         shellcuts = {}
@@ -64,8 +66,14 @@ def load_shellcuts():
     return shellcuts
 
 def write_shellcuts(shellcuts):
-    """Write shellcuts to file."""
-    with open(F_SHELLCUTS, 'w') as f:
+    """Write shellcuts to file.
+    
+    Creates appropriate directory if it doesn't exist.
+    """
+    if not pathlib.Path(D_SHELLCUTS).is_dir():
+        pathlib.Path(D_SHELLCUTS).mkdir(parents=True)
+
+    with open(D_SHELLCUTS + F_SHELLCUTS, 'w') as f:
         json.dump(shellcuts, f)
 
 def main():
