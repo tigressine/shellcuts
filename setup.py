@@ -12,7 +12,7 @@ Returns:
 Legal:
     Author: Tiger Sachse
     License: GPLv3
-    Version: 1.1.0
+    Version: 1.2.0
     Initial Release: 12/31/2017
     Current Release: 01/02/2018
 """
@@ -30,7 +30,7 @@ def load_long_description():
 
 setup(
     name='shellcuts',
-    version='1.1.0',
+    version='1.2.0',
     author='Tiger Sachse',
     description='Directory shortcuts for your shell.',
     long_description=load_long_description(),
@@ -55,8 +55,8 @@ setup(
     python_requires='>=3',
     data_files=[
         ('bin', ['shellcuts/sc-handler',
-                 'shellcuts/sc-init',
-                 'shellcuts/shellcuts.sh']),
+                 'shellcuts/sc']),
+        ('share/shellcuts', ['shellcuts/shellcuts.sh']),
         ('share/doc/shellcuts', ['docs/CHANGES.txt',
                                  'docs/LICENSE.txt',
                                  'docs/README.rst'])]
