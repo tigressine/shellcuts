@@ -59,5 +59,6 @@ setup(
                  'shellcuts/shellcuts.sh']),
         ('share/doc/shellcuts', ['docs/CHANGES.txt',
                                  'docs/LICENSE.txt',
-                                 'docs/README.rst'])]
+                                 'docs/README.rst']),
+        ('share/man/man1',['docs/shellcuts.1'])]
 )
