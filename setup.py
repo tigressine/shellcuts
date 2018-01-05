@@ -12,7 +12,7 @@ Returns:
 Legal:
     Author: Tiger Sachse
     License: GPLv3
-    Version: 1.1.0
+    Version: 1.1.1
     Initial Release: 12/31/2017
     Current Release: 01/02/2018
 """
@@ -30,7 +30,7 @@ def load_long_description():
 
 setup(
     name='shellcuts',
-    version='1.1.0',
+    version='1.1.1',
     author='Tiger Sachse',
     description='Directory shortcuts for your shell.',
     long_description=load_long_description(),
