@@ -1,4 +1,4 @@
-.TH shellcuts 1 "5 January 2018" "1.1.1"
+.TH shellcuts 1 "8 January 2018" "1.1.1"
 
 .SH NAME
 shellcuts - directory shortcuts for your shell.
@@ -7,7 +7,7 @@ shellcuts - directory shortcuts for your shell.
 sc [shellcut] [-flag] [flag option]
 
 .SH DESCRIPTION
-Shellcuts are directory shortcuts inside your shell. They allow you to save locations using simple names and then cut back to those locations with a single, short command. This program is inspired by Bashmarks with hopes to support even more systems and shells. Shellcuts includes the following features:
+Shellcuts are directory shortcuts for your shell. This program allows you to save locations as 'shellcuts' and then cut back to those locations with a single, short command. This program is inspired by Bashmarks and hopes to improve on Bashmarks by supporting more systems and shells. Shellcuts includes the following features:
 .PP
 .RS 2
 - create named shellcuts to any location in the filesystem
@@ -67,7 +67,12 @@ display version information
 .PP
 .B --enable-z, --disable-z
 .RS 4
-enable or disable z-like features
+enable or disable z-like features (default: enabled)
+.RE
+.PP
+.B --enable-bashmarks-syntax, --disable-bashmarks-syntax
+.RS 4
+enable or disable Bashmarks syntax (default: enabled)
 .RE
 .PP
 .B --init
@@ -136,7 +141,7 @@ to save, equivalent to
 .SH EXAMPLES
 Save a shellcut named
 .I downloads
-(assuming the current working directory is ~/Downloads or something similar):
+using the user's current directory:
 .PP
 .RS 4
 .I sc -n downloads
@@ -144,7 +149,7 @@ Save a shellcut named
 .PP
 Go to the shellcut named
 .I downloads
-(assuming the current working directory is somewhere else, /bin for example):
+if it exists:
 .PP
 .RS 4
 .I sc downloads
@@ -208,4 +213,3 @@ to view the source code for this program and give the project a star if you real
 
 .SH AUTHOR
 Tiger Sachse (tgsachse)
-
