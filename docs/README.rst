@@ -91,7 +91,7 @@ PRINT: ``-p, --print [shellcut]``
   
 examples
 --------
-Here are some examples of Shellcuts in action.
+Here are some examples of Shellcuts in action. See this program's man page for more.
 ::
   $ pwd                               # Show current directory
   /home/tgsachse/Downloads
