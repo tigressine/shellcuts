@@ -14,7 +14,7 @@ Legal:
     License: GPLv3
     Version: 1.1.1
     Initial Release: 12/31/2017
-    Current Release: 01/02/2018
+    Current Release: 01/08/2018
 """
 
 from setuptools import setup
