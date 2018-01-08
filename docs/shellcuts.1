@@ -156,6 +156,41 @@ List all saved shellcuts:
 .I sc -l
 .RE
 .PP
+Delete shellcut named
+.I binaries
+if it exists:
+.PP
+.RS 4
+.I sc -d binaries
+.RE
+.PP
+Print shellcut named
+.I home
+if it exists:
+.PP
+.RS 4
+.I sc -p home
+.RE
+.PP
+Save a new shellcut named
+.I downloads
+using Bashmarks syntax, then print the same shellcut:
+.PP
+.RS 4
+.I s downloads
+.PP
+.I p downloads
+.RE
+.PP
+Go to shellcut named
+.I pictures
+using an
+.I sc
+alias:
+.PP
+.RS 4
+.I scut pictures
+.RE
 
 .SH FILES
 .B ~/.config/shellcuts/shellcuts.sh
