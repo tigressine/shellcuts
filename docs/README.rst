@@ -1,23 +1,20 @@
 shellcuts - directory shortcuts for your shell
 ----------------------------------------------
 
-Shellcuts allow you to save locations in your filesystem and jump to those locations later with a simple command (much like bookmarks). This program aims to include what other, similar programs are missing, and acts as a drop-in replacement for Bashmarks_ and `other-shell derivatives`_. Shellcuts includes the following features:
+Shellcuts are directory shortcuts for your shell. This program allows you to save locations as 'shellcuts' and then cut back to those locations with a single, short command. This program is inspired by Bashmarks and hopes to improve on Bashmarks_ by supporting more systems and shells. Shellcuts includes the following features:
 
 - creates named shellcuts to any location in the filesystem
 - lists all saved shellcuts
 - deletes shellcuts by name
 - saves shellcuts on a per-user basis
 - supports Bashmarks syntax for user comfort and familiarity
-- written mostly in Python for portability
-- supports Bash shell
-- installable via Pip
 
 Planned features include:
 
 - tab completion
 - Fish, Zsh, Csh, Korn shell support
 - installable via APT, Homebrew
-- possibly include z-like_ functionality
+- z-like_ features
 
 installation
 ------------
@@ -51,12 +48,12 @@ If, for whatever reason, the other methods don't work for you or maybe just aren
 
 usage
 -----
-When you first install Shellcuts, you must run the program initialization script once to finish configuration. Simply run this command to launch the configuration utility:
+When you first install Shellcuts, you must initialize the program once before it can be used. Run this command to launch the configuration utility:
 ::
   $ sc-init
-The configuration utility will give you the option to automatically configure your system to use Shellcuts, or it will tell you how to do the configuration manually. I highly recommend using the automatic configuration, as it's not prone to human error and is designed to make setup super easy!
+The configuration utility will automatically configure your system, or if you'd prefer it can show you how to do the configuration manually. It's highly recommended that you use the automatic configuration, as it's safe from human error and is really easy!
 
-The core command for Shellcuts is ``sc``. By default, Shellcuts includes these aliases for ``sc``:
+The core command for Shellcuts is ``sc`` and by default this program includes the aliases:
 
 - ``shellcut``
 - ``shellcuts``
@@ -73,22 +70,24 @@ Feel free to use any of the above or the main ``sc`` command to operate Shellcut
 
 Here is a list of all available options/flags:
 
-NEW: ``-n, --new [name]``
-  Add a shellcut for the current working directory, named *name*.
-DELETE: ``-d, --delete [name]``
-  Delete shellcut named *name* if it exists.
-PRINT: ``-p, --print [name]``
-  Print the location saved by the shellcut named *name*.
+DELETE: ``-d, --delete [shellcut]``
+  Delete the specified shellcut if it exists.
+(planned) HELP: ``-h, --help``
+  Display a help menu for quick reference.
 LIST: ``-l, --list``
   List all available shellcuts.
+NEW: ``-n, --new [shellcut]``
+  Create a new shellcut for the current working directory.
+PRINT: ``-p, --print [shellcut]``
+  Print the specified shellcut to the screen.
 (planned) VERSION: ``-v, --version``
-  Get Shellcuts version information.
+  Display version information.
+(planned) BASHMARKS SYNTAX: ``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
+  Enable or disable Bashmarks syntax. (default: enabled)
 (planned) Z SETTINGS: ``--enable-z, --disable-z``
-  Enable or disable z-like features.
+  Enable or disable z-like features. (default: enabled)
 (planned) REINITIALIZE: ``--init``
-  Rerun the initial setup script.
-(planned) HELP: ``-h, --help``
-  Launch a help menu.
+  Launch the initialization script.
   
 examples
 --------
@@ -121,7 +120,6 @@ Here are some examples of Shellcuts in action.
   bin : /bin
 
 .. _Bashmarks: https://www.github.com/huyng/bashmarks
-.. _`other-shell derivatives`: https://github.com/search?utf8=%E2%9C%93&q=bashmarks&type=
 .. _z-like: https://github.com/rupa/z
 .. _`Python 3`: https://www.python.org
 .. _Pip: https://pip.pypa.io/en/stable/
