@@ -26,7 +26,7 @@ from setuptools import setup
 
 setup(
     name='shellcuts',
-    version='1.1.1',
+    version='1.1.1.1',
     author='Tiger Sachse',
     description='Directory shortcuts for your shell.',
     long_description=load_long_description(),
@@ -51,8 +51,8 @@ setup(
     python_requires='>=3',
     data_files=[
         ('bin', ['shellcuts/sc-handler',
-                 'shellcuts/sc-init',
-                 'shellcuts/shellcuts.sh']),
+                 'shellcuts/sc-init']),
+        ('share/shellcuts', ['shellcuts/shellcuts.sh']),
         ('share/doc/shellcuts', ['docs/CHANGES.txt',
                                  'docs/LICENSE.txt',
                                  'docs/README.rst']),
