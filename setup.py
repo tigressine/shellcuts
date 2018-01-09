@@ -16,8 +16,11 @@ Legal:
     Initial Release: 12/31/2017
     Current Release: 01/08/2018
 """
-LONG_DESCRIPTION = 'Please see the GitHub project page for more ' +
-                   'information, located at https://www.github.com/tgsachse/shellcuts'
+LONG_DESCRIPTION = 'docs/PYPI_DESCRIPTION.txt'
+
+def load_long_description():
+    with open(LONG_DESCRIPTION, 'r') as f:
+        return f.read()
 
 from setuptools import setup
 
@@ -26,7 +29,7 @@ setup(
     version='1.1.1',
     author='Tiger Sachse',
     description='Directory shortcuts for your shell.',
-    long_description=LONG_DESCRIPTION
+    long_description=load_long_description(),
     url='https://www.github.com/tgsachse/shellcuts',
     license='GPLv3',
     classifiers=[
