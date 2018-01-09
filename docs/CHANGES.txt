@@ -4,7 +4,7 @@ v2.2.0 - XX/XX/2018
   - Changed user's shellmark save directory to .config/shellcuts
   - Improved initialization experience
 
-v1.1.1 - XX/XX/2018
+v1.1.1 - 01/08/2018
   - Added Man page
   - Created separate PyPI page
 

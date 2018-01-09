@@ -14,19 +14,16 @@ Legal:
     License: GPLv3
     Version: 1.2.0
     Initial Release: 12/31/2017
-    Current Release: 01/02/2018
+    Current Release: 01/08/2018
 """
 
 from setuptools import setup
 
-F_DESCRIPTION = 'docs/README.rst'
+LONG_DESCRIPTION = 'docs/PYPI_DESCRIPTION.txt'
 
 def load_long_description():
-    """Load description for PyPI from file"""
-    with open(F_DESCRIPTION, 'r') as f:
-        long_description = f.read()
-
-    return long_description
+    with open(LONG_DESCRIPTION, 'r') as f:
+        return f.read()
 
 setup(
     name='shellcuts',
@@ -59,5 +56,6 @@ setup(
         ('share/shellcuts', ['shellcuts/shellcuts.sh']),
         ('share/doc/shellcuts', ['docs/CHANGES.txt',
                                  'docs/LICENSE.txt',
-                                 'docs/README.rst'])]
+                                 'docs/README.rst']),
+        ('share/man/man1',['docs/shellcuts.1'])]
 )
