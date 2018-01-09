@@ -1,0 +1,214 @@
+.TH shellcuts 1 "8 January 2018" "1.1.1"
+
+.SH NAME
+shellcuts - directory shortcuts for your shell.
+
+.SH SYNOPSIS
+sc [shellcut] [-flag] [flag option]
+
+.SH DESCRIPTION
+Shellcuts are directory shortcuts for your shell. This program allows you to save locations as 'shellcuts' and then cut back to those locations with a single, short command. This program is inspired by Bashmarks and hopes to improve on Bashmarks by supporting more systems and shells. Shellcuts includes the following features:
+.PP
+.RS 2
+- create named shellcuts to any location in the filesystem
+.PP
+- list all saved shellcuts
+.PP
+- delete shellcuts by name
+.PP
+- save shellcuts on a per-user basis
+.PP
+- support Bashmarks syntax for user comfort and familiarity
+.RE
+.PP
+Planned features include:
+.RS 2
+.PP
+- tab completion
+.PP
+- Fish, Zsh, Csh, Korn shell support
+.PP
+- z-like features
+.RE
+
+.SH OPTIONS
+.B  -d, --delete 
+.I shellcut
+.RS 4
+delete the specified shellcut if it exists
+.RE
+.PP
+.B -h, --help
+.RS 4
+display a help menu for quick reference
+.RE
+.PP
+.B -l, --list
+.RS 4
+list all available shellcuts
+.RE
+.PP
+.B -n, --new
+.I shellcut
+.RS 4
+create a new shellcut for the current working directory
+.RE
+.PP
+.B -p, --print
+.I shellcut
+.RS 4
+print the specified shellcut to the screen
+.RE
+.PP
+.B -v, --version:
+display version information
+.RE
+.PP
+.B --enable-bashmarks-syntax, --disable-bashmarks-syntax
+.RS 4
+enable or disable Bashmarks syntax (default: enabled)
+.RE
+.PP
+.B --enable-z, --disable-z
+.RS 4
+enable or disable z-like features (default: enabled)
+.RE
+.PP
+.B --init
+.RS 4
+launch the initialization script
+.RE
+
+.SH USAGE
+When you first install Shellcuts, you must initialize the program once before it can be used. Run this command to launch the configuration utility:
+.PP
+.RS 2
+.I sc-init
+.RE
+.PP
+The configuration utility will automatically configure your system, or if you'd prefer it can show you how to do the configuration manually. It's highly recommended that you use the automatic configuration, as it's safe from human error and is really easy!
+.PP
+The core command for Shellcuts is 
+.I sc
+and by default this program includes the following aliases:
+.PP
+.RS 2
+-
+.I shellcut
+.PP
+-
+.I shellcuts
+.PP
+-
+.I shellc
+.PP
+-
+.I scut
+.PP
+.RE
+Feel free to use any of the above or the main
+.I sc
+command to operate Shellcuts. This program also includes aliases to replicate Bashmarks syntax. They are as follows:
+.PP
+.RS 2
+-
+.I d
+to delete, equivalent to
+.I sc -d
+.PP
+-
+.I g
+to go, equivalent to
+.I sc
+.PP
+-
+.I l
+to list, equivalent to
+.I sc -l
+.PP
+-
+.I p
+to print, equivalent to
+.I sc -p
+.PP
+-
+.I s
+to save, equivalent to
+.I sc -n
+.RE
+
+.SH EXAMPLES
+Save a shellcut named
+.I downloads
+using the user's current directory:
+.PP
+.RS 4
+.I sc -n downloads
+.RE
+.PP
+Go to the shellcut named
+.I downloads
+if it exists:
+.PP
+.RS 4
+.I sc downloads
+.RE
+.PP
+List all saved shellcuts:
+.PP
+.RS 4
+.I sc -l
+.RE
+.PP
+Delete shellcut named
+.I binaries
+if it exists:
+.PP
+.RS 4
+.I sc -d binaries
+.RE
+.PP
+Print shellcut named
+.I home
+if it exists:
+.PP
+.RS 4
+.I sc -p home
+.RE
+.PP
+Save a new shellcut named
+.I downloads
+using Bashmarks syntax, then print the same shellcut:
+.PP
+.RS 4
+.I s downloads
+.PP
+.I p downloads
+.RE
+.PP
+Go to shellcut named
+.I pictures
+using an
+.I sc
+alias:
+.PP
+.RS 4
+.I scut pictures
+.RE
+
+.SH FILES
+.B ~/.config/shellcuts/shellcuts.sh
+.RS 4
+storage location for all shellcuts
+.RE
+
+.SH LICENSE
+GPLv3
+
+.SH SOURCE
+Visit
+.I https://www.github.com/tgsachse/shellcuts
+to view the source code for this program and give the project a star if you really liked it!
+
+.SH AUTHOR
+Tiger Sachse (tgsachse)
