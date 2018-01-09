@@ -12,25 +12,21 @@ Returns:
 Legal:
     Author: Tiger Sachse
     License: GPLv3
-    Version: 1.1.0
+    Version: 1.1.1
     Initial Release: 12/31/2017
-    Current Release: 01/02/2018
+    Current Release: 01/08/2018
 """
+LONG_DESCRIPTION = 'docs/PYPI_DESCRIPTION.txt'
+
+def load_long_description():
+    with open(LONG_DESCRIPTION, 'r') as f:
+        return f.read()
 
 from setuptools import setup
 
-F_DESCRIPTION = 'docs/README.rst'
-
-def load_long_description():
-    """Load description for PyPI from file"""
-    with open(F_DESCRIPTION, 'r') as f:
-        long_description = f.read()
-
-    return long_description
-
 setup(
     name='shellcuts',
-    version='1.1.0',
+    version='1.1.1.1',
     author='Tiger Sachse',
     description='Directory shortcuts for your shell.',
     long_description=load_long_description(),
@@ -55,9 +51,10 @@ setup(
     python_requires='>=3',
     data_files=[
         ('bin', ['shellcuts/sc-handler',
-                 'shellcuts/sc-init',
-                 'shellcuts/shellcuts.sh']),
+                 'shellcuts/sc-init']),
+        ('share/shellcuts', ['shellcuts/shellcuts.sh']),
         ('share/doc/shellcuts', ['docs/CHANGES.txt',
                                  'docs/LICENSE.txt',
-                                 'docs/README.rst'])]
+                                 'docs/README.rst']),
+        ('share/man/man1',['docs/shellcuts.1'])]
 )
