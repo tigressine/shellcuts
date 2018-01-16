@@ -1,0 +1,5 @@
+Package: shellcuts
+Version: 1.1.2
+Maintainer: Tiger Sachse
+Architecture: all
+Description: Directory shortcuts for your shell.
