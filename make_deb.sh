@@ -13,7 +13,7 @@ cp source/bin/sc shellcuts/usr/bin
 cp source/bin/sc-handler shellcuts/usr/bin
 cp source/share/shellcuts.sh shellcuts/usr/share/shellcuts
 
-cp make/control shellcuts/DEBIAN
-cp make/postinst shellcuts/DEBIAN
+cp debian/control shellcuts/DEBIAN
+cp debian/postinst shellcuts/DEBIAN
 
 dpkg --build shellcuts
