@@ -16,7 +16,7 @@ Returns:
 Legal:
     Author: Tiger Sachse
     License: GPLv3
-    Version: 1.2.0
+    Version: 1.1.2
     Initial Release: 12/31/2017
     Current Release: 01/02/2018
 """
@@ -27,7 +27,7 @@ import subprocess
 
 # Location of bashrc and shellcuts source file.
 F_BASHRC = os.path.expanduser('~/.bashrc')
-F_SOURCE = '/usr/local/share/shellcuts/shellcuts.sh'
+F_SOURCE = '/usr/share/shellcuts/shellcuts.sh'
 
 # List of lines added to bashrc.
 NEW_BASHRC_LINES = [
@@ -47,9 +47,11 @@ INIT_PROMPT = [
     
 def load_bashrc():
     """Read bashrc and returns list of lines."""
-    with open(F_BASHRC, 'r') as f:
-        bashrc = f.readlines()
-    return bashrc
+    try:
+        with open(F_BASHRC, 'r') as f:
+            return f.readlines()
+    except FileNotFoundError:
+        return []
 
 def write_bashrc(lines):
     """Write list of lines to bashrc."""
