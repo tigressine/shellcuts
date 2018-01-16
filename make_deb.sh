@@ -17,3 +17,5 @@ cp debian/control shellcuts/DEBIAN
 cp debian/postinst shellcuts/DEBIAN
 
 dpkg --build shellcuts
+
+rm -r shellcuts/

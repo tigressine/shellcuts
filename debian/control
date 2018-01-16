@@ -1,5 +1,10 @@
 Package: shellcuts
 Version: 1.1.2
-Maintainer: Tiger Sachse
+Section: utils
+Depends: python3
 Architecture: all
-Description: Directory shortcuts for your shell.
+Priority: optional
+Maintainer: Tiger Sachse
+Homepage: https://www.github.com/tgsachse/shellcuts
+Description: directory shortcuts for your shell
+ See the manpage for more information.
