@@ -1,8 +1,11 @@
 Changelog for Shellcuts
 
-v2.2.0 - XX/XX/2018
-  - Changed user's shellmark save directory to .config/shellcuts
+v1.1.2 - 01/16/2018
+  - Removed PyPI support
+  - Added deb support and deb packaging tools
   - Improved initialization experience
+  - Changed user shellcut save dir to .config/shellcuts
+  - Create .bashrc if one does not exist
 
 v1.1.1 - 01/08/2018
   - Added Man page
