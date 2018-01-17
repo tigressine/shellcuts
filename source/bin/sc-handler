@@ -4,13 +4,7 @@
 This is the core engine of the program. It handles all relevant options and
 commands. After the arguments are parsed and handled, an output is printed to
 the screen (but in practice this output is handled by the main shell function
-and not necessarily printed to the screen).
-
-Author: Tiger Sachse
-License: GPLv3
-Version: 1.1.2
-Initial Release: 12/31/2017
-Current Release: 01/16/2018
+and not necessarily printed to the screen).###########
 """
 import os
 import json
@@ -20,54 +14,43 @@ import argparse
 # Can be changed to save the shellcuts in a different location.
 D_SHELLCUTS = os.path.expanduser('~/.config/shellcuts/')
 F_SHELLCUTS = 'shellcuts.json'
-VERSION_INFO = ['Shellcuts - Directory shortcuts for your shell.',
-                'Author: Tiger Sachse',
-                'License: GPLv3',
-                'Version: 1.1.2',
-                'Initial Release: 12/31/2017',
-                'Current Release: 01/16/2018']
-
-def error_message(error):
-    ERRORS = {1 : "That shellcut does not exist",
-              2 : "This feature is unimplemented."}
-    print("ERROR {0}: {1}".format(error, ERRORS[error]))
+F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 
 ### COMMANDS ###
 def command_bashmarks():
-    print("PRINT")
     error_message(2)
 
 def command_delete():
     shellcuts.pop(arguments.delete, None)
     write_shellcuts()
-    print("TERMINATE")
+    print(":")
 
 def command_go():
     try:
         shellcuts[arguments.shellcut]
-        print("JUMP")
-        print(shellcuts[arguments.shellcut])
+        print("cd " + shellcuts[arguments.shellcut])
     except KeyError:
-        print("PRINT")
         error_message(1)
 
 def command_help():
-    print("PRINT")
-    [print(line) for line in HELP_INFO]
+    print("man shellcuts")
 
 def command_init():
-    print("PRINT")
-    error_message(2)
+    print("./sc-init")
 
 def command_list():
-    print("PRINT")
-    print("SHELLCUTS")
+    command = 'echo "SHELCUTS\n'
     for shellcut in shellcuts:
-        print(shellcut, ":", shellcuts[shellcut])
+        command = command + '{0} : {1}\n'.format(
+                                            shellcut,
+                                            shellcuts[shellcut])
+    command = command + '"'
+    print(command)
 
 def command_new():
     shellcuts[arguments.new] = os.getcwd()
     write_shellcuts()
+    print(":")
 
 def command_print():
     print("PRINT")
@@ -78,10 +61,9 @@ def command_print():
 
 def command_version():
     print("PRINT")
-    [print(line) for line in VERSION_INFO]
+    [print(line) for line in load_version_info()]
 
 def command_z():
-    print("PRINT")
     error_message(2)
 
 ### PARSER ###
@@ -119,6 +101,13 @@ def create_parser():
 
     return parser
 
+### ERROR HANDLING ###
+def error_message(error):
+    ERRORS = {1 : "That shellcut does not exist",
+              2 : "This feature is unimplemented.",
+              3 : "Version information not found."}
+    print("echo \"ERROR {0}: {1}\"".format(error, ERRORS[error]))
+
 ### FILE I/O ###
 def load_shellcuts():
     """Load the shellcuts file.
@@ -132,6 +121,16 @@ def load_shellcuts():
         shellcuts = {}
 
     return shellcuts
+
+def load_version_info():
+    """
+    """
+    try:
+        with open(F_VERSION, 'r') as f:
+            return f.readlines()
+    except FileNotFoundError:
+        error_message(3)
+        return ''
 
 def write_shellcuts():#
     """Write shellcuts to file.

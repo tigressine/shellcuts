@@ -6,21 +6,7 @@ It contains three commands:
     -Automatically modify bashrc to complete installation
     -Manually modify bashrc
     -Display contents of the script
-
-Arguments:
-    None.
-
-Returns:
-    None.
-
-Legal:
-    Author: Tiger Sachse
-    License: GPLv3
-    Version: 1.1.2
-    Initial Release: 12/31/2017
-    Current Release: 01/16/2018
 """
-
 import os
 import sys
 import subprocess
