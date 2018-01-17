@@ -9,9 +9,14 @@ and not necessarily printed to the screen).
 Arguments:
     shellcut: Positional arg that represents name of shellcut to lookup.
     -d, --delete: Delete specified shellcut from shellcut file.
+    -h, --help: Print a small, helpful paragraph.
     -l, --list: Lists all known shellcuts.
     -n, --new: Add new shellcut to shellcut file.
     -p, --print: Print specified shellcut.
+    --version: Show version information.
+    --init: Re-run the initialization script.
+    --enable-bashmarks-syntax, --disable-bashmarks-syntax: For old syntax.
+    --enable-z, --disable-z: Enable or disable Z-like features.
 
 Returns:
     str: Either PRINT, TERMINATE, or JUMP.
@@ -26,7 +31,7 @@ Legal:
     License: GPLv3
     Version: 1.1.2
     Initial Release: 12/31/2017
-    Current Release: 01/08/2018
+    Current Release: 01/16/2018
 """
 
 import os
@@ -37,21 +42,122 @@ import argparse
 # Can be changed to save the shellcuts in a different location.
 D_SHELLCUTS = os.path.expanduser('~/.config/shellcuts/')
 F_SHELLCUTS = 'shellcuts.json'
+VERSION_INFO = ['Shellcuts - Directory shortcuts for your shell.',
+                'Author: Tiger Sachse',
+                'License: GPLv3',
+                'Version: 1.1.2',
+                'Initial Release: 12/31/2017',
+                'Current Release: 01/16/2018']
+HELP_INFO = ['Shellcuts usage: $ sc [shellcut] [-flag] [flag option]',
+             '\nSave a new shellcut named \'home\':',
+             '    $ sc -n home',
+             '\nJump to saved shellcut named \'home\':',
+             '    $ sc home',
+             '\nView manual page for more information and examples:',
+             '    $ man shellcuts\n']
 
+"""
+### SIGNALING DECORATORS ###
+def signal_print(function):
+    def signal_wrapper():
+        print("PRINT")
+            function()
+    return 
+"""
+
+def error_message(error):
+    ERRORS = {1 : "That shellcut does not exist",
+              2 : "This feature is unimplemented."}
+    print("ERROR {0}: {1}".format(error, ERRORS[error]))
+
+### COMMANDS ###
+def command_bashmarks():
+    print("PRINT")
+    error_message(2)
+
+def command_delete():
+    shellcuts.pop(arguments.delete, None)
+    write_shellcuts()
+    print("TERMINATE")
+
+def command_go():
+    try:
+        shellcuts[arguments.shellcut]
+        print("JUMP")
+        print(shellcuts[arguments.shellcut])
+    except KeyError:
+        print("PRINT")
+        error_message(1)
+
+def command_help():
+    print("PRINT")
+    [print(line) for line in HELP_INFO]
+
+def command_init():
+    print("PRINT")
+    error_message(2)
+
+def command_list():
+    print("PRINT")
+    print("SHELLCUTS")
+    for shellcut in shellcuts:
+        print(shellcut, ":", shellcuts[shellcut])
+
+def command_new():
+    shellcuts[arguments.new] = os.getcwd()
+    write_shellcuts()
+
+def command_print():
+    print("PRINT")
+    try:
+        print(arguments.print, ":", shellcuts[arguments.print])
+    except KeyError:
+        error_message(1)
+
+def command_version():
+    print("PRINT")
+    [print(line) for line in VERSION_INFO]
+
+def command_z():
+    print("PRINT")
+    error_message(2)
+
+### PARSER ###
 def create_parser():
     """Create an argparse parser.
 
     Defines arguments and then returns the parser.
     """
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(add_help=False)
+    
     parser.add_argument('shellcut', default=None, nargs='?')
     parser.add_argument('-d', '--delete')
-    parser.add_argument('-l', '--list', action='store_true')
+    parser.add_argument('-h', '--help', action='store_true', default=None)
+    parser.add_argument('-l', '--list', action='store_true', default=None)
     parser.add_argument('-n', '--new')
     parser.add_argument('-p', '--print')
+    parser.add_argument('--version', action='store_true', default=None)
+    parser.add_argument('--init', action='store_true', default=None)
+    parser.add_argument('--enable-bashmarks-syntax',
+                        action='store_true',
+                        default=None,
+                        dest='bashmarks')
+    parser.add_argument('--disable-bashmarks-syntax',
+                        action='store_false',
+                        default=None,
+                        dest='bashmarks')
+    parser.add_argument('--enable-z',
+                        action='store_true',
+                        default=None,
+                        dest='z')
+    parser.add_argument('--disable-z',
+                        action='store_false',
+                        default=None,
+                        dest='z')
 
     return parser
 
+### FILE I/O ###
 def load_shellcuts():
     """Load the shellcuts file.
 
@@ -65,7 +171,7 @@ def load_shellcuts():
 
     return shellcuts
 
-def write_shellcuts(shellcuts):
+def write_shellcuts():#
     """Write shellcuts to file.
     
     Creates appropriate directory if it doesn't exist.
@@ -76,46 +182,23 @@ def write_shellcuts(shellcuts):
     with open(D_SHELLCUTS + F_SHELLCUTS, 'w') as f:
         json.dump(shellcuts, f)
 
-def main():
-    """Parse arguments and print output."""
-    parser = create_parser()
-    arguments = parser.parse_args()
-    shellcuts = load_shellcuts()
-    
-    # If parser finds 'delete' or 'new' flags perform these corresponding
-    # actions and then print TERMINATE.
-    if arguments.delete or arguments.new:
-        if arguments.delete:
-            shellcuts.pop(arguments.delete, None)
-        elif arguments.new:
-            shellcuts[arguments.new] = os.getcwd()
-        write_shellcuts(shellcuts)
-        print("TERMINATE")
+### START MAIN PROGRAM ###
+parser = create_parser()
+arguments = parser.parse_args()
+shellcuts = load_shellcuts()
 
-    # If parser finds 'print' or 'list' flags print PRINT and then print more
-    # based on the flag found.
-    elif arguments.print or arguments.list:
-        print("PRINT")
-        if arguments.print:
-            try:
-                print(arguments.print, ":", shellcuts[arguments.print])
-            except KeyError:
-                print("ERROR: That shellcut does not exist.")
-        elif arguments.list:
-            print("SHELLCUTS")
-            for shellcut in shellcuts:
-                print(shellcut, ":", shellcuts[shellcut])
+command_pairs = (
+    (arguments.help, command_help),
+    (arguments.list, command_list),
+    (arguments.version, command_version),
+    (arguments.init, command_init),
+    (arguments.bashmarks, command_bashmarks),
+    (arguments.z, command_z),
+    (arguments.delete, command_delete),
+    (arguments.new, command_new),
+    (arguments.print, command_print),
+    (arguments.shellcut, command_go))
 
-    # If positional argument found, attempt to load the shellcut and then print
-    # it to screen, else print an error.
-    elif arguments.shellcut:
-        try:
-            shellcuts[arguments.shellcut]
-            print("JUMP")
-            print(shellcuts[arguments.shellcut])
-        except KeyError:
-            print("PRINT")
-            print("ERROR: That shellcut does not exist.")
-
-if __name__ == '__main__':
-    main()
+for pair in command_pairs:
+    if pair[0] != None:
+        pair[1]()
