@@ -6,34 +6,12 @@ commands. After the arguments are parsed and handled, an output is printed to
 the screen (but in practice this output is handled by the main shell function
 and not necessarily printed to the screen).
 
-Arguments:
-    shellcut: Positional arg that represents name of shellcut to lookup.
-    -d, --delete: Delete specified shellcut from shellcut file.
-    -h, --help: Print a small, helpful paragraph.
-    -l, --list: Lists all known shellcuts.
-    -n, --new: Add new shellcut to shellcut file.
-    -p, --print: Print specified shellcut.
-    --version: Show version information.
-    --init: Re-run the initialization script.
-    --enable-bashmarks-syntax, --disable-bashmarks-syntax: For old syntax.
-    --enable-z, --disable-z: Enable or disable Z-like features.
-
-Returns:
-    str: Either PRINT, TERMINATE, or JUMP.
-        PRINT: Print whatever follows.
-        TERMINATE: End the program without printing.
-        JUMP: Change directory to the following string.
-    str: Additional strings whose use is determined by the first str
-         return value.
-
-Legal:
-    Author: Tiger Sachse
-    License: GPLv3
-    Version: 1.1.2
-    Initial Release: 12/31/2017
-    Current Release: 01/16/2018
+Author: Tiger Sachse
+License: GPLv3
+Version: 1.1.2
+Initial Release: 12/31/2017
+Current Release: 01/16/2018
 """
-
 import os
 import json
 import pathlib
@@ -48,22 +26,6 @@ VERSION_INFO = ['Shellcuts - Directory shortcuts for your shell.',
                 'Version: 1.1.2',
                 'Initial Release: 12/31/2017',
                 'Current Release: 01/16/2018']
-HELP_INFO = ['Shellcuts usage: $ sc [shellcut] [-flag] [flag option]',
-             '\nSave a new shellcut named \'home\':',
-             '    $ sc -n home',
-             '\nJump to saved shellcut named \'home\':',
-             '    $ sc home',
-             '\nView manual page for more information and examples:',
-             '    $ man shellcuts\n']
-
-"""
-### SIGNALING DECORATORS ###
-def signal_print(function):
-    def signal_wrapper():
-        print("PRINT")
-            function()
-    return 
-"""
 
 def error_message(error):
     ERRORS = {1 : "That shellcut does not exist",

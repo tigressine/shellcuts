@@ -7,6 +7,7 @@ mkdir -p shellcuts/usr/share/shellcuts
 cp docs/CHANGES.txt shellcuts/usr/share/doc/shellcuts
 cp docs/LICENSE.txt shellcuts/usr/share/doc/shellcuts
 cp docs/README.rst shellcuts/usr/share/doc/shellcuts
+cp docs/META.txt shellcuts/usr/share/doc/shellcuts
 cp docs/shellcuts.1 shellcuts/usr/share/man/man1
 
 cp source/bin/sc shellcuts/usr/bin
