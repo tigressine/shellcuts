@@ -10,8 +10,8 @@ function sc {
         echo "${OUTCOME:6:${#OUTCOME}}"
     elif [ "${OUTCOME:0:9}" == "TERMINATE" ]; then
         :
-    elif [ "${OUTCOME:0:4}" == "JUMP" ]; then
-        cd "${OUTCOME:5:${#OUTCOME}}"
+    elif [ "${OUTCOME:0:3}" == "CMD" ]; then
+        ${OUTCOME:4:${#OUTCOME}}
     fi
 }
 
