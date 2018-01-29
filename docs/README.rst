@@ -24,7 +24,7 @@ Shellcuts is meant to be easy to install--use any of the following methods. You 
 **METHOD 1:** Install with wget and dpkg
 If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then this method will work until APT support is added. Run the following command:
 ::
-  $ dunno yet will add soon
+  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.1.2/shellcuts.deb && sudo dpkg -i shellcuts.deb
 
 **METHOD 2:** Install with APT_ (PLANNED)
 
