@@ -1,18 +1,9 @@
-# FIX DOCUMENTATION
+# Part of Shellcuts by Tgsachse
 
 # Core function of program. Sends first two arguments to sc-handler.
-# The resulting output determines if the script prints an error message,
-# exits quietly, or changes the user's directory.
+# sc-handler returns a function, which is then executed.
 function sc {
-    OUTCOME="$(sc-handler $1 $2)"
-    
-    if [ "${OUTCOME:0:5}" == "PRINT" ]; then
-        echo "${OUTCOME:6:${#OUTCOME}}"
-    elif [ "${OUTCOME:0:9}" == "TERMINATE" ]; then
-        :
-    elif [ "${OUTCOME:0:3}" == "CMD" ]; then
-        ${OUTCOME:4:${#OUTCOME}}
-    fi
+    eval "$(sc-handler $1 $2)"
 }
 
 # Aliases to make use of this program more familiar. Can be broken down
