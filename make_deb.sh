@@ -13,7 +13,7 @@ cp docs/README.rst shellcuts/usr/share/doc/shellcuts
 cp docs/META.txt shellcuts/usr/share/doc/shellcuts
 cp docs/shellcuts.1 shellcuts/usr/share/man/man1
 
-cp source/bin/sc-init shellcuts/usr/bin
+cp source/bin/sc shellcuts/usr/bin
 cp source/bin/sc-handler shellcuts/usr/bin
 cp source/share/shellcuts.sh shellcuts/usr/share/shellcuts
 
