@@ -6,6 +6,8 @@ It contains three commands:
     -Automatically modify bashrc to complete installation
     -Manually modify bashrc
     -Display contents of the script
+
+Part of Shellcuts by Tgsachse.
 """
 import os
 import sys
