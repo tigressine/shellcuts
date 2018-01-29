@@ -21,11 +21,10 @@ installation
 
 Shellcuts is meant to be easy to install--use any of the following methods. You need the latest version of `Python 3`_ installed for it to work!
 
-**METHOD 1:** Install with Pip_
-
-If you have pip3 installed, run this command to install Shellcuts:
+**METHOD 1:** Install with wget and dpkg
+If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then this method will work until APT support is added. Run the following command:
 ::
-  $ sudo pip3 install shellcuts
+  $ dunno yet will add soon
 
 **METHOD 2:** Install with APT_ (PLANNED)
 
@@ -48,10 +47,9 @@ If, for whatever reason, the other methods don't work for you or maybe just aren
 
 usage
 -----
-When you first install Shellcuts, you must initialize the program once before it can be used. Run this command to launch the configuration utility:
+The configuration utility that runs during installation can automatically configure your system, or if you'd prefer it can show you how to do the configuration manually. It's highly recommended that you use the automatic configuration, as it's safe from human error and is really easy! If you want to re-run the configuration utility, use this command:
 ::
-  $ sc-init
-The configuration utility will automatically configure your system, or if you'd prefer it can show you how to do the configuration manually. It's highly recommended that you use the automatic configuration, as it's safe from human error and is really easy!
+  $ sc --init
 
 The core command for Shellcuts is ``sc`` and by default this program includes the aliases:
 

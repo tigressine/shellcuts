@@ -7,40 +7,39 @@ It contains three commands:
     -Manually modify bashrc
     -Display contents of the script
 
-Arguments:
-    None.
-
-Returns:
-    None.
-
-Legal:
-    Author: Tiger Sachse
-    License: GPLv3
-    Version: 1.1.1
-    Initial Release: 12/31/2017
-    Current Release: 01/08/2018
+Part of Shellcuts by Tgsachse.
 """
-
 import os
 import sys
 import subprocess
 
 # Location of bashrc and shellcuts source file.
 F_BASHRC = os.path.expanduser('~/.bashrc')
-F_SOURCE = '/usr/local/bin/shellcuts.sh'
+F_SOURCE = '/usr/share/shellcuts/shellcuts.sh'
 
 # List of lines added to bashrc.
-BASHRC_ADD = [
+NEW_BASHRC_LINES = [
     '# checks if the shellcuts source file exists and includes it', 
     'if [ -f {0} ]; then'.format(F_SOURCE),
     '    . {0}'.format(F_SOURCE),
     'fi']
 
+INIT_PROMPT = [
+    'Thank you for downloading Shellcuts!\n',
+    'If you\'ve already initialized Shellcuts and are still getting this',
+    'menu then you must restart your terminal for changes to take effect.\n',
+    'Enter the number corresponding to the action you wish to perform:',
+    '0) Automatically modify bashrc to complete installation',
+    '1) Manually modify bashrc',
+    '2) Display contents of this script']
+    
 def load_bashrc():
     """Read bashrc and returns list of lines."""
-    with open(F_BASHRC, 'r') as f:
-        bashrc = f.readlines()
-    return bashrc
+    try:
+        with open(F_BASHRC, 'r') as f:
+            return f.readlines()
+    except FileNotFoundError:
+        return []
 
 def write_bashrc(lines):
     """Write list of lines to bashrc."""
@@ -49,11 +48,9 @@ def write_bashrc(lines):
 
 # Start of main program.
 subprocess.run('clear')
-print("Thank you for downloading Shellcuts!\n")
-print("Enter the number corresponding to the action you wish to perform:")
-print("0) Automatically modify bashrc to complete installation")
-print("1) Manually modify bashrc")
-print("2) Display contents of this script")
+
+# Print each line in INIT_PROMPT
+[print(line) for line in INIT_PROMPT]
 command = input("> ")
 
 if command == '0':
@@ -61,19 +58,16 @@ if command == '0':
     print("Adding to bashrc...")
     bashrc = load_bashrc()
     bashrc.append('\n')
-    bashrc.extend([line+'\n' for line in BASHRC_ADD])
+    bashrc.extend([line+'\n' for line in NEW_BASHRC_LINES])
     write_bashrc(bashrc)
+    print("Done! Restart your terminal for changes to take effect.")
     
-    print("Sourcing from bashrc...")
-    subprocess.run(['.', F_BASHRC], shell=True)
-    print("Done!")
-
 elif command == '1':
     """Print necessary changes to screen for bashrc file."""
     print("Add these three lines to your .bashrc:\n")
-    for line in BASHRC_ADD[1:]:
+    for line in NEW_BASHRC_LINES[1:]:
         print(line)
-    print("\nNow run '. {0}' to begin using shellcuts!".format(F_BASHRC))
+    print("\nRestart your terminal for changes to take effect.")
 
 elif command == '2':
     """Cat this script to screen."""
