@@ -2,9 +2,10 @@
 """Handles arguments from main shell function.
 
 This is the core engine of the program. It handles all relevant options and
-commands. After the arguments are parsed and handled, an output is printed to
-the screen (but in practice this output is handled by the main shell function
-and not necessarily printed to the screen).###########
+commands. After the arguments are parsed and handled, a command is returned to
+the calling shell function.
+
+Part of Shellcuts by Tgsachse.
 """
 import os
 import json
@@ -13,11 +14,7 @@ import argparse
 
 # FIX BEFORE 1.1.2
 # Deal with split path name + ditch pathlib?
-# Comment all functions + edit current comments
-# Check all functions to make sure they work
-# add docstring to test.sh and fix comments
 # once over sc-init (most refactoring if necessary in 1.2
-# remove shellcuts.sh and share?
 # Check changes
 # update meta
 # update readme
@@ -37,15 +34,18 @@ F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 
 ### COMMANDS ###
 def command_bashmarks():
+    """Unimplemented."""
     error_message(2)
 
 def command_delete():
+    """Delete shellcut and write to file."""
     command = ':'
     shellcuts.pop(arguments.delete, None)
     write_shellcuts()
     print(command)
 
 def command_go():
+    """Access shellcut and return 'cd' command to shellcut dir."""
     try:
         command = 'cd ' + shellcuts[arguments.shellcut]
         print(command)
@@ -53,14 +53,17 @@ def command_go():
         error_message(1)
 
 def command_help():
+    """Open man page."""
     command = 'man shellcuts'
     print(command)
 
 def command_init():
-    command = './sc-init'
+    """Run initialization script."""
+    command = 'sc-init'
     print(command)
 
 def command_list():
+    """List all shellcuts."""
     command = 'echo "SHELLCUTS\n'
     for shellcut in shellcuts:
         command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
@@ -68,12 +71,14 @@ def command_list():
     print(command)
 
 def command_new():
+    """Add shellcut and write to file."""
     command = ':'
     shellcuts[arguments.new] = os.getcwd()
     write_shellcuts()
     print(command)
 
 def command_print():
+    """Print specific shellcut."""
     try:
         command = 'echo "' + arguments.print + ' : ' + shellcuts[arguments.print] + '"'
         print(command)
@@ -81,6 +86,7 @@ def command_print():
         error_message(1)
 
 def command_version():
+    """Echo version information found in F_VERSION."""
     command = 'echo "'
     for line in load_version_info():
         command += line
@@ -88,6 +94,7 @@ def command_version():
     print(command)
 
 def command_z():
+    """Unimplemented."""
     error_message(2)
 
 
@@ -127,10 +134,16 @@ def create_parser():
     return parser
 
 def error_message(error):
+    """Echo an error message.
+    
+    Includes a master dictionary of all supported errors. These are accessible
+    by number.
+    """
     ERRORS = {1 : "That shellcut does not exist",
               2 : "This feature is unimplemented.",
               3 : "Version information not found."}
-    print("echo \"ERROR {0}: {1}\"".format(error, ERRORS[error]))
+    command = 'echo "ERROR {0}: {1}"'.format(error, ERRORS[error])
+    print(command)
 
 def load_shellcuts():
     """Load the shellcuts file.
@@ -146,16 +159,15 @@ def load_shellcuts():
     return shellcuts
 
 def load_version_info():
-    """
-    """
+    """Load version information found at F_VERSION."""
     try:
         with open(F_VERSION, 'r') as f:
             return f.readlines()
     except FileNotFoundError:
-        error_message(3)##################
-        return ''
+        error_message(3)
+        exit(0)
 
-def write_shellcuts():#
+def write_shellcuts():
     """Write shellcuts to file.
     
     Creates appropriate directory if it doesn't exist.
@@ -172,6 +184,7 @@ parser = create_parser()
 arguments = parser.parse_args()
 shellcuts = load_shellcuts()
 
+# This tuple associates arguments from the parser with their functions.
 command_pairs = (
     (arguments.help, command_help),
     (arguments.list, command_list),
@@ -184,6 +197,7 @@ command_pairs = (
     (arguments.print, command_print),
     (arguments.shellcut, command_go))
 
+# For each in tuple, if value is not 'None', execute associated function.
 for pair in command_pairs:
     if pair[0] != None:
         pair[1]()
