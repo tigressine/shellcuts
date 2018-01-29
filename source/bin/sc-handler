@@ -11,62 +11,87 @@ import json
 import pathlib
 import argparse
 
+# FIX BEFORE 1.1.2
+# Deal with split path name + ditch pathlib?
+# Comment all functions + edit current comments
+# Check all functions to make sure they work
+# add docstring to test.sh and fix comments
+# once over sc-init (most refactoring if necessary in 1.2
+# remove shellcuts.sh and share?
+# Check changes
+# update meta
+# update readme
+# update man pages
+# add docstring to make_deb + rename
+# correct make deb configuration
+# add docstring to postinst
+# fix file i/o
+# fix issue with argparse
+
+### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
 D_SHELLCUTS = os.path.expanduser('~/.config/shellcuts/')
 F_SHELLCUTS = 'shellcuts.json'
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
+
 
 ### COMMANDS ###
 def command_bashmarks():
     error_message(2)
 
 def command_delete():
+    command = ':'
     shellcuts.pop(arguments.delete, None)
     write_shellcuts()
-    print(":")
+    print(command)
 
 def command_go():
     try:
-        shellcuts[arguments.shellcut]
-        print("cd " + shellcuts[arguments.shellcut])
+        command = 'cd ' + shellcuts[arguments.shellcut]
+        print(command)
     except KeyError:
         error_message(1)
 
 def command_help():
-    print("man shellcuts")
+    command = 'man shellcuts'
+    print(command)
 
 def command_init():
-    print("./sc-init")
+    command = './sc-init'
+    print(command)
 
 def command_list():
-    command = 'echo "SHELCUTS\n'
+    command = 'echo "SHELLCUTS\n'
     for shellcut in shellcuts:
-        command = command + '{0} : {1}\n'.format(
-                                            shellcut,
-                                            shellcuts[shellcut])
-    command = command + '"'
+        command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
+    command = command[:-1] + '"'
     print(command)
 
 def command_new():
+    command = ':'
     shellcuts[arguments.new] = os.getcwd()
     write_shellcuts()
-    print(":")
+    print(command)
 
 def command_print():
-    print("PRINT")
     try:
-        print(arguments.print, ":", shellcuts[arguments.print])
+        command = 'echo "' + arguments.print + ' : ' + shellcuts[arguments.print] + '"'
+        print(command)
     except KeyError:
         error_message(1)
 
 def command_version():
-    print("PRINT")
-    [print(line) for line in load_version_info()]
+    command = 'echo "'
+    for line in load_version_info():
+        command += line
+    command += '"'
+    print(command)
 
 def command_z():
     error_message(2)
 
-### PARSER ###
+
+### HELPER FUNCTIONS ###
 def create_parser():
     """Create an argparse parser.
 
@@ -101,14 +126,12 @@ def create_parser():
 
     return parser
 
-### ERROR HANDLING ###
 def error_message(error):
     ERRORS = {1 : "That shellcut does not exist",
               2 : "This feature is unimplemented.",
               3 : "Version information not found."}
     print("echo \"ERROR {0}: {1}\"".format(error, ERRORS[error]))
 
-### FILE I/O ###
 def load_shellcuts():
     """Load the shellcuts file.
 
@@ -129,7 +152,7 @@ def load_version_info():
         with open(F_VERSION, 'r') as f:
             return f.readlines()
     except FileNotFoundError:
-        error_message(3)
+        error_message(3)##################
         return ''
 
 def write_shellcuts():#
@@ -142,6 +165,7 @@ def write_shellcuts():#
 
     with open(D_SHELLCUTS + F_SHELLCUTS, 'w') as f:
         json.dump(shellcuts, f)
+
 
 ### START MAIN PROGRAM ###
 parser = create_parser()
