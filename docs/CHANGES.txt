@@ -1,12 +1,13 @@
 Changelog for Shellcuts
 
-v1.1.2 - 01/16/2018
+v1.1.2 - 01/28/2018
   - Removed PyPI support
   - Added deb support and deb packaging tools
   - Improved initialization experience
   - Changed user shellcut save dir to .config/shellcuts
   - Create .bashrc if one does not exist
   - Added version and help commands
+  - Added initialization command
 
 v1.1.1 - 01/08/2018
   - Added Man page
