@@ -12,19 +12,6 @@ import json
 import pathlib
 import argparse
 
-# FIX BEFORE 1.1.2
-# Deal with split path name + ditch pathlib?
-# once over sc-init (most refactoring if necessary in 1.2
-# Check changes
-# update meta
-# update readme
-# update man pages
-# add docstring to make_deb + rename
-# correct make deb configuration
-# add docstring to postinst
-# fix file i/o
-# fix issue with argparse
-
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
 D_SHELLCUTS = os.path.expanduser('~/.config/shellcuts/')
