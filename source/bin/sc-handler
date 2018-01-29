@@ -46,7 +46,7 @@ def command_help():
 
 def command_init():
     """Run initialization script."""
-    command = 'sc-init'
+    command = '/usr/bin/sc'
     print(command)
 
 def command_list():
@@ -77,7 +77,7 @@ def command_version():
     command = 'echo "'
     for line in load_version_info():
         command += line
-    command += '"'
+    command = command[:-1] + '"'
     print(command)
 
 def command_z():
@@ -188,3 +188,6 @@ command_pairs = (
 for pair in command_pairs:
     if pair[0] != None:
         pair[1]()
+        exit(0)
+
+command_help()
