@@ -1,4 +1,4 @@
-# Part of Shellcuts by Tgsachse
+# Part of Shellcuts by Tgsachse.
 
 # Core function of program. Sends first two arguments to sc-handler.
 # sc-handler returns a function, which is then executed.
