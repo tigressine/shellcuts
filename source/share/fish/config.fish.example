@@ -1,0 +1,4 @@
+# Load Shellcuts controller file if it exists.
+if test -e ~/.config/shellcuts/fish/controller.fish
+    . ~/.config/shellcuts/fish/controller.fish
+end
