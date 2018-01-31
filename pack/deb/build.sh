@@ -1,27 +1,29 @@
 # Part of Shellcuts by Tgsachse.
 # Builds the Shellcuts .deb package.
 
-#mkdir shellcuts
+$D_BUILD=~/Dropbox/Code/Shellcuts/
+
+cd $D_BUILD
 
 mkdir -p shellcuts/DEBIAN
-#mkdir -p shellcuts/usr/bin
+mkdir -p shellcuts/usr/bin
 mkdir -p shellcuts/usr/share/doc/shellcuts
-#mkdir -p shellcuts/usr/share/man/man1
-#mkdir -p shellcuts/usr/share/bash
-#mkdir -p shellcuts/usr/share/fish
-#mkdir -p shellcuts/usr/share/zsh
+mkdir -p shellcuts/usr/share/man/man1
+mkdir -p shellcuts/usr/share/shellcuts
 
 #cp docs/CHANGES.txt shellcuts/usr/share/doc/shellcuts
 #cp docs/LICENSE.txt shellcuts/usr/share/doc/shellcuts
 #cp docs/README.rst shellcuts/usr/share/doc/shellcuts
 #cp docs/META.txt shellcuts/usr/share/doc/shellcuts
-#cp docs/shellcuts.1 shellcuts/usr/share/man/man1
+cp docs/shellcuts.1 shellcuts/usr/share/man/man1
 
 #cp -r docs shellcuts/usr/share/doc
 
-cp -r source/* shellcuts/
-cp -r debian/* shellcuts/DEBIAN/
+cp -r bin/* shellcuts/bin
+cp -r pack/deb/* shellcuts/DEBIAN/
+rm pack/deb/build.sh
 cp -r docs/* shellcuts/usr/share/doc/shellcuts
+mv shellcuts/usr/share/doc/shellcuts/shellcuts.1 shellcuts/usr/share/man/man1
 
 #cp source/bin/sc shellcuts/usr/bin
 #cp source/bin/sc-handler shellcuts/usr/bin
@@ -32,6 +34,6 @@ cp -r docs/* shellcuts/usr/share/doc/shellcuts
 #cp debian/control shellcuts/DEBIAN
 #cp debian/postinst shellcuts/DEBIAN
 
-#dpkg --build shellcuts
+dpkg --build shellcuts
 
-#rm -r shellcuts/
+rm -r shellcuts/
