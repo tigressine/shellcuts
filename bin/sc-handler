@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Handles arguments from main shell function.
 
 This is the core engine of the program. It handles all relevant options and
