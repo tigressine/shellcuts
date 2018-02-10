@@ -14,14 +14,14 @@ Requires:       python3
 %global debug_package %{nil}
 
 %description
-Shellcuts  are  directory shortcuts for your shell. This program allows you to save locations
-as 'shellcuts' and then cut back to  those  locations  with  a single, short command.
+Shellcuts are directory shortcuts for your shell. This program allows you to save locations
+as 'shellcuts' and then cut back to those locations with a single, short command.
 
 %prep
 %setup -q
 
 %build
-python3 -m compileall bin/sc-handler.py bin/sc.py
+python3 -m compileall bin/sc-handler.py bin/sc-init.py
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -32,7 +32,7 @@ mkdir -p %{buildroot}/usr/share/man/man1
 mkdir -p %{buildroot}/usr/share/doc/%{name}
 
 install -m 0555 bin/__pycache__/sc-handler.cpython-36.pyc %{buildroot}/usr/bin/sc-handler
-install -m 0555 bin/__pycache__/sc.cpython-36.pyc %{buildroot}/usr/bin/sc
+install -m 0555 bin/__pycache__/sc-init.cpython-36.pyc %{buildroot}/usr/bin/sc-init
 
 install -m 0444 docs/*.txt %{buildroot}/usr/share/doc/%{name}/
 install -m 0444 docs/*.rst %{buildroot}/usr/share/doc/%{name}/
@@ -47,7 +47,7 @@ install -d share/* %{buildroot}/usr/share/%{name}/
 %dir /usr/share/%{name}
 %dir /usr/share/doc/%{name}
 /usr/bin/sc-handler
-/usr/bin/sc
+/usr/bin/sc-init
 
 %changelog
 * Thu Feb  8 2018 Tiger Sachse <tgsachse@gmail.com>
