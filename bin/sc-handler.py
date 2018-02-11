@@ -50,10 +50,10 @@ def command_init():
 
 def command_list():
     """List all shellcuts."""
-    command = 'echo "SHELLCUTS\n'
+    command = 'printf "SHELLCUTS\n'
     for shellcut in shellcuts:
         command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
-    command = command[:-1] + '"'
+    command = command[:-1] + '\n"'
     print(command)
 
 def command_new():
@@ -66,17 +66,17 @@ def command_new():
 def command_print():
     """Print specific shellcut."""
     try:
-        command = 'echo "' + arguments.print + ' : ' + shellcuts[arguments.print] + '"'
+        command = 'printf "' + arguments.print + ' : ' + shellcuts[arguments.print] + '\n"'
         print(command)
     except KeyError:
         error_message(1)
 
 def command_version():
     """Echo version information found in F_VERSION."""
-    command = 'echo "'
+    command = 'printf "'
     for line in load_version_info():
         command += line
-    command = command[:-1] + '"'
+    command = command[:-1] + '\n"'
     print(command)
 
 def command_z():
@@ -128,7 +128,7 @@ def error_message(error):
     ERRORS = {1 : "That shellcut does not exist",
               2 : "This feature is unimplemented.",
               3 : "Version information not found."}
-    command = 'echo "ERROR {0}: {1}"'.format(error, ERRORS[error])
+    command = 'printf "ERROR {0}: {1}"'.format(error, ERRORS[error])
     print(command)
 
 def load_shellcuts():
