@@ -16,27 +16,33 @@ def kill_trees(trees):
 def build_deb():
     """Build deb package from source."""
     
-    # Tree definition for deb builds
-    DEB_TREE = (('bin/', 'shellcuts/usr/bin', ()),
-            ('pack/deb/', 'shellcuts/DEBIAN', ()),
-            ('docs/', 'shellcuts/usr/share/doc/shellcuts', ('shellcuts.1',)),
-            ('docs/', 'shellcuts/usr/share/man/man1', ('*.txt','*.rst')),
-            ('share/', 'shellcuts/usr/share/shellcuts', ()))
+    # Tree structure for deb package.
+    BUILD = 'shellcuts'
+    DEB_TREE = (
+        ('bin/', 'shellcuts/usr/bin/', ()),
+        ('pack/deb/', 'shellcuts/DEBIAN/', ()),
+        ('docs/', 'shellcuts/usr/share/doc/shellcuts/', ('shellcuts.1',)),
+        ('docs/', 'shellcuts/usr/share/man/man1/', ('*.txt','*.rst')),
+        ('share/', 'shellcuts/usr/share/shellcuts/', ())
+    )
     
-    # Remove necessary directory trees
-    kill_trees(('shellcuts'))
+    # Cut down leftover trees.
+    #print("firstcut")
+    kill_trees((BUILD))
 
-    # Create shellcuts tree based on tree definition
+    # Create shellcuts tree based on DEB_TREE tuple.
     for branch in DEB_TREE:
         shutil.copytree(branch[0],
                         branch[1],
                         ignore=shutil.ignore_patterns(*branch[2]))
 
-    # Make deb package
+    # Build deb package.
     subprocess.run(('dpkg', '--build', 'shellcuts'))
-
-    # Chop down all generated trees
-    kill_trees(('shellcuts'))
+    #shutil.move('shellcuts.deb', DIST)
+    
+    # Chop down all new trees.
+    #print("chopping")
+    kill_trees((BUILD))
 
 def build_rpm():
     """Build RPM package from source."""
@@ -46,7 +52,7 @@ def build_rpm():
     TARBALL_CONTENTS = ['docs/', 'share/', 'bin/']
     TARBALL = expanduser('~/rpmbuild/SOURCES/') + ARCHIVE
 
-    # Clean the table
+    # Cut down leftover trees.
     kill_trees((ARCHIVE, DIST, RPM_BUILD))
 
     # Copy source into tarball folder
