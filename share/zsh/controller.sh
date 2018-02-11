@@ -1,13 +1,19 @@
 # Part of Shellcuts by Tgsachse.
 
 # File path constants.
-F_FUNCT=~/.config/shellcuts/zsh/main-function.sh
 F_BASHMARKS=~/.config/shellcuts/zsh/bashmarks-aliases.sh
 
-# If main function file exists, load it.
-if [ -f "$F_FUNCT" ]; then
-    . $F_FUNCT
-fi
+# Core function of program. Sends first two arguments to sc-handler.
+# sc-handler returns a function, which is then executed.
+function sc {
+    eval "$(python3 sc-handler $1 $2)"
+}
+
+# Full-name aliases.
+alias shellcut="sc"
+alias shellcuts="sc"
+alias shellc="sc"
+alias scut="sc"
 
 # If Bashmarks syntax is enabled (e.g. the file exists), load it.
 if [ -f "$F_BASHMARKS" ]; then
