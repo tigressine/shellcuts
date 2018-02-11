@@ -1,2 +1,2 @@
 # Part of Shellcuts by Tgsachse.
-sc --init
+python3 /usr/bin/sc-init
