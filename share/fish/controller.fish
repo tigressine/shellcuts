@@ -6,7 +6,7 @@ set F_BASHMARKS ~/.config/shellcuts/fish/bashmarks-aliases.fish
 # Core function of program. Sends first two arguments to sc-handler.
 # sc-handler returns a function, which is then executed.
 function sc
-    eval (python3 sc-handler $argv)
+    eval (python3 /usr/bin/sc-handler $argv)
 end
 
 # Full-name aliases.
