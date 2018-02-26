@@ -1,98 +1,24 @@
-"""
-"""
-import re
-import shutil
-import subprocess
 from pathlib import Path
+import subprocess
+import shutil
+import re
 
-### CONSTANTS ###
-D_CONFIG = Path('~/.config/shellcuts').expanduser()
-SHELL_DATA = {
-    'bash': {'share' : Path('/usr/share/shellcuts/bash'),
-             'config' : Path('~/.bashrc').expanduser(),
-             'exclude' : ('bashrc.example',
-                          'bashmarks-aliases.sh')},
-                          
-    'zsh': {'share' : Path('/usr/share/shellcuts/zsh'),
-            'config' : Path('~/.zshrc').expanduser(),
-            'exclude' : ('zshrc.example',
-                         'bashmarks-aliases.sh')},
+D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
-    'fish': {'share' : Path('/usr/share/shellcuts/fish'),
-             'config' : Path('~/.config/fish/config.fish').expanduser(),
-             'exclude' : ('config.fish.example',
-                          'bashmarks-aliases.fish')}
-}
+SHELLS = {
+    'bash' : {'config' : Path('~/.bashrc').expanduser(),
+              'example' : Path('/usr/share/shellcuts/bash/bashrc.example'),
+              'controller' : Path('/usr/share/shellcuts/bash/controller.sh')},
+    'zsh' : {'config' : Path('~/.zshrc').expanduser(),
+             'example' : Path('/usr/share/shellcuts/zsh/zshrc.example'),
+             'controller' : Path('/usr/share/shellcuts/zsh/controller.sh')},
+    'fish' : {'config' : Path('~/.config/fish/config.fish').expanduser(),
+              'example' : Path('/usr/share/shellcuts/fish/config.fish.example'),
+              'controller' : Path('/usr/share/shellcuts/fish/controller.fish')}}
 
-
-### FUNCTIONS ###
-def check_home_config_dir():
-    """"""
-    D_CONFIG.mkdir(parents=True, exist_ok=True)
-
-def check_shell_config(shell):
-    """"""
-    SHELL_DATA[shell]['config'].touch(exist_ok=True)
-
-def install_share_files(shell):
-    """"""
-    check_home_config_dir()
-
-    if (D_CONFIG / shell).is_dir():
-        shutil.rmtree(str(D_CONFIG / shell))
-        
-    shutil.copytree(str(SHELL_DATA[shell]['share']),
-                    str(D_CONFIG / shell),
-                    ignore=shutil.ignore_patterns(*SHELL_DATA[shell]['exclude']))
-
-def modify_shell_config(shell):
-    """"""
-    check_shell_config(shell)
-
-    F_CONFIG = SHELL_DATA[shell]['share'] / SHELL_DATA[shell]['exclude'][0]
-    new_config_text =  (SHELL_DATA[shell]['config'].read_text() + 
-                        '\n' +
-                        F_CONFIG.read_text())
-    SHELL_DATA[shell]['config'].write_text(new_config_text)
-
-
-### SCREEN ###
-def get_output(command):
-    """"""
-    process = subprocess.Popen(command, stdout=subprocess.PIPE)
-    return process.communicate()[0].decode('UTF-8')
-
-def detect_shells():
-    """"""
-    shells = []
-    for shell in SHELL_DATA.keys():
-        if get_output(['which', shell]):
-            shells.append(shell)
-
-    return shells
-
-def automatic_configuration():
-    shells = detect_shells()
-
-    subprocess.run(['clear'])
-    print("youve got these shells:")
-    for i, shell in enumerate(shells):
-        print("({0})  {1}".format(i, shell))
-
-    print("Enter the number(s) of the shell(s) you want to automatically configure Shellcuts for")
-    print("To cancel, press 'q'")
-    numbers = input(": ")
-    range_ = '[q0-{}]'.format(len(shells) - 1)
-    numz = set(re.findall(range_, str(numbers)))
-    #print(numz)
-    if 'q' in numz:
-        print('quitting')
-        exit(0)
-
-
-
-INIT = [
+INIT_SCRIPT = [
     'Thank you for installing Shellcuts.',
+    '',
     'This is the initialization script to help you finish installation. If you',
     'are still seeing this prompt after automatic configuration, try restarting',
     'your terminal/reloading your shell.',
@@ -106,21 +32,34 @@ INIT = [
     '',
     'Enter the number next to the command you wish to perform: ']
 
-def main():
-    format2 = '{:^80}'
-    formatt = '{:80}'
+MANUAL_SCRIPT = [
+    'To install for {0}:',
+    '',
+    '(1) Copy the contents of {0}',
+    '    to {0}',
+    '    If the destination file does not exist then create it.',
+    '',
+    '(2) Copy the controller file located at {0}',
+    '    to {0}',
+    '',
+    'That\'s it! Restart your shell session to begin using Shellcuts.']
 
+# DONE #done
+def clear_screen():
+    """Clear the screen."""
     subprocess.run(['clear'])
-    print(format2.format(INIT[0]))
-    print(format2.format(''))
-    [print(formatt.format(line)) for line in INIT[1:-1:]]
 
-    command = input(INIT[-1])
-    while command not in ['0','1','2','3']:
-        command = input('Invalid command, try again: ')
+# DONE #done
+def welcome():
+    """Welcome the user and present a list of options."""
+    clear_screen()
+    
+    [print(line) for line in INIT_SCRIPT[:-1:]]
+
+    command = check_input(INIT_SCRIPT[-1], ['0', '1', '2', '3'])
 
     if command == '0':
-        exit(0)
+        exit_script()
     elif command == '1':
         automatic_configuration()
     elif command == '2':
@@ -128,5 +67,156 @@ def main():
     elif command == '3':
         print_script()
 
-if __name__ == '__main__':
-    main()
+# DONE #DONE
+def exit_script():
+    """Exit the script."""
+    print("Exiting script...")
+    exit(0)
+
+# DONE #DONE
+def print_script():
+    """Print the contents of this file."""
+    with open(__file__) as f:
+        print(f.read())
+
+# DONE #DONE
+def format_manual_script(shell):
+    """Format the manual script using provided shell key."""
+    formatted_script = MANUAL_SCRIPT
+
+    formatted_script[0] = formatted_script[0].format(shell)
+    formatted_script[2] = formatted_script[2].format(str(SHELLS[shell]['example']))
+    formatted_script[3] = formatted_script[3].format(str(SHELLS[shell]['config']))
+    formatted_script[6] = formatted_script[6].format(str(SHELLS[shell]['controller']))
+    formatted_script[7] = formatted_script[7].format(str(D_SHELLCUTS) + '/' + shell + '/')
+
+    return formatted_script
+
+# DONE DONE
+def manual_configuration():
+    """Show the manual configuration menus."""
+    shells = detect_shells()
+
+    clear_screen()
+    
+    print_installed_shells()
+
+    prompt = "Enter the number next to the shell you'd like to install: "
+    command = int(check_input(prompt, [str(num) for num in range(len(shells))]))
+
+    clear_screen()
+    [print(line) for line in format_manual_script(shells[command])]
+
+# DONE DONE
+def check_input(prompt, acceptable):
+    """"""
+    tries = 0
+
+    command = input(prompt)
+
+    while command not in acceptable:
+        tries += 1
+        if tries > 5:
+            print("Tries exceeded. Exiting...")
+            exit(0)
+        else:
+            command = input("Invalid response, try again: ")
+
+    return command
+
+def print_installed_shells():
+    print("Currently installed shells:")
+    [print("{0} {1}".format(shell[0], shell[1])) for shell in enumerate(SHELLS.keys())]
+
+def automatic_configuration():
+    """"""
+    shells = detect_shells()
+    selected_shells = []
+
+    clear_screen()
+
+    command = check_input("Automatically configure for all shells? (yes/no): ",
+                           ['yes', 'y', 'Y', 'Yes', 'no', 'n', 'N', 'No'])
+    
+    if command in ['yes', 'y', 'Y', 'Yes']:
+        selected_shells = shells
+    elif command in ['no', 'n', 'N', 'No']:
+        print_installed_shells()
+
+        print("Enter the number(s) next to the shell(s) you'd like to install Shellcuts for.")
+        command = input("Separate numbers by a space: ")
+        for num in range(len(shells)):
+            if re.search(str(num), command):
+                selected_shells.append(shells[num])
+
+        if len(selected_shells) == 0:
+            print("No shells selected. Exiting...")
+            exit(0)
+
+    for shell in selected_shells:
+        automatically_install(shell)
+    
+def automatically_install(shell):
+    print("Installing Shellcuts for the " + shell + " shell...")
+
+    create_directory(D_SHELLCUTS)
+    create_shell_config(shell)
+    edit_config(shell)
+    install_for_shell(shell)
+
+def confirm_shells():
+    pass
+    # return shells desired
+
+# DONE #DONE
+def get_output(command):
+    """Run command and return output."""
+    process = subprocess.Popen(command, stdout=subprocess.PIPE)
+    
+    return process.communicate()[0].decode('UTF-8')
+
+# DONE #DONE
+def detect_shells():
+    """Return shells detected by 'which' command."""
+    detected_shells = []
+    
+    for shell in SHELLS.keys():
+        if get_output(['which', shell]):
+            detected_shells.append(shell)
+    
+    return detected_shells
+
+# DONE #DONE --weird write protected message when deleting
+def install_for_shell(shell):
+    destination_dir = D_SHELLCUTS.joinpath(shell)
+    create_directory(destination_dir)
+
+    shutil.copyfile(SHELLS[shell]['controller'],
+                    destination_dir.joinpath(SHELLS[shell]['controller'].name))
+    
+# DONE #DONE
+def edit_config(shell):
+    """Add needed text to config file for specified shell."""
+    create_shell_config(shell)
+    
+    new_config = (SHELLS[shell]['config'].read_text() + '\n' +
+                  SHELLS[shell]['example'].read_text())
+    
+    SHELLS[shell]['config'].write_text(new_config)
+
+# DONE #DONE
+def create_shell_config(shell):
+    """Create config file if it does not exist."""
+    SHELLS[shell]['config'].parent.mkdir(parents=True, exist_ok=True)
+    SHELLS[shell]['config'].touch(exist_ok=True)
+
+# DONE #DONE
+def create_directory(directory):
+    """Create directory structure if it does not exist."""
+    directory.mkdir(parents=True, exist_ok=True)
+
+try:
+    welcome()
+except KeyboardInterrupt:
+    print()
+    exit(0)
