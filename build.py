@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""Builds Shellcuts into a variety of packages.
+
+Feel free to submit additions to this script to include more types of packages.
+One of my primary goals for Shellcuts is universal support.
+
+Part of Shellcuts by Tgsachse.
+"""
 import os
 import shutil
 import subprocess
