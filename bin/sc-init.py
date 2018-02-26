@@ -11,6 +11,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
+# TODO: change to shutil which fam: CLEAN
+
 ### CONSTANTS ###
 D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
