@@ -8,47 +8,49 @@ Part of Shellcuts by Tgsachse.
 """
 import os
 import json
-import pathlib
+from pathlib import Path
 import argparse
 
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
-D_SHELLCUTS = os.path.expanduser('~/.config/shellcuts/')
-F_SHELLCUTS = 'shellcuts.json'
+F_SHELLCUTS = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 
 
 ### COMMANDS ###
-def command_bashmarks():
+def command_bashmarks(enable):
     """Unimplemented."""
-    error_message(2)
+    if enable:
+        pass        
+    
+    #error_message(2)
 
-def command_delete():
+def command_delete(shellcut):
     """Delete shellcut and write to file."""
     command = ':'
-    shellcuts.pop(arguments.delete, None)
+    shellcuts.pop(shellcut, None)
     write_shellcuts()
     print(command)
 
-def command_go():
+def command_go(shellcut):
     """Access shellcut and return 'cd' command to shellcut dir."""
     try:
-        command = 'cd ' + shellcuts[arguments.shellcut]
+        command = 'cd ' + shellcuts[shellcut]
         print(command)
     except KeyError:
         error_message(1)
 
-def command_help():
+def command_help(*_):
     """Open man page."""
     command = 'man shellcuts'
     print(command)
 
-def command_init():
+def command_init(*_):
     """Run initialization script."""
     command = '/usr/bin/sc'
     print(command)
 
-def command_list():
+def command_list(*_):
     """List all shellcuts."""
     command = 'printf "SHELLCUTS\n'
     for shellcut in shellcuts:
@@ -56,22 +58,22 @@ def command_list():
     command = command[:-1] + '\n"'
     print(command)
 
-def command_new():
+def command_new(shellcut):
     """Add shellcut and write to file."""
     command = ':'
-    shellcuts[arguments.new] = os.getcwd()
+    shellcuts[shellcut] = os.getcwd()
     write_shellcuts()
     print(command)
 
-def command_print():
+def command_print(shellcut):
     """Print specific shellcut."""
     try:
-        command = 'printf "' + arguments.print + ' : ' + shellcuts[arguments.print] + '\n"'
+        command = 'printf "' + shellcut + ' : ' + shellcuts[shellcut] + '\n"'
         print(command)
     except KeyError:
         error_message(1)
 
-def command_version():
+def command_version(*_):
     """Echo version information found in F_VERSION."""
     command = 'printf "'
     for line in load_version_info():
@@ -79,7 +81,7 @@ def command_version():
     command = command[:-1] + '\n"'
     print(command)
 
-def command_z():
+def command_z(enable):
     """Unimplemented."""
     error_message(2)
 
@@ -137,7 +139,7 @@ def load_shellcuts():
     Returns empty dictionary if the file does not exist.
     """
     try:
-        with open(D_SHELLCUTS + F_SHELLCUTS, 'r') as f:
+        with open(F_SHELLCUTS, 'r') as f:
             shellcuts = json.load(f)
     except FileNotFoundError:
         shellcuts = {}
@@ -158,10 +160,9 @@ def write_shellcuts():
     
     Creates appropriate directory if it doesn't exist.
     """
-    if not pathlib.Path(D_SHELLCUTS).is_dir():
-        pathlib.Path(D_SHELLCUTS).mkdir(parents=True)
+    F_SHELLCUTS.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(D_SHELLCUTS + F_SHELLCUTS, 'w') as f:
+    with open(F_SHELLCUTS, 'w') as f:
         json.dump(shellcuts, f)
 
 
@@ -185,8 +186,9 @@ command_pairs = (
 
 # For each in tuple, if value is not 'None', execute associated function.
 for pair in command_pairs:
+    print(pair)
     if pair[0] != None:
-        pair[1]()
-        exit(0)
-
-command_help()
+        pair[1](pair[0])
+        break
+else:
+    command_help()
