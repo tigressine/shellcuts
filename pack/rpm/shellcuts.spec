@@ -1,5 +1,3 @@
-# docstring
-
 Name:           shellcuts 
 Version:        1.1.2
 Release:        1%{?dist}
