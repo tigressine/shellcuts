@@ -1,8 +1,17 @@
-from pathlib import Path
-import subprocess
-import shutil
-import re
+"""Finishes installation of Shellcuts.
 
+This script can automatically configure Shellcuts to be used with various
+supported shells. It can also print help to allow users to do the manual
+configuration.
+
+Part of Shellcuts by Tgsachse.
+"""
+import re
+import shutil
+import subprocess
+from pathlib import Path
+
+# CONSTANTS
 D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
 SHELLS = {
@@ -44,12 +53,10 @@ MANUAL_SCRIPT = [
     '',
     'That\'s it! Restart your shell session to begin using Shellcuts.']
 
-# DONE #done
 def clear_screen():
     """Clear the screen."""
     subprocess.run(['clear'])
 
-# DONE #done
 def welcome():
     """Welcome the user and present a list of options."""
     clear_screen()
@@ -67,19 +74,16 @@ def welcome():
     elif command == '3':
         print_script()
 
-# DONE #DONE
 def exit_script():
     """Exit the script."""
     print("Exiting script...")
     exit(0)
 
-# DONE #DONE
 def print_script():
     """Print the contents of this file."""
     with open(__file__) as f:
         print(f.read())
 
-# DONE #DONE
 def format_manual_script(shell):
     """Format the manual script using provided shell key."""
     formatted_script = MANUAL_SCRIPT
@@ -92,7 +96,6 @@ def format_manual_script(shell):
 
     return formatted_script
 
-# DONE DONE
 def manual_configuration():
     """Show the manual configuration menus."""
     shells = detect_shells()
@@ -102,19 +105,20 @@ def manual_configuration():
     print_installed_shells()
 
     prompt = "Enter the number next to the shell you'd like to install: "
-    command = int(check_input(prompt, [str(num) for num in range(len(shells))]))
+    acceptable_list = [str(num) for num in range(len(shells))]
+    command = int(check_input(prompt, acceptable_list))
 
     clear_screen()
-    [print(line) for line in format_manual_script(shells[command])]
 
-# DONE DONE
-def check_input(prompt, acceptable):
+    formatted_manual_script = format_manual_script(shells[command])
+    [print(line) for line in formatted_manual_script]
+
+def check_input(prompt, acceptable_list):
     """"""
-    tries = 0
-
     command = input(prompt)
 
-    while command not in acceptable:
+    tries = 0
+    while command not in acceptable_list:
         tries += 1
         if tries > 5:
             print("Tries exceeded. Exiting...")
@@ -126,7 +130,8 @@ def check_input(prompt, acceptable):
 
 def print_installed_shells():
     print("Currently installed shells:")
-    [print("{0} {1}".format(shell[0], shell[1])) for shell in enumerate(SHELLS.keys())]
+    shell_list = enumerate(SHELLS.keys())
+    [print("{0} {1}".format(shell[0], shell[1])) for shell in shell_list]
 
 def automatic_configuration():
     """"""
@@ -145,6 +150,7 @@ def automatic_configuration():
 
         print("Enter the number(s) next to the shell(s) you'd like to install Shellcuts for.")
         command = input("Separate numbers by a space: ")
+        
         for num in range(len(shells)):
             if re.search(str(num), command):
                 selected_shells.append(shells[num])
@@ -154,28 +160,18 @@ def automatic_configuration():
             exit(0)
 
     for shell in selected_shells:
-        automatically_install(shell)
-    
-def automatically_install(shell):
-    print("Installing Shellcuts for the " + shell + " shell...")
+        print("Installing Shellcuts for the " + shell + " shell...")
+        create_directory(D_SHELLCUTS)
+        create_config(shell)
+        edit_config(shell)
+        install_controller(shell)
 
-    create_directory(D_SHELLCUTS)
-    create_shell_config(shell)
-    edit_config(shell)
-    install_for_shell(shell)
-
-def confirm_shells():
-    pass
-    # return shells desired
-
-# DONE #DONE
 def get_output(command):
     """Run command and return output."""
     process = subprocess.Popen(command, stdout=subprocess.PIPE)
     
     return process.communicate()[0].decode('UTF-8')
 
-# DONE #DONE
 def detect_shells():
     """Return shells detected by 'which' command."""
     detected_shells = []
@@ -186,31 +182,27 @@ def detect_shells():
     
     return detected_shells
 
-# DONE #DONE --weird write protected message when deleting
-def install_for_shell(shell):
+def install_controller(shell):
     destination_dir = D_SHELLCUTS.joinpath(shell)
     create_directory(destination_dir)
 
     shutil.copyfile(SHELLS[shell]['controller'],
                     destination_dir.joinpath(SHELLS[shell]['controller'].name))
     
-# DONE #DONE
 def edit_config(shell):
     """Add needed text to config file for specified shell."""
-    create_shell_config(shell)
+    create_config(shell)
     
     new_config = (SHELLS[shell]['config'].read_text() + '\n' +
                   SHELLS[shell]['example'].read_text())
     
     SHELLS[shell]['config'].write_text(new_config)
 
-# DONE #DONE
-def create_shell_config(shell):
+def create_config(shell):
     """Create config file if it does not exist."""
-    SHELLS[shell]['config'].parent.mkdir(parents=True, exist_ok=True)
+    create_directory(SHELLS[shell]['config'].parent)
     SHELLS[shell]['config'].touch(exist_ok=True)
 
-# DONE #DONE
 def create_directory(directory):
     """Create directory structure if it does not exist."""
     directory.mkdir(parents=True, exist_ok=True)

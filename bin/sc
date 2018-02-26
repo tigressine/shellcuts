@@ -1,1 +1,1 @@
-sc-init
+python3 /usr/bin/sc-init
