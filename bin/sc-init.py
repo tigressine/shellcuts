@@ -14,17 +14,6 @@ from pathlib import Path
 ### CONSTANTS ###
 D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
-SHELLS = {
-    'bash' : {'config' : Path('~/.bashrc').expanduser(),
-              'example' : Path('/usr/share/shellcuts/bash/bashrc.example'),
-              'controller' : Path('/usr/share/shellcuts/bash/controller.sh')},
-    'zsh' : {'config' : Path('~/.zshrc').expanduser(),
-             'example' : Path('/usr/share/shellcuts/zsh/zshrc.example'),
-             'controller' : Path('/usr/share/shellcuts/zsh/controller.sh')},
-    'fish' : {'config' : Path('~/.config/fish/config.fish').expanduser(),
-              'example' : Path('/usr/share/shellcuts/fish/config.fish.example'),
-              'controller' : Path('/usr/share/shellcuts/fish/controller.fish')}}
-
 INIT_SCRIPT = [
     'Thank you for installing Shellcuts.',
     '',
@@ -53,26 +42,43 @@ MANUAL_SCRIPT = [
     '',
     'That\'s it! Restart your shell session to begin using Shellcuts.']
 
+SHELLS = {
+    'bash' : {'config' : Path('~/.bashrc').expanduser(),
+              'example' : Path('/usr/share/shellcuts/bash/bashrc.example'),
+              'controller' : Path('/usr/share/shellcuts/bash/controller.sh')},
+    'zsh' : {'config' : Path('~/.zshrc').expanduser(),
+             'example' : Path('/usr/share/shellcuts/zsh/zshrc.example'),
+             'controller' : Path('/usr/share/shellcuts/zsh/controller.sh')},
+    'fish' : {'config' : Path('~/.config/fish/config.fish').expanduser(),
+              'example' : Path('/usr/share/shellcuts/fish/config.fish.example'),
+              'controller' : Path('/usr/share/shellcuts/fish/controller.fish')}}
+
 
 ### FUNCTIONS ###
 def automatic_configuration():
-    """"""
+    """Automatically configure Shellcuts for user.
+    
+    Can install for all shells or only selected shells.
+    """
     shells = detect_shells()
-    selected_shells = []
 
     clear_screen()
 
-    command = check_input("Automatically configure for all shells? (yes/no): ",
-                           ['yes', 'y', 'Y', 'Yes', 'no', 'n', 'N', 'No'])
+    prompt = "Automatically configure for all shells? (yes/no): "
+    yes_list = ['yes', 'y', 'Y', 'Yes']
+    no_list = ['no', 'n', 'N', 'No']
+    command = check_input(prompt, yes_list + no_list)
     
-    if command in ['yes', 'y', 'Y', 'Yes']:
+    selected_shells = []
+    if command in yes_list:
         selected_shells = shells
-    elif command in ['no', 'n', 'N', 'No']:
+    elif command in no_list:
         print_installed_shells()
 
         print("Enter the number(s) next to the shell(s) you'd like to install Shellcuts for.")
         command = input("Separate numbers by a space: ")
         
+        # Extracts numbers from user command string.
         for num in range(len(shells)):
             if re.search(str(num), command):
                 selected_shells.append(shells[num])
@@ -81,6 +87,7 @@ def automatic_configuration():
             print("No shells selected. Exiting...")
             exit(0)
 
+    # Runs installation functions for all shells in selected_shells.
     for shell in selected_shells:
         print("Installing Shellcuts for the " + shell + " shell...")
         create_directory(D_SHELLCUTS)
@@ -89,7 +96,7 @@ def automatic_configuration():
         install_controller(shell)
 
 def check_input(prompt, acceptable_list):
-    """"""
+    """Sanitize user input based on list of acceptable values."""
     command = input(prompt)
 
     tries = 0
@@ -130,9 +137,11 @@ def edit_config(shell):
     """Add needed text to config file for specified shell."""
     create_config(shell)
     
+    # Concatenates the example text to the config text.
     new_config = (SHELLS[shell]['config'].read_text() + '\n' +
                   SHELLS[shell]['example'].read_text())
     
+    # Writes newly concatenated text to file.
     SHELLS[shell]['config'].write_text(new_config)
 
 def exit_script():
@@ -144,6 +153,7 @@ def format_manual_script(shell):
     """Format the manual script using provided shell key."""
     formatted_script = MANUAL_SCRIPT
 
+    # Formats lines in the MANUAL_SCRIPT based on shell.
     formatted_script[0] = formatted_script[0].format(shell)
     formatted_script[2] = formatted_script[2].format(str(SHELLS[shell]['example']))
     formatted_script[3] = formatted_script[3].format(str(SHELLS[shell]['config']))
@@ -159,7 +169,9 @@ def get_output(command):
     return process.communicate()[0].decode('UTF-8')
 
 def install_controller(shell):
+    """Copy controller file into configuration directory."""
     destination_dir = D_SHELLCUTS.joinpath(shell)
+    
     create_directory(destination_dir)
 
     shutil.copyfile(SHELLS[shell]['controller'],
@@ -179,11 +191,14 @@ def manual_configuration():
 
     clear_screen()
 
+    # Formats the MANUAL_SCRIPT, then prints it line-by-line.
     formatted_manual_script = format_manual_script(shells[command])
     [print(line) for line in formatted_manual_script]
 
 def print_installed_shells():
+    """Enumerate installed shells to the screen."""
     print("Currently installed shells:")
+
     shell_list = enumerate(SHELLS.keys())
     [print("{0} {1}".format(shell[0], shell[1])) for shell in shell_list]
 
@@ -211,6 +226,8 @@ def welcome():
 
 
 ### MAIN PROGRAM ###
+# Try except wrapper gets rid of ugly stacktrace when using control-c to
+# close the script.
 try:
     welcome()
 except KeyboardInterrupt:
