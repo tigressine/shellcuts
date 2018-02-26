@@ -8,22 +8,41 @@ Part of Shellcuts by Tgsachse.
 """
 import os
 import json
-from pathlib import Path
+import shutil
 import argparse
+from pathlib import Path
+
+# CHANGE TO SHUTIL WHICH???
 
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
-F_SHELLCUTS = Path('~/.config/shellcuts/shellcuts.json').expanduser()
+F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
+D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 
 
 ### COMMANDS ###
 def command_bashmarks(enable):
-    """Unimplemented."""
-    if enable:
-        pass        
+    """Enable or disable Bashmarks syntax.
     
-    #error_message(2)
+    Determines which shells Shellcuts is configured to use, then either
+    installs the bashmarks-alias files into the appropriate config folder, or
+    removes them.
+    """
+    for install in [item for item in F_SHELLCUTS_JSON.parent.iterdir() if item.is_dir()]:
+        if enable:
+            for f in D_SHELL_CONFIGS.joinpath(install.name).iterdir():
+                if f.stem == 'bashmarks-aliases':
+                    shutil.copyfile(f, install.joinpath(f.name))
+                    break
+            else:
+                error_message(4)
+
+        elif not enable:
+            for f in install.iterdir():
+                if f.stem == 'bashmarks-aliases':
+                    os.remove(f)
+                    break
 
 def command_delete(shellcut):
     """Delete shellcut and write to file."""
@@ -127,9 +146,10 @@ def error_message(error):
     Includes a master dictionary of all supported errors. These are accessible
     by number.
     """
-    ERRORS = {1 : "That shellcut does not exist",
+    ERRORS = {1 : "That shellcut does not exist.",
               2 : "This feature is unimplemented.",
-              3 : "Version information not found."}
+              3 : "Version information not found.",
+              4 : "Installed files are not in the expected place."}
     command = 'printf "ERROR {0}: {1}"'.format(error, ERRORS[error])
     print(command)
 
@@ -139,7 +159,7 @@ def load_shellcuts():
     Returns empty dictionary if the file does not exist.
     """
     try:
-        with open(F_SHELLCUTS, 'r') as f:
+        with open(F_SHELLCUTS_JSON, 'r') as f:
             shellcuts = json.load(f)
     except FileNotFoundError:
         shellcuts = {}
@@ -160,9 +180,9 @@ def write_shellcuts():
     
     Creates appropriate directory if it doesn't exist.
     """
-    F_SHELLCUTS.parent.mkdir(parents=True, exist_ok=True)
+    F_SHELLCUTS_JSON.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(F_SHELLCUTS, 'w') as f:
+    with open(F_SHELLCUTS_JSON, 'w') as f:
         json.dump(shellcuts, f)
 
 
@@ -186,8 +206,9 @@ command_pairs = (
 
 # For each in tuple, if value is not 'None', execute associated function.
 for pair in command_pairs:
-    print(pair)
     if pair[0] != None:
+        # Passes value to corresponding function. Functions are designed to
+        # handle this value even if they don't need it.
         pair[1](pair[0])
         break
 else:
