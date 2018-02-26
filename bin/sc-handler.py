@@ -111,7 +111,7 @@ def create_parser():
 
     Defines arguments and then returns the parser.
     """
-    parser = argparse.ArgumentParser(add_help=False)
+    parser = argparse.ArgumentParser(add_help=False)#, usage=argparse.SUPPRESS)
     
     parser.add_argument('shellcut', default=None, nargs='?')
     parser.add_argument('-d', '--delete')
@@ -188,8 +188,15 @@ def write_shellcuts():
 
 ### START MAIN PROGRAM ###
 parser = create_parser()
-arguments = parser.parse_args()
+arguments, unknown = parser.parse_known_args()
 shellcuts = load_shellcuts()
+
+if len(unknown) > 0:
+    command_help()
+    exit(0)
+
+# test
+parser.error("killme")
 
 # This tuple associates arguments from the parser with their functions.
 command_pairs = (
