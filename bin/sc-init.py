@@ -11,7 +11,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-# CONSTANTS
+### CONSTANTS ###
 D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
 SHELLS = {
@@ -53,86 +53,8 @@ MANUAL_SCRIPT = [
     '',
     'That\'s it! Restart your shell session to begin using Shellcuts.']
 
-def clear_screen():
-    """Clear the screen."""
-    subprocess.run(['clear'])
 
-def welcome():
-    """Welcome the user and present a list of options."""
-    clear_screen()
-    
-    [print(line) for line in INIT_SCRIPT[:-1:]]
-
-    command = check_input(INIT_SCRIPT[-1], ['0', '1', '2', '3'])
-
-    if command == '0':
-        exit_script()
-    elif command == '1':
-        automatic_configuration()
-    elif command == '2':
-        manual_configuration()
-    elif command == '3':
-        print_script()
-
-def exit_script():
-    """Exit the script."""
-    print("Exiting script...")
-    exit(0)
-
-def print_script():
-    """Print the contents of this file."""
-    with open(__file__) as f:
-        print(f.read())
-
-def format_manual_script(shell):
-    """Format the manual script using provided shell key."""
-    formatted_script = MANUAL_SCRIPT
-
-    formatted_script[0] = formatted_script[0].format(shell)
-    formatted_script[2] = formatted_script[2].format(str(SHELLS[shell]['example']))
-    formatted_script[3] = formatted_script[3].format(str(SHELLS[shell]['config']))
-    formatted_script[6] = formatted_script[6].format(str(SHELLS[shell]['controller']))
-    formatted_script[7] = formatted_script[7].format(str(D_SHELLCUTS) + '/' + shell + '/')
-
-    return formatted_script
-
-def manual_configuration():
-    """Show the manual configuration menus."""
-    shells = detect_shells()
-
-    clear_screen()
-    
-    print_installed_shells()
-
-    prompt = "Enter the number next to the shell you'd like to install: "
-    acceptable_list = [str(num) for num in range(len(shells))]
-    command = int(check_input(prompt, acceptable_list))
-
-    clear_screen()
-
-    formatted_manual_script = format_manual_script(shells[command])
-    [print(line) for line in formatted_manual_script]
-
-def check_input(prompt, acceptable_list):
-    """"""
-    command = input(prompt)
-
-    tries = 0
-    while command not in acceptable_list:
-        tries += 1
-        if tries > 5:
-            print("Tries exceeded. Exiting...")
-            exit(0)
-        else:
-            command = input("Invalid response, try again: ")
-
-    return command
-
-def print_installed_shells():
-    print("Currently installed shells:")
-    shell_list = enumerate(SHELLS.keys())
-    [print("{0} {1}".format(shell[0], shell[1])) for shell in shell_list]
-
+### FUNCTIONS ###
 def automatic_configuration():
     """"""
     shells = detect_shells()
@@ -166,37 +88,24 @@ def automatic_configuration():
         edit_config(shell)
         install_controller(shell)
 
-def get_output(command):
-    """Run command and return output."""
-    process = subprocess.Popen(command, stdout=subprocess.PIPE)
-    
-    return process.communicate()[0].decode('UTF-8')
+def check_input(prompt, acceptable_list):
+    """"""
+    command = input(prompt)
 
-def detect_shells():
-    """Return shells detected by 'which' command."""
-    detected_shells = []
-    
-    for shell in SHELLS.keys():
-        if get_output(['which', shell]):
-            detected_shells.append(shell)
-    
-    return detected_shells
+    tries = 0
+    while command not in acceptable_list:
+        tries += 1
+        if tries > 5:
+            print("Tries exceeded. Exiting...")
+            exit(0)
+        else:
+            command = input("Invalid response, try again: ")
 
-def install_controller(shell):
-    destination_dir = D_SHELLCUTS.joinpath(shell)
-    create_directory(destination_dir)
+    return command
 
-    shutil.copyfile(SHELLS[shell]['controller'],
-                    destination_dir.joinpath(SHELLS[shell]['controller'].name))
-    
-def edit_config(shell):
-    """Add needed text to config file for specified shell."""
-    create_config(shell)
-    
-    new_config = (SHELLS[shell]['config'].read_text() + '\n' +
-                  SHELLS[shell]['example'].read_text())
-    
-    SHELLS[shell]['config'].write_text(new_config)
+def clear_screen():
+    """Clear the screen."""
+    subprocess.run(['clear'])
 
 def create_config(shell):
     """Create config file if it does not exist."""
@@ -207,6 +116,101 @@ def create_directory(directory):
     """Create directory structure if it does not exist."""
     directory.mkdir(parents=True, exist_ok=True)
 
+def detect_shells():
+    """Return shells detected by 'which' command."""
+    detected_shells = []
+    
+    for shell in SHELLS.keys():
+        if get_output(['which', shell]):
+            detected_shells.append(shell)
+    
+    return detected_shells
+    
+def edit_config(shell):
+    """Add needed text to config file for specified shell."""
+    create_config(shell)
+    
+    new_config = (SHELLS[shell]['config'].read_text() + '\n' +
+                  SHELLS[shell]['example'].read_text())
+    
+    SHELLS[shell]['config'].write_text(new_config)
+
+def exit_script():
+    """Exit the script."""
+    print("Exiting script...")
+    exit(0)
+
+def format_manual_script(shell):
+    """Format the manual script using provided shell key."""
+    formatted_script = MANUAL_SCRIPT
+
+    formatted_script[0] = formatted_script[0].format(shell)
+    formatted_script[2] = formatted_script[2].format(str(SHELLS[shell]['example']))
+    formatted_script[3] = formatted_script[3].format(str(SHELLS[shell]['config']))
+    formatted_script[6] = formatted_script[6].format(str(SHELLS[shell]['controller']))
+    formatted_script[7] = formatted_script[7].format(str(D_SHELLCUTS) + '/' + shell + '/')
+
+    return formatted_script
+
+def get_output(command):
+    """Run command and return output."""
+    process = subprocess.Popen(command, stdout=subprocess.PIPE)
+    
+    return process.communicate()[0].decode('UTF-8')
+
+def install_controller(shell):
+    destination_dir = D_SHELLCUTS.joinpath(shell)
+    create_directory(destination_dir)
+
+    shutil.copyfile(SHELLS[shell]['controller'],
+                    destination_dir.joinpath(SHELLS[shell]['controller'].name))
+
+def manual_configuration():
+    """Show the manual configuration menus."""
+    shells = detect_shells()
+
+    clear_screen()
+    
+    print_installed_shells()
+
+    prompt = "Enter the number next to the shell you'd like to install: "
+    acceptable_list = [str(num) for num in range(len(shells))]
+    command = int(check_input(prompt, acceptable_list))
+
+    clear_screen()
+
+    formatted_manual_script = format_manual_script(shells[command])
+    [print(line) for line in formatted_manual_script]
+
+def print_installed_shells():
+    print("Currently installed shells:")
+    shell_list = enumerate(SHELLS.keys())
+    [print("{0} {1}".format(shell[0], shell[1])) for shell in shell_list]
+
+def print_script():
+    """Print the contents of this file."""
+    with open(__file__) as f:
+        print(f.read())
+
+def welcome():
+    """Welcome the user and present a list of options."""
+    clear_screen()
+    
+    [print(line) for line in INIT_SCRIPT[:-1:]]
+
+    command = check_input(INIT_SCRIPT[-1], ['0', '1', '2', '3'])
+
+    if command == '0':
+        exit_script()
+    elif command == '1':
+        automatic_configuration()
+    elif command == '2':
+        manual_configuration()
+    elif command == '3':
+        print_script()
+
+
+### MAIN PROGRAM ###
 try:
     welcome()
 except KeyboardInterrupt:
