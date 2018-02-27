@@ -11,8 +11,6 @@ import shutil
 import subprocess
 from pathlib import Path
 
-# TODO: change to shutil which fam: CLEAN
-
 ### CONSTANTS ###
 D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
@@ -75,7 +73,7 @@ def automatic_configuration():
     if command in yes_list:
         selected_shells = shells
     elif command in no_list:
-        print_installed_shells()
+        print_installed_shells(shells)
 
         print("Enter the number(s) next to the shell(s) you'd like to install Shellcuts for.")
         command = input("Separate numbers by a space: ")
@@ -130,7 +128,7 @@ def detect_shells():
     detected_shells = []
     
     for shell in SHELLS.keys():
-        if get_output(['which', shell]):
+        if shutil.which(shell):
             detected_shells.append(shell)
     
     return detected_shells
@@ -164,12 +162,6 @@ def format_manual_script(shell):
 
     return formatted_script
 
-def get_output(command):
-    """Run command and return output."""
-    process = subprocess.Popen(command, stdout=subprocess.PIPE)
-    
-    return process.communicate()[0].decode('UTF-8')
-
 def install_controller(shell):
     """Copy controller file into configuration directory."""
     destination_dir = D_SHELLCUTS.joinpath(shell)
@@ -197,11 +189,11 @@ def manual_configuration():
     formatted_manual_script = format_manual_script(shells[command])
     [print(line) for line in formatted_manual_script]
 
-def print_installed_shells():
+def print_installed_shells(shells):
     """Enumerate installed shells to the screen."""
     print("Currently installed shells:")
 
-    shell_list = enumerate(SHELLS.keys())
+    shell_list = enumerate(shells)
     [print("{0} {1}".format(shell[0], shell[1])) for shell in shell_list]
 
 def print_script():
