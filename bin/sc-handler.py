@@ -12,11 +12,25 @@ import shutil
 import argparse
 from pathlib import Path
 
+
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
 F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
+HELP_SCRIPT = [
+    'Shellcuts usage: $ sc [--flag] <shellcut>',
+    'To create a new shellcut for the current directory (named example):',
+    '   $ sc -n example',
+    'To jump to that location from anywhere else on the system:',
+    '   $ sc example',
+    'To remove that shellcut:',
+    '   $ sc -d example',
+    'To list all available shellcuts:',
+    '   $ sc -l',
+    'To see the manpage for lots more information and examples:',
+    '   $ man shellcuts']
+
 
 ### SUBCLASSES ###
 class Parser(argparse.ArgumentParser):
@@ -31,6 +45,7 @@ class Parser(argparse.ArgumentParser):
         """Call help command in case of error."""
         command_help()
         exit(0)
+
 
 ### COMMANDS ###
 def command_bashmarks(enable):
@@ -111,7 +126,8 @@ def command_version(*_):
     command = 'printf "'
     for line in load_version_info():
         command += line
-    command = command[:-1] + '\n"'
+    #command = command[:-1] + '\n"'
+    command = command + '"' #use this line instead, combine into function
     print(command)
 
 def command_z(enable):
