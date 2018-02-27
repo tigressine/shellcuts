@@ -12,14 +12,25 @@ import shutil
 import argparse
 from pathlib import Path
 
-# CHANGE TO SHUTIL WHICH???
-
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
 F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 
+### SUBCLASSES ###
+class Parser(argparse.ArgumentParser):
+    """Subclass of ArgumentParser.
+
+    Necessary to override error method in ArgumentParser. Sometimes the
+    ArgumentParser throws errors (if argument syntax is bad, for example) and
+    in all of these cases I want the help menu to appear, instead of the
+    provided error messages.
+    """
+    def error(*_):
+        """Call help command in case of error."""
+        command_help()
+        exit(0)
 
 ### COMMANDS ###
 def command_bashmarks(enable):
@@ -55,7 +66,10 @@ def command_go(shellcut):
     """Access shellcut and return 'cd' command to shellcut dir."""
     try:
         command = 'cd ' + shellcuts[shellcut]
-        print(command)
+        if Path(shellcuts[shellcut]).exists():
+            print(command)
+        else:
+            error_message(5)
     except KeyError:
         error_message(1)
 
@@ -66,7 +80,7 @@ def command_help(*_):
 
 def command_init(*_):
     """Run initialization script."""
-    command = '/usr/bin/sc'
+    command = 'python3 /usr/bin/sc-init'
     print(command)
 
 def command_list(*_):
@@ -111,7 +125,7 @@ def create_parser():
 
     Defines arguments and then returns the parser.
     """
-    parser = argparse.ArgumentParser(add_help=False)#, usage=argparse.SUPPRESS)
+    parser = Parser(add_help=False)
     
     parser.add_argument('shellcut', default=None, nargs='?')
     parser.add_argument('-d', '--delete')
@@ -149,7 +163,8 @@ def error_message(error):
     ERRORS = {1 : "That shellcut does not exist.",
               2 : "This feature is unimplemented.",
               3 : "Version information not found.",
-              4 : "Installed files are not in the expected place."}
+              4 : "Installed files are not in the expected place.",
+              5 : "The path associated with this shellcut is invalid."}
     command = 'printf "ERROR {0}: {1}"'.format(error, ERRORS[error])
     print(command)
 
@@ -191,12 +206,10 @@ parser = create_parser()
 arguments, unknown = parser.parse_known_args()
 shellcuts = load_shellcuts()
 
+# If anything unknown is passed, show help and exit.
 if len(unknown) > 0:
     command_help()
     exit(0)
-
-# test
-parser.error("killme")
 
 # This tuple associates arguments from the parser with their functions.
 command_pairs = (
