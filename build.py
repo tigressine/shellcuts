@@ -54,7 +54,7 @@ def build_deb():
 def build_rpm():
     """Build RPM package from source."""
 
-    ARCHIVE = 'shellcuts-1.1.2'
+    ARCHIVE = 'v1.2.0'
     RPM_BUILD = expanduser('~/rpmbuild')
     TARBALL_CONTENTS = ['docs/', 'share/', 'bin/']
     TARBALL = expanduser('~/rpmbuild/SOURCES/') + ARCHIVE
