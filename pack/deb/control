@@ -1,5 +1,5 @@
 Package: shellcuts
-Version: 1.1.2
+Version: 1.2.0
 Section: utils
 Depends: python3
 Architecture: all
