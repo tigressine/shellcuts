@@ -7,14 +7,16 @@ Shellcuts are directory shortcuts for your shell. This program allows you to sav
 - lists all saved shellcuts
 - deletes shellcuts by name
 - saves shellcuts on a per-user basis
-- supports Bashmarks syntax for user comfort and familiarity
+- Bashmarks syntax can be enabled for user comfort and familiarity
+- supports Bash, Fish, and Zsh
 
 Planned features include:
 
 - tab completion
-- Fish, Zsh, Csh, Korn shell support
-- installable via APT, Homebrew
+- Csh, Korn shell support
+- installable via APT, DNF, Homebrew
 - z-like_ features
+- local, non-administrator installs
 
 installation
 ------------
@@ -22,28 +24,16 @@ installation
 Shellcuts is meant to be easy to install--use any of the following methods. You need the latest version of `Python 3`_ installed for it to work!
 
 **METHOD 1:** Install with wget and dpkg
-If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then this method will work until APT support is added. Run the following command:
+
+If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then use this method! APT support is hopefully coming soon. Run the following command:
 ::
-  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.1.2/shellcuts.deb && sudo dpkg -i shellcuts.deb
+  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.0/shellcuts.deb && sudo dpkg -i shellcuts.deb
 
-**METHOD 2:** Install with APT_ (PLANNED)
+**METHOD 2:** Install with wget and dnf
 
-If you are running a Linux distribution that uses Apt to manage packages (e.g. Ubuntu, Kubuntu, Debian), run this command to install Shellcuts:
+RedHat-based machines (Fedora, CentOS, etc) should install using this method! DNF support is on the way. Run the following command:
 ::
-  $ sudo apt install shellcuts
-
-**METHOD 3:** Install with Homebrew_ (PLANNED)
-
-If you're on Mac and have Homebrew installed, run this command to install Shellcuts:
-::
-  $ brew install shellcuts
-
-**METHOD 4:** Manually Install with Git_ (PLANNED)
-
-If, for whatever reason, the other methods don't work for you or maybe just aren't your cup of tea, you can clone this repository and use the supplied installation script to manually install the package. This isn't recommended, however, because this method will not automatically keep Shellcuts up-to-date with the latest features. To install this way, run these commands:
-::
-  $ git clone https://www.github.com/tgsachse/shellcuts.git
-  $ ./shellcuts/install_shellcuts.sh
+  $ wget https://placeholder_until_I_get_the_link.rpm && sudo dnf install shellcuts.rpm
 
 usage
 -----
@@ -66,26 +56,32 @@ Feel free to use any of the above or the main ``sc`` command to operate Shellcut
 - ``d`` to delete, equivalent to ``sc -d``
 - ``l`` to list, equivalent to ``sc -l``
 
+This syntax is disabled by default, but it can be enabled easily using this command:
+::
+    $ sc --enable-bashmarks-syntax
+
+flags
+-----
 Here is a list of all available options/flags:
 
-DELETE: ``-d, --delete [shellcut]``
+``-d, --delete [shellcut]``
   Delete the specified shellcut if it exists.
-(planned) HELP: ``-h, --help``
+``-h, --help``
   Display a help menu for quick reference.
-LIST: ``-l, --list``
+``-l, --list``
   List all available shellcuts.
-NEW: ``-n, --new [shellcut]``
+``-n, --new [shellcut]``
   Create a new shellcut for the current working directory.
-PRINT: ``-p, --print [shellcut]``
+``-p, --print [shellcut]``
   Print the specified shellcut to the screen.
-(planned) VERSION: ``-v, --version``
+``--version``
   Display version information.
-(planned) BASHMARKS SYNTAX: ``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
-  Enable or disable Bashmarks syntax. (default: enabled)
-(planned) Z SETTINGS: ``--enable-z, --disable-z``
-  Enable or disable z-like features. (default: enabled)
-(planned) REINITIALIZE: ``--init``
+``--init``
   Launch the initialization script.
+``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
+  Enable or disable Bashmarks syntax. (default: disabled)
+``--enable-z, --disable-z`` (planned)
+  Enable or disable z-like features. (default: disabled)
   
 examples
 --------
@@ -120,7 +116,3 @@ Here are some examples of Shellcuts in action. See this program's man page for m
 .. _Bashmarks: https://www.github.com/huyng/bashmarks
 .. _z-like: https://github.com/rupa/z
 .. _`Python 3`: https://www.python.org
-.. _Pip: https://pip.pypa.io/en/stable/
-.. _APT: https://en.wikipedia.org/wiki/APT_(Debian)
-.. _Homebrew: https://brew.sh/
-.. _Git: https://git-scm.com
