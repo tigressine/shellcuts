@@ -23,12 +23,12 @@ installation
 
 Shellcuts is meant to be easy to install--use any of the following methods. You need the latest version of `Python 3`_ installed for it to work!
 
-**METHOD 1:** Install with wget and dpkg
+**METHOD 1:** Install with wget and dpkg   
 If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then use this method! APT support is hopefully coming soon. Run the following command:
 ::
   $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.0/shellcuts.deb && sudo dpkg -i shellcuts.deb
 
-**METHOD 2:** Install with wget and dnf
+**METHOD 2:** Install with wget and dnf   
 RedHat-based machines (Fedora, CentOS, etc) should install using this method! DNF support is on the way. Run the following command:
 ::
   $ wget https://placeholder_until_I_get_the_link.rpm && sudo dnf install shellcuts.rpm
@@ -74,11 +74,11 @@ Here is a list of all available options/flags:
   Print the specified shellcut to the screen.
 ``--version``
   Display version information.
-``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
-  Enable or disable Bashmarks syntax. (default: disabled)
 ``--init``
   Launch the initialization script.
-(planned) ``--enable-z, --disable-z``
+``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
+  Enable or disable Bashmarks syntax. (default: disabled)
+``--enable-z, --disable-z`` (planned)
   Enable or disable z-like features. (default: disabled)
   
 examples

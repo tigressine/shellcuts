@@ -1,4 +1,4 @@
-.TH shellcuts 1 "16 January 2018" "1.1.2"
+.TH shellcuts 1 "16 January 2018" "1.2.0"
 
 .SH NAME
 shellcuts - directory shortcuts for your shell.
@@ -18,7 +18,9 @@ Shellcuts are directory shortcuts for your shell. This program allows you to sav
 .PP
 - save shellcuts on a per-user basis
 .PP
-- support Bashmarks syntax for user comfort and familiarity
+- Bashmarks syntax can be enabled for user comfort and familiarity
+.PP
+- supports Bash, Fish, and Zsh
 .RE
 .PP
 Planned features include:
@@ -26,9 +28,11 @@ Planned features include:
 .PP
 - tab completion
 .PP
-- Fish, Zsh, Csh, Korn shell support
+- Csh, Korn shell support
 .PP
 - z-like features
+.PP
+- local, non-administrator installs
 .RE
 
 .SH OPTIONS
@@ -60,23 +64,24 @@ create a new shellcut for the current working directory
 print the specified shellcut to the screen
 .RE
 .PP
-.B --version:
+.B --version
+.RS 4
 display version information
-.RE
-.PP
-.B --enable-bashmarks-syntax, --disable-bashmarks-syntax
-.RS 4
-enable or disable Bashmarks syntax (default: enabled) [PLANNED]
-.RE
-.PP
-.B --enable-z, --disable-z
-.RS 4
-enable or disable z-like features (default: enabled) [PLANNED]
 .RE
 .PP
 .B --init
 .RS 4
 launch the initialization script
+.RE
+.PP
+.B --enable-bashmarks-syntax, --disable-bashmarks-syntax
+.RS 4
+enable or disable Bashmarks syntax (default: disabled)
+.RE
+.PP
+.B --enable-z, --disable-z
+.RS 4
+enable or disable z-like features (default: disabled) [PLANNED]
 .RE
 
 .SH USAGE
