@@ -9,6 +9,7 @@ Part of Shellcuts by Tgsachse.
 import os
 import shutil
 import subprocess
+import compileall
 from pathlib import Path
 from sys import argv as args
 
@@ -22,43 +23,50 @@ def chop_trees(trees):
 
 def build_deb():
     """Build deb package from source."""
-    
-    # Tree structure for deb package.
-    BUILD = 'shellcuts'
+    DEB = 'shellcuts.deb'
+    BUILD = Path.cwd().joinpath('shellcuts')
     DEB_TREE = (
-        ('bin/', 'shellcuts/usr/bin/', ()),
         ('pack/deb/', 'shellcuts/DEBIAN/', ()),
-        ('docs/', 'shellcuts/usr/share/doc/shellcuts/', ('shellcuts.1',)),
-        ('docs/', 'shellcuts/usr/share/man/man1/', ('*.txt','*.rst')),
-        ('share/', 'shellcuts/usr/share/shellcuts/', ())
-    )
+        ('bin/', 'shellcuts/usr/bin/', ('*.py',)),
+        ('share/', 'shellcuts/usr/share/shellcuts/', ()),
+        ('docs/', 'shellcuts/usr/share/man/man1/', ('*.txt', '*.rst')),
+        ('docs/', 'shellcuts/usr/share/doc/shellcuts/', ('shellcuts.1',)))
     
-    # Cut down leftover trees.
-    #print("firstcut")
-    chop_trees((BUILD))
+    # Cuts down leftover trees.
+    chop_trees((BUILD,))
 
-    # Create shellcuts tree based on DEB_TREE tuple.
+    # Creates shellcuts tree based on DEB_TREE tuple.
     for branch in DEB_TREE:
         shutil.copytree(branch[0],
                         branch[1],
                         ignore=shutil.ignore_patterns(*branch[2]))
 
-    # Build deb package.
+    # Compiles core files into bytecode and moves into the shellcuts tree.
+    compileall.compile_dir(DEB_TREE[0][0])
+    #shutil.copy('' GOTTA ACTUALLY MOVE THESE FIELS and delete __pycache
+
+    # Builds deb package.
     subprocess.run(('dpkg', '--build', 'shellcuts'))
-    #shutil.move('shellcuts.deb', DIST)
     
-    # Chop down all new trees.
-    #print("chopping")
-    chop_trees((BUILD))
+    # Makes the DIST directory if it doesn't exist.
+    DIST.mkdir(exist_ok=True)
+    
+    # Moves the package to the DIST directory.
+    shutil.copy(DEB, DIST)
+    
+    # Chops down all new trees and delete copied deb archive.
+    chop_trees((BUILD,))
+    os.remove(DEB)
 
 def build_rpm():
     """Build RPM package from source."""
-    ARCHIVE = Path('v1.2.0')
+    ARCHIVE_NAME = 'v1.2.0'
     SOURCE_SPEC = 'pack/rpm/shellcuts.spec'
+    ARCHIVE = Path.cwd().joinpath(ARCHIVE_NAME)
     RPM_BUILD = Path('~/rpmbuild').expanduser()
     TARBALL_CONTENTS = ('docs', 'share', 'bin')
     DESTINATION_SPEC = RPM_BUILD.joinpath('SPECS/shellcuts.spec')
-    TARBALL = RPM_BUILD.joinpath(Path('SOURCES/').joinpath(ARCHIVE))
+    TARBALL = RPM_BUILD.joinpath(Path('SOURCES/').joinpath(ARCHIVE_NAME))
 
     # Cuts down leftover trees.
     chop_trees((ARCHIVE, RPM_BUILD))
@@ -71,12 +79,12 @@ def build_rpm():
     subprocess.run('rpmdev-setuptree')
      
     # Compresses a tarball from source and copy files into RPM build folder.
-    shutil.make_archive(TARBALL, 'gztar', os.getcwd(), ARCHIVE)
+    shutil.make_archive(TARBALL, 'gztar', os.getcwd(), ARCHIVE_NAME)
     shutil.copy(SOURCE_SPEC, DESTINATION_SPEC)
     
     # Builds the RPM using the SPEC file.
     subprocess.run(('rpmbuild', '-bb', DESTINATION_SPEC))
-   
+      
     # Makes the DIST directory if it doesn't exist.
     DIST.mkdir(exist_ok=True)
 
