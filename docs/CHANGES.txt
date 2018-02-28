@@ -1,5 +1,16 @@
 Changelog for Shellcuts
 
+v1.2.0 - XX/XX/2018
+  - Completely revitalized initialization script
+  - Now supports Zsh and Fish as well as Bash
+  - New automatic configuration for Bash, Zsh, and Fish
+  - Now available as rpm package
+  - New help menu
+  - Bashmarks syntax now disabled by default, can be enabled with flag
+  - Fixed issues with version printing weirdly
+  - Init command now works
+  - Switched to printf over echo for stability
+
 v1.1.2 - 01/28/2018
   - Removed PyPI support
   - Added deb support and deb packaging tools
