@@ -36,7 +36,12 @@ HELP_SCRIPT = [
     '',
     'See the manpage for lots more information and examples:',
     '    $ man shellcuts']
-
+ERRORS = {
+    1 : "That shellcut does not exist.",
+    2 : "This feature is unimplemented.",
+    3 : "Version information not found.",
+    4 : "Installed files are not in the expected place.",
+    5 : "The path associated with this shellcut is invalid."}
 
 ### SUBCLASSES ###
 class Parser(argparse.ArgumentParser):
@@ -122,7 +127,7 @@ def command_list(*_):
     
     for shellcut in shellcuts:
         command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
-    command = command + '"'#fix and fix other
+    command += '"'
     
     print(command)
 
@@ -149,7 +154,7 @@ def command_version(*_):
     
     for line in load_version_info():
         command += line
-    command = command + '"'
+    command += '"'
     
     print(command)
 
@@ -166,7 +171,7 @@ def create_parser():
     """
     parser = Parser(add_help=False)
     
-    parser.add_argument('shellcut', default=None, nargs='?')
+    parser.add_argument('shellcut', nargs='?', default=None)
     parser.add_argument('-d', '--delete')
     parser.add_argument('-h', '--help', action='store_true', default=None)
     parser.add_argument('-l', '--list', action='store_true', default=None)
@@ -176,20 +181,20 @@ def create_parser():
     parser.add_argument('--init', action='store_true', default=None)
     parser.add_argument('--enable-bashmarks-syntax',
                         action='store_true',
-                        default=None,
-                        dest='bashmarks')
+                        dest='bashmarks',
+                        default=None)
     parser.add_argument('--disable-bashmarks-syntax',
                         action='store_false',
-                        default=None,
-                        dest='bashmarks')
+                        dest='bashmarks',
+                        default=None)
     parser.add_argument('--enable-z',
                         action='store_true',
-                        default=None,
-                        dest='z')
+                        dest='z',
+                        default=None)
     parser.add_argument('--disable-z',
                         action='store_false',
-                        default=None,
-                        dest='z')
+                        dest='z',
+                        default=None)
 
     return parser
 
@@ -199,12 +204,8 @@ def error_message(error):
     Includes a master dictionary of all supported errors. These are accessible
     by number.
     """
-    ERRORS = {1 : "That shellcut does not exist.",
-              2 : "This feature is unimplemented.",
-              3 : "Version information not found.",
-              4 : "Installed files are not in the expected place.",
-              5 : "The path associated with this shellcut is invalid."}
     command = 'printf "ERROR {0}: {1}"'.format(error, ERRORS[error])
+    
     print(command)
 
 def load_shellcuts():
