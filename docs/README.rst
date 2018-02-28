@@ -54,6 +54,12 @@ Feel free to use any of the above or the main ``sc`` command to operate Shellcut
 - ``d`` to delete, equivalent to ``sc -d``
 - ``l`` to list, equivalent to ``sc -l``
 
+This syntax is disabled by default, but it can be enabled easily using this command:
+::
+    $ sc --enable-bashmarks-syntax
+
+flags
+-----
 Here is a list of all available options/flags:
 
 DELETE: ``-d, --delete [shellcut]``
@@ -66,14 +72,14 @@ NEW: ``-n, --new [shellcut]``
   Create a new shellcut for the current working directory.
 PRINT: ``-p, --print [shellcut]``
   Print the specified shellcut to the screen.
-(planned) VERSION: ``-v, --version``
+VERSION: ``--version``
   Display version information.
-(planned) BASHMARKS SYNTAX: ``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
-  Enable or disable Bashmarks syntax. (default: enabled)
-(planned) Z SETTINGS: ``--enable-z, --disable-z``
-  Enable or disable z-like features. (default: enabled)
-(planned) REINITIALIZE: ``--init``
+BASHMARKS SYNTAX: ``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
+  Enable or disable Bashmarks syntax. (default: disabled)
+REINITIALIZE: ``--init``
   Launch the initialization script.
+(planned) Z SETTINGS: ``--enable-z, --disable-z``
+  Enable or disable z-like features. (default: disabled)
   
 examples
 --------
