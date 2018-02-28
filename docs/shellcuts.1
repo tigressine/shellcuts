@@ -140,6 +140,12 @@ to save, equivalent to
 .I sc -n
 .RE
 
+This syntax is disabled by default, but it can be enabled easily using this command:
+.PP
+.RS 4
+.I sc --enable-bashmarks-syntax
+.RE
+
 .SH EXAMPLES
 Save a shellcut named
 .I downloads
@@ -200,7 +206,7 @@ alias:
 .RE
 
 .SH FILES
-.B ~/.config/shellcuts/shellcuts.sh
+.B ~/.config/shellcuts/shellcuts.json
 .RS 4
 storage location for all shellcuts
 .RE
