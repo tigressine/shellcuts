@@ -62,23 +62,23 @@ flags
 -----
 Here is a list of all available options/flags:
 
-DELETE: ``-d, --delete [shellcut]``
+``-d, --delete [shellcut]``
   Delete the specified shellcut if it exists.
-(planned) HELP: ``-h, --help``
+``-h, --help``
   Display a help menu for quick reference.
-LIST: ``-l, --list``
+``-l, --list``
   List all available shellcuts.
-NEW: ``-n, --new [shellcut]``
+``-n, --new [shellcut]``
   Create a new shellcut for the current working directory.
-PRINT: ``-p, --print [shellcut]``
+``-p, --print [shellcut]``
   Print the specified shellcut to the screen.
-VERSION: ``--version``
+``--version``
   Display version information.
-BASHMARKS SYNTAX: ``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
+``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
   Enable or disable Bashmarks syntax. (default: disabled)
-REINITIALIZE: ``--init``
+``--init``
   Launch the initialization script.
-(planned) Z SETTINGS: ``--enable-z, --disable-z``
+(planned) ``--enable-z, --disable-z``
   Enable or disable z-like features. (default: disabled)
   
 examples
