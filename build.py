@@ -9,10 +9,10 @@ Part of Shellcuts by Tgsachse.
 import os
 import shutil
 import subprocess
+from pathlib import Path
 from sys import argv as args
-from os.path import expanduser
 
-def kill_trees(trees):
+def chop_trees(trees):
     """Remove each directory tree in trees if it exists."""
     for tree in trees:
         try:
@@ -35,7 +35,7 @@ def build_deb():
     
     # Cut down leftover trees.
     #print("firstcut")
-    kill_trees((BUILD))
+    chop_trees((BUILD))
 
     # Create shellcuts tree based on DEB_TREE tuple.
     for branch in DEB_TREE:
@@ -49,42 +49,47 @@ def build_deb():
     
     # Chop down all new trees.
     #print("chopping")
-    kill_trees((BUILD))
+    chop_trees((BUILD))
 
 def build_rpm():
     """Build RPM package from source."""
+    ARCHIVE = Path('v1.2.0')
+    SOURCE_SPEC = 'pack/rpm/shellcuts.spec'
+    RPM_BUILD = Path('~/rpmbuild').expanduser()
+    TARBALL_CONTENTS = ('docs', 'share', 'bin')
+    DESTINATION_SPEC = RPM_BUILD.joinpath('SPECS/shellcuts.spec')
+    TARBALL = RPM_BUILD.joinpath(Path('SOURCES/').joinpath(ARCHIVE))
 
-    ARCHIVE = 'v1.2.0'
-    RPM_BUILD = expanduser('~/rpmbuild')
-    TARBALL_CONTENTS = ['docs/', 'share/', 'bin/']
-    TARBALL = expanduser('~/rpmbuild/SOURCES/') + ARCHIVE
+    # Cuts down leftover trees.
+    chop_trees((ARCHIVE, RPM_BUILD))
 
-    # Cut down leftover trees.
-    kill_trees((ARCHIVE, DIST, RPM_BUILD))
-
-    # Copy source into tarball folder
+    # Copies source into tarball folder.
     for directory in TARBALL_CONTENTS:
-        shutil.copytree(directory, '{}/{}'.format(ARCHIVE, directory))
+        shutil.copytree(directory, ARCHIVE.joinpath(directory))
 
-    # Generate the RPM build folder
+    # Generates the RPM build folder.
     subprocess.run('rpmdev-setuptree')
-    
-    # Compress a tarball from source and copy files into RPM build folder
+     
+    # Compresses a tarball from source and copy files into RPM build folder.
     shutil.make_archive(TARBALL, 'gztar', os.getcwd(), ARCHIVE)
-    shutil.copy2('pack/rpm/shellcuts.spec', RPM_BUILD + '/SPECS/')
-
-    # Build the RPM using the SPEC file
-    subprocess.run(('rpmbuild', '-bb', RPM_BUILD + '/SPECS/shellcuts.spec'))
+    shutil.copy(SOURCE_SPEC, DESTINATION_SPEC)
     
-    # Move the RPM back to the project directory
-    shutil.move(RPM_BUILD + '/RPMS/noarch/', DIST)
+    # Builds the RPM using the SPEC file.
+    subprocess.run(('rpmbuild', '-bb', DESTINATION_SPEC))
+   
+    # Makes the DIST directory if it doesn't exist.
+    DIST.mkdir(exist_ok=True)
 
-    # Chop down all generated trees
-    kill_trees((RPM_BUILD, ARCHIVE))
+    # Moves the RPM back to the project directory.
+    for package in RPM_BUILD.joinpath('RPMS/noarch/').iterdir():
+        shutil.copy(package, DIST)
+
+    # Chops down all generated trees.
+    chop_trees((RPM_BUILD, ARCHIVE))
 
 
 ### MAIN PROGRAM ###
-DIST = os.getcwd() + '/dist'
+DIST = Path.cwd().joinpath('dist/')
 
 if len(args) > 1:
     if args[1] == 'deb':
