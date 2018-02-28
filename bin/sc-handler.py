@@ -19,17 +19,23 @@ F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 HELP_SCRIPT = [
+    '',
     'Shellcuts usage: $ sc [--flag] <shellcut>',
-    'To create a new shellcut for the current directory (named example):',
-    '   $ sc -n example',
-    'To jump to that location from anywhere else on the system:',
-    '   $ sc example',
-    'To remove that shellcut:',
-    '   $ sc -d example',
-    'To list all available shellcuts:',
-    '   $ sc -l',
-    'To see the manpage for lots more information and examples:',
-    '   $ man shellcuts']
+    '----------------------------------------------------------------',
+    'Create a new shellcut for the current directory (named example):',
+    '    $ sc -n example',
+    '',
+    'Jump to that location from anywhere else on the system:',
+    '    $ sc example',
+    '',
+    'Remove that shellcut:',
+    '    $ sc -d example',
+    '',
+    'List all available shellcuts:',
+    '    $ sc -l',
+    '',
+    'See the manpage for lots more information and examples:',
+    '    $ man shellcuts']
 
 
 ### SUBCLASSES ###
@@ -55,6 +61,8 @@ def command_bashmarks(enable):
     installs the bashmarks-alias files into the appropriate config folder, or
     removes them.
     """
+    command = ':'
+
     for install in [item for item in F_SHELLCUTS_JSON.parent.iterdir() if item.is_dir()]:
         if enable:
             for f in D_SHELL_CONFIGS.joinpath(install.name).iterdir():
@@ -70,11 +78,15 @@ def command_bashmarks(enable):
                     os.remove(f)
                     break
 
+    print(command)
+
 def command_delete(shellcut):
     """Delete shellcut and write to file."""
     command = ':'
+    
     shellcuts.pop(shellcut, None)
     write_shellcuts()
+    
     print(command)
 
 def command_go(shellcut):
@@ -90,27 +102,37 @@ def command_go(shellcut):
 
 def command_help(*_):
     """Open man page."""
-    command = 'man shellcuts'
+    command = 'printf "'
+    
+    for line in HELP_SCRIPT:
+        command += line + '\n'
+    command += '"'
+
     print(command)
 
 def command_init(*_):
     """Run initialization script."""
     command = 'python3 /usr/bin/sc-init'
+    
     print(command)
 
 def command_list(*_):
     """List all shellcuts."""
     command = 'printf "SHELLCUTS\n'
+    
     for shellcut in shellcuts:
         command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
-    command = command[:-1] + '\n"'
+    command = command + '"'#fix and fix other
+    
     print(command)
 
 def command_new(shellcut):
     """Add shellcut and write to file."""
     command = ':'
+    
     shellcuts[shellcut] = os.getcwd()
     write_shellcuts()
+    
     print(command)
 
 def command_print(shellcut):
@@ -124,10 +146,11 @@ def command_print(shellcut):
 def command_version(*_):
     """Echo version information found in F_VERSION."""
     command = 'printf "'
+    
     for line in load_version_info():
         command += line
-    #command = command[:-1] + '\n"'
-    command = command + '"' #use this line instead, combine into function
+    command = command + '"'
+    
     print(command)
 
 def command_z(enable):
