@@ -177,7 +177,7 @@ def manual_configuration():
 
     clear_screen()
     
-    print_installed_shells()
+    print_installed_shells(shells)
 
     prompt = "Enter the number next to the shell you'd like to install: "
     acceptable_list = [str(num) for num in range(len(shells))]
