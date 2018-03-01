@@ -96,7 +96,7 @@ def command_delete(shellcut):
 def command_go(shellcut):
     """Access shellcut and return 'cd' command to shellcut dir."""
     try:
-        command = 'cd ' + shellcuts[shellcut]
+        command = 'cd "' + shellcuts[shellcut] + '"'
         if Path(shellcuts[shellcut]).exists():
             print(command)
         else:
