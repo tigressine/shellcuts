@@ -19,7 +19,6 @@ F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 HELP_SCRIPT = [
-    '',
     'Shellcuts usage: $ sc [--flag] <shellcut>',
     '----------------------------------------------------------------',
     'Create a new shellcut for the current directory (named example):',
