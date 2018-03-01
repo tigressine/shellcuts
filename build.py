@@ -31,6 +31,7 @@ def build_deb():
         ('share/', 'shellcuts/usr/share/shellcuts/', ()),
         ('docs/', 'shellcuts/usr/share/man/man1/', ('*.txt', '*.rst')),
         ('docs/', 'shellcuts/usr/share/doc/shellcuts/', ('shellcuts.1',)))
+    COMPILED_FILES = Path('bin/__pycache__')
     
     # Cuts down leftover trees.
     chop_trees((BUILD,))
@@ -42,9 +43,12 @@ def build_deb():
                         ignore=shutil.ignore_patterns(*branch[2]))
 
     # Compiles core files into bytecode and moves into the shellcuts tree.
-    compileall.compile_dir(DEB_TREE[0][0])
-    #shutil.copy('' GOTTA ACTUALLY MOVE THESE FIELS and delete __pycache
-
+    compileall.compile_dir(DEB_TREE[1][0])
+    for f in COMPILED_FILES.iterdir():
+        # Drops all suffixes.
+        dest_name = f.stem.split('.')[0]
+        shutil.move(f, BUILD.joinpath('usr/bin').joinpath(dest_name))
+    
     # Builds deb package.
     subprocess.run(('dpkg', '--build', 'shellcuts'))
     
@@ -55,7 +59,7 @@ def build_deb():
     shutil.copy(DEB, DIST)
     
     # Chops down all new trees and delete copied deb archive.
-    chop_trees((BUILD,))
+    chop_trees((BUILD, COMPILED_FILES))
     os.remove(DEB)
 
 def build_rpm():
