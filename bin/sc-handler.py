@@ -130,7 +130,7 @@ def command_list(*_):
         for shellcut in shellcuts:
             command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
     else:
-        command += '(No shellcuts yet. Create some with the -n flag!)'
+        command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
     command += '"'
     print(command)
