@@ -65,7 +65,7 @@ def command_bashmarks(enable):
     installs the bashmarks-alias files into the appropriate config folder, or
     removes them.
     """
-    command = '$junk'
+    command = 'printf ""'
 
     for install in [item for item in F_SHELLCUTS_JSON.parent.iterdir() if item.is_dir()]:
         if enable:
@@ -86,7 +86,7 @@ def command_bashmarks(enable):
 
 def command_delete(shellcut):
     """Delete shellcut and write to file."""
-    command = '$junk'
+    command = 'printf ""'
     
     shellcuts.pop(shellcut, None)
     write_shellcuts()
@@ -137,7 +137,7 @@ def command_list(*_):
 
 def command_new(shellcut):
     """Add shellcut and write to file."""
-    command = '$junk'
+    command = 'printf ""'
     
     shellcuts[shellcut] = os.getcwd()
     write_shellcuts()
