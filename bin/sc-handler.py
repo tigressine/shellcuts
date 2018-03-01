@@ -122,12 +122,17 @@ def command_init(*_):
 
 def command_list(*_):
     """List all shellcuts."""
-    command = 'printf "SHELLCUTS\n'
+    command = 'printf "'
     
-    for shellcut in shellcuts:
-        command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
+    if len(shellcuts) > 0:
+        command += 'SHELLCUTS\n'
+    
+        for shellcut in shellcuts:
+            command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
+    else:
+        command += '(No shellcuts yet. Create some with the -n flag!)'
+
     command += '"'
-    
     print(command)
 
 def command_new(shellcut):

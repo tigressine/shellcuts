@@ -95,6 +95,8 @@ def automatic_configuration():
         edit_config(shell)
         install_controller(shell)
 
+    print("\nThat's it! Restart your shell session to begin using Shellcuts.")
+
 def check_input(prompt, acceptable_list):
     """Sanitize user input based on list of acceptable values."""
     command = input(prompt)
