@@ -19,22 +19,22 @@ F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 HELP_SCRIPT = [
-    'Shellcuts usage: $ sc [--flag] <shellcut>',
+    'Shellcuts usage: \$ sc [--flag] <shellcut>',
     '----------------------------------------------------------------',
     'Create a new shellcut for the current directory (named example):',
-    '    $ sc -n example',
+    '    \$ sc -n example',
     '',
     'Jump to that location from anywhere else on the system:',
-    '    $ sc example',
+    '    \$ sc example',
     '',
     'Remove that shellcut:',
-    '    $ sc -d example',
+    '    \$ sc -d example',
     '',
     'List all available shellcuts:',
-    '    $ sc -l',
+    '    \$ sc -l',
     '',
     'See the manpage for lots more information and examples:',
-    '    $ man shellcuts']
+    '    \$ man shellcuts']
 ERRORS = {
     1 : "That shellcut does not exist.",
     2 : "This feature is unimplemented.",
@@ -65,7 +65,7 @@ def command_bashmarks(enable):
     installs the bashmarks-alias files into the appropriate config folder, or
     removes them.
     """
-    command = ':'
+    command = '$junk'
 
     for install in [item for item in F_SHELLCUTS_JSON.parent.iterdir() if item.is_dir()]:
         if enable:
@@ -86,7 +86,7 @@ def command_bashmarks(enable):
 
 def command_delete(shellcut):
     """Delete shellcut and write to file."""
-    command = ':'
+    command = '$junk'
     
     shellcuts.pop(shellcut, None)
     write_shellcuts()
@@ -137,7 +137,7 @@ def command_list(*_):
 
 def command_new(shellcut):
     """Add shellcut and write to file."""
-    command = ':'
+    command = '$junk'
     
     shellcuts[shellcut] = os.getcwd()
     write_shellcuts()
