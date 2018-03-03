@@ -208,7 +208,7 @@ def error_message(error):
     Includes a master dictionary of all supported errors. These are accessible
     by number.
     """
-    command = 'printf "ERROR {0}: {1}"'.format(error, ERRORS[error])
+    command = 'printf "ERROR {0}: {1}\n"'.format(error, ERRORS[error])
     
     print(command)
 
