@@ -26,7 +26,9 @@ class Parser(argparse.ArgumentParser):
     Necessary to override error method in ArgumentParser. Sometimes the
     ArgumentParser throws errors (if argument syntax is bad, for example) and
     in all of these cases I want the help menu to appear, instead of the
-    provided error messages.
+    provided error messages. This subclass also provides the ability to create
+    a base argument to attempt before parsing the rest, improving speed when
+    jumping.
     """
     def __init__(self, *args, **kwargs):
         """Initialize by initializing super and adding base argument."""
@@ -249,10 +251,12 @@ parser = Parser(add_help=False)
 arguments, unknown = parser.parse_known_args()
 shellcuts = load_shellcuts()
 
+# Attempts to short-circuit the program and jump if only one argument given.
 if len(unknown) < 1:
     command_go(arguments.shellcut)
     exit(0)
-    
+
+# Adds other flags and re-parses arguments.
 parser.add_additional_arguments()
 arguments, unknown = parser.parse_known_args()
 
