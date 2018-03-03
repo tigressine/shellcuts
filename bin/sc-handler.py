@@ -12,35 +12,12 @@ import shutil
 import argparse
 from pathlib import Path
 
-
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
 F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
-HELP_SCRIPT = [
-    'Shellcuts usage: \$ sc [--flag] <shellcut>',
-    '----------------------------------------------------------------',
-    'Create a new shellcut for the current directory (named example):',
-    '    \$ sc -n example',
-    '',
-    'Jump to that location from anywhere else on the system:',
-    '    \$ sc example',
-    '',
-    'Remove that shellcut:',
-    '    \$ sc -d example',
-    '',
-    'List all available shellcuts:',
-    '    \$ sc -l',
-    '',
-    'See the manpage for lots more information and examples:',
-    '    \$ man shellcuts']
-ERRORS = {
-    1 : "That shellcut does not exist.",
-    2 : "This feature is unimplemented.",
-    3 : "Version information not found.",
-    4 : "Installed files are not in the expected place.",
-    5 : "The path associated with this shellcut is invalid."}
+
 
 ### SUBCLASSES ###
 class Parser(argparse.ArgumentParser):
@@ -105,7 +82,24 @@ def command_go(shellcut):
         error_message(1)
 
 def command_help(*_):
-    """Open man page."""
+    """Print a small help menu to the screen."""
+    HELP_SCRIPT = (
+        'Shellcuts usage: \$ sc [--flag] <shellcut>',
+        '----------------------------------------------------------------',
+        'Create a new shellcut for the current directory (named example):',
+        '    \$ sc -n example',
+        '',
+        'Jump to that location from anywhere else on the system:',
+        '    \$ sc example',
+        '',
+        'Remove that shellcut:',
+        '    \$ sc -d example',
+        '',
+        'List all available shellcuts:',
+        '    \$ sc -l',
+        '',
+        'See the manpage for lots more information and examples:',
+        '    \$ man shellcuts')
     command = 'printf "'
     
     for line in HELP_SCRIPT:
@@ -208,6 +202,13 @@ def error_message(error):
     Includes a master dictionary of all supported errors. These are accessible
     by number.
     """
+    ERRORS = {
+        1 : "That shellcut does not exist.",
+        2 : "This feature is unimplemented.",
+        3 : "Version information not found.",
+        4 : "Installed files are not in the expected place.",
+        5 : "The path associated with this shellcut is invalid."}
+    
     command = 'printf "ERROR {0}: {1}\n"'.format(error, ERRORS[error])
     
     print(command)
