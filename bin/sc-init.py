@@ -26,7 +26,6 @@ INIT_SCRIPT = [
     '(0)  Quit this script and do nothing. This prompt will appear again next time.',
     '(1)  Automatically configure Shellcuts for your shells. (recommended)',
     '(2)  Get help for manual configuration.',
-    '(3)  Print this script to the screen.',
     '',
     'Enter the number next to the command you wish to perform: ']
 
@@ -55,29 +54,20 @@ SHELLS = {
 
 
 ### FUNCTIONS ###
-def automatic_configuration():
+def automatic_configuration(selected_shells=[]):
     """Automatically configure Shellcuts for user.
     
     Can install for all shells or only selected shells.
     """
-    shells = detect_shells()
-
     clear_screen()
-
-    prompt = "Automatically configure for all shells? (yes/no): "
-    yes_list = ['yes', 'y', 'Y', 'Yes']
-    no_list = ['no', 'n', 'N', 'No']
-    command = check_input(prompt, yes_list + no_list)
     
-    selected_shells = []
-    if command in yes_list:
-        selected_shells = shells
-    elif command in no_list:
+    if len(selected_shells) < 1:
+        shells = detect_shells()
         print_installed_shells(shells)
 
         print("Enter the number(s) next to the shell(s) you'd like to install Shellcuts for.")
         command = input("Separate numbers by a space: ")
-        
+            
         # Extracts numbers from user command string.
         for num in range(len(shells)):
             if re.search(str(num), command):
@@ -85,7 +75,7 @@ def automatic_configuration():
 
         if len(selected_shells) == 0:
             print("No shells selected. Exiting...")
-            exit(0)
+            return
 
     # Runs installation functions for all shells in selected_shells.
     for shell in selected_shells:
@@ -96,6 +86,16 @@ def automatic_configuration():
         install_controller(shell)
 
     print("\nThat's it! Restart your shell session to begin using Shellcuts.")
+
+def automatic_configuration_prompt():
+    """Shortcut for user to skip to full automatic configuration."""
+    prompt = "Automatically configure for all shells? (yes/no): "
+    yes_list = ['yes', 'y', 'Y', 'Yes']
+    no_list = ['no', 'n', 'N', 'No']
+    
+    command = check_input(prompt, yes_list + no_list)
+
+    return True if command in yes_list else False
 
 def check_input(prompt, acceptable_list):
     """Sanitize user input based on list of acceptable values."""
@@ -154,13 +154,15 @@ def exit_script():
 def format_manual_script(shell):
     """Format the manual script using provided shell key."""
     formatted_script = MANUAL_SCRIPT
+    formatting = ((0, shell),
+                  (2, str(SHELLS[shell]['example'])),
+                  (3, str(SHELLS[shell]['config'])),
+                  (6, str(SHELLS[shell]['controller'])),
+                  (7, str(D_SHELLCUTS) + '/' + shell + '/'))
 
     # Formats lines in the MANUAL_SCRIPT based on shell.
-    formatted_script[0] = formatted_script[0].format(shell)
-    formatted_script[2] = formatted_script[2].format(str(SHELLS[shell]['example']))
-    formatted_script[3] = formatted_script[3].format(str(SHELLS[shell]['config']))
-    formatted_script[6] = formatted_script[6].format(str(SHELLS[shell]['controller']))
-    formatted_script[7] = formatted_script[7].format(str(D_SHELLCUTS) + '/' + shell + '/')
+    for line, string in formatting:
+        formatted_script[line] = MANUAL_SCRIPT[line].format(string)
 
     return formatted_script
 
@@ -198,18 +200,19 @@ def print_installed_shells(shells):
     shell_list = enumerate(shells)
     [print("{0} {1}".format(shell[0], shell[1])) for shell in shell_list]
 
-def print_script():
-    """Print the contents of this file."""
-    with open(__file__) as f:
-        print(f.read())
-
 def welcome():
     """Welcome the user and present a list of options."""
     clear_screen()
     
+    if automatic_configuration_prompt():
+        automatic_configuration(detect_shells())
+        return
+    else:
+        clear_screen()
+
     [print(line) for line in INIT_SCRIPT[:-1:]]
 
-    command = check_input(INIT_SCRIPT[-1], ['0', '1', '2', '3'])
+    command = check_input(INIT_SCRIPT[-1], ['0', '1', '2'])
 
     if command == '0':
         exit_script()
@@ -217,8 +220,6 @@ def welcome():
         automatic_configuration()
     elif command == '2':
         manual_configuration()
-    elif command == '3':
-        print_script()
 
 
 ### MAIN PROGRAM ###
