@@ -9,6 +9,7 @@ v1.2.1 - 03/03/2018
   - Reminded users to restart their terminal after initialization
   - Removed option to list script contents from initialization (because it's bytecode)
   - Now allows user to shortcut initialization at the beginning
+  - Minor optimizations in sc-handler for noticeable speedups
 
 v1.2.0 - 02/28/2018
   - Completely revitalized initialization script
