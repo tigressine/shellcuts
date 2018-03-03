@@ -1,5 +1,15 @@
 Changelog for Shellcuts
 
+v1.2.1 - 03/03/2018
+  - Added support for spaces in path names
+  - Fixed issue with Fish printing some things weirdly
+  - New message when attempting to list shellcuts before any have been made
+  - Fixed bug when detecting shells in init script
+  - Cleaned up usage text
+  - Reminded users to restart their terminal after initialization
+  - Removed option to list script contents from initialization (because it's bytecode)
+  - Now allows user to shortcut initialization at the beginning
+
 v1.2.0 - 02/28/2018
   - Completely revitalized initialization script
   - Now supports Zsh and Fish as well as Bash
