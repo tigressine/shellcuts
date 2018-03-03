@@ -27,13 +27,13 @@ Shellcuts is meant to be easy to install--use any of the following methods. You 
 
 If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then use this method! APT support is hopefully coming soon. Run the following command:
 ::
-  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.0/shellcuts.deb && sudo dpkg -i shellcuts.deb
+  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.1/shellcuts.deb && sudo dpkg -i shellcuts.deb
 
 **METHOD 2:** Install with wget and dnf
 
 RedHat-based machines (Fedora, CentOS, etc) should install using this method! DNF support is on the way. Run the following command:
 ::
-  $ wget https://placeholder_until_I_get_the_link.rpm && sudo dnf install shellcuts.rpm
+  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.1/shellcuts-1.2.1-1.fc27.noarch.rpm && sudo dnf install shellcuts-1.2.1-1.fc27.noarch.rpm
 
 usage
 -----
