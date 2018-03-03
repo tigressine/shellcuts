@@ -28,7 +28,39 @@ class Parser(argparse.ArgumentParser):
     in all of these cases I want the help menu to appear, instead of the
     provided error messages.
     """
-    def error(*_):
+    def __init__(self, *args, **kwargs):
+        """Initialize by initializing super and adding base argument."""
+        super().__init__(*args, **kwargs)
+
+        self.add_argument('shellcut', nargs='?', default=None)
+
+    def add_additional_arguments(self):
+        """Add flags to parser."""
+        self.add_argument('-d', '--delete')
+        self.add_argument('-h', '--help', action='store_true', default=None)
+        self.add_argument('-l', '--list', action='store_true', default=None)
+        self.add_argument('-n', '--new')
+        self.add_argument('-p', '--print')
+        self.add_argument('--version', action='store_true', default=None)
+        self.add_argument('--init', action='store_true', default=None)
+        self.add_argument('--enable-bashmarks-syntax',
+                          action='store_true',
+                          dest='bashmarks',
+                          default=None)
+        self.add_argument('--disable-bashmarks-syntax',
+                          action='store_false',
+                          dest='bashmarks',
+                          default=None)
+        self.add_argument('--enable-z',
+                          action='store_true',
+                          dest='z',
+                          default=None)
+        self.add_argument('--disable-z',
+                          action='store_false',
+                          dest='z',
+                          default=None)
+    
+    def error(self, message):
         """Call help command in case of error."""
         command_help()
         exit(0)
@@ -162,40 +194,6 @@ def command_z(enable):
 
 
 ### HELPER FUNCTIONS ###
-def create_parser():
-    """Create an argparse parser.
-
-    Defines arguments and then returns the parser.
-    """
-    parser = Parser(add_help=False)
-    
-    parser.add_argument('shellcut', nargs='?', default=None)
-    parser.add_argument('-d', '--delete')
-    parser.add_argument('-h', '--help', action='store_true', default=None)
-    parser.add_argument('-l', '--list', action='store_true', default=None)
-    parser.add_argument('-n', '--new')
-    parser.add_argument('-p', '--print')
-    parser.add_argument('--version', action='store_true', default=None)
-    parser.add_argument('--init', action='store_true', default=None)
-    parser.add_argument('--enable-bashmarks-syntax',
-                        action='store_true',
-                        dest='bashmarks',
-                        default=None)
-    parser.add_argument('--disable-bashmarks-syntax',
-                        action='store_false',
-                        dest='bashmarks',
-                        default=None)
-    parser.add_argument('--enable-z',
-                        action='store_true',
-                        dest='z',
-                        default=None)
-    parser.add_argument('--disable-z',
-                        action='store_false',
-                        dest='z',
-                        default=None)
-
-    return parser
-
 def error_message(error):
     """Echo an error message.
     
@@ -247,9 +245,16 @@ def write_shellcuts():
 
 
 ### START MAIN PROGRAM ###
-parser = create_parser()
+parser = Parser(add_help=False)
 arguments, unknown = parser.parse_known_args()
 shellcuts = load_shellcuts()
+
+if len(unknown) < 1:
+    command_go(arguments.shellcut)
+    exit(0)
+    
+parser.add_additional_arguments()
+arguments, unknown = parser.parse_known_args()
 
 # If anything unknown is passed, show help and exit.
 if len(unknown) > 0:
@@ -266,8 +271,7 @@ command_pairs = (
     (arguments.z, command_z),
     (arguments.delete, command_delete),
     (arguments.new, command_new),
-    (arguments.print, command_print),
-    (arguments.shellcut, command_go))
+    (arguments.print, command_print))
 
 # For each in tuple, if value is not 'None', execute associated function.
 for pair in command_pairs:
