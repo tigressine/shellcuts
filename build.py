@@ -64,7 +64,7 @@ def build_deb():
 
 def build_rpm():
     """Build RPM package from source."""
-    ARCHIVE_NAME = 'v1.2.0'
+    ARCHIVE_NAME = 'v1.2.1'
     SOURCE_SPEC = 'pack/rpm/shellcuts.spec'
     ARCHIVE = Path.cwd().joinpath(ARCHIVE_NAME)
     RPM_BUILD = Path('~/rpmbuild').expanduser()
