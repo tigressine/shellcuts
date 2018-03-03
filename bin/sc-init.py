@@ -14,7 +14,7 @@ from pathlib import Path
 ### CONSTANTS ###
 D_SHELLCUTS = Path('~/.config/shellcuts').expanduser()
 
-INIT_SCRIPT = [
+INIT_SCRIPT = (
     'Thank you for installing Shellcuts.',
     '',
     'This is the initialization script to help you finish installation. If you',
@@ -27,9 +27,9 @@ INIT_SCRIPT = [
     '(1)  Automatically configure Shellcuts for your shells. (recommended)',
     '(2)  Get help for manual configuration.',
     '',
-    'Enter the number next to the command you wish to perform: ']
+    'Enter the number next to the command you wish to perform: ')
 
-MANUAL_SCRIPT = [
+MANUAL_SCRIPT = (
     'To install for {0}:',
     '',
     '(1) Copy the contents of {0}',
@@ -39,7 +39,7 @@ MANUAL_SCRIPT = [
     '(2) Copy the controller file located at {0}',
     '    to {0}',
     '',
-    'That\'s it! Restart your shell session to begin using Shellcuts.']
+    'That\'s it! Restart your shell session to begin using Shellcuts.')
 
 SHELLS = {
     'bash' : {'config' : Path('~/.bashrc').expanduser(),
