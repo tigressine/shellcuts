@@ -12,5 +12,5 @@ function sc {
 
 # Sources all files located in the plugins folder.
 for FILE in $PLUGINS/* ; do
-    . $FILE
+    . $FILE 2> /dev/null
 done
