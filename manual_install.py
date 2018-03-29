@@ -4,14 +4,35 @@ import compileall
 from sys import argv as args
 from pathlib import Path
 import subprocess
-from tarfile import TarFile
+#from tarfile import TarFile
+import tarfile
+import shutil
+import os
 
-VERSION = 'v1.2.1'
+VERSION_NUMBER = '1.2.1'
+VERSION = 'v' + VERSION_NUMBER
 paths = {
     'bin' : Path('/usr/bin'),
     'share' : Path('/usr/share'),
     #'trigger' : Path('/home/tgsachse/Dropbox/Code/Shellcuts/junk')
 }
+
+RELEASES = 'https://github.com/tgsachse/shellcuts/releases/download/{}/'.format(VERSION)
+
+INSTALLERS = {
+    'dpkg' : ('wget',
+              RELEASES + 'shellcuts.deb',
+              '&&',
+              'dpkg',
+              '-i',
+              'shellcuts.deb'),
+    'rpm' : ('wget',
+             RELEASES + 'shellcuts-{}-1.fc27.noarch.rpm'.format(VERSION_NUMBER),
+             '&&',
+             'rpm',
+             '-i',
+             'shellcuts-{}-1.fc27.noarch.rpm'.format(VERSION_NUMBER))
+}#add packmans
 
 def check_local_install():
     """
@@ -39,28 +60,46 @@ def check_paths():
 def check_package_managers():
     """
     """
-    pass
+    managers = []
+
+    for installer in INSTALLERS.keys():
+        if shutil.which(installer):
+            managers.append(installer)
+    
+    return managers
 
 def install_global():
     """
     """
-    check_package_managers()
+    #check if running sudo
+    managers = check_package_managers()
+    print(managers)
 
 def install_local():
     """
     """
     D_SHELLCUTS = Path('~/.shellcuts').expanduser()
     D_SHELLCUTS.mkdir(parents=True, exist_ok=True)
-    DEST = D_SHELLCUTS.joinpath('git_temp')
+
+    os.chdir(str(D_SHELLCUTS))# dont need
+
+    #DEST = D_SHELLCUTS.joinpath('git_temp')
     command = ('wget', 
                'https://github.com/tgsachse/shellcuts/archive/{}.tar.gz'.format(VERSION),
-               '-P',
-               str(DEST))#check this isnt possible with a lib
+               )#'-P',
+               #str(DEST))#check this isnt possible with a lib
 
+    # separate function unzip tarball
     subprocess.run(command)
-    DEST = DEST.joinpath('{}.tar.gz'.format(VERSION))
-    TarFile(str(DEST)).extractall()
+    tarball = D_SHELLCUTS.joinpath('{}.tar.gz'.format(VERSION))
+    tar = tarfile.open(str(tarball), 'r:gz')
+    tar.extractall()
+    ###############################
 
+    WD = D_SHELLCUTS.joinpath('shellcuts-{}'.format(VERSION_NUMBER))
+    os.chdir(str(WD))
+
+    
     LOCAL_TREE = (
         ('bin', 'bin/'),
         ('share', 'share/'),
@@ -70,7 +109,7 @@ def install_local():
 
     
 
-    # make sure weve got this bitch downloaded
+    # make sure weve got this bitch downloaded ####
     # compile the binaries
     # move bytecode to bin
     # move share tree to share
