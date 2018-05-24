@@ -17,6 +17,10 @@ paths = {
     #'trigger' : Path('/home/tgsachse/Dropbox/Code/Shellcuts/junk')
 }
 
+printf()
+
+
+
 RELEASES = 'https://github.com/tgsachse/shellcuts/releases/download/{}/'.format(VERSION)
 
 INSTALLERS = {
@@ -106,8 +110,6 @@ def install_local():
         ('docs', 'docs/'),
         ('man', 'man/man1')
     )
-
-    
 
     # make sure weve got this bitch downloaded ####
     # compile the binaries
