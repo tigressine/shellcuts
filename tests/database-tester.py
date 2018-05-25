@@ -1,11 +1,10 @@
-import unittest
 import sqlite3
+import unittest
 from pathlib import Path
 from database import DatabaseConnection
 
 class DatabaseTester(unittest.TestCase):
-    """
-    """
+    """A class that tests the database functionality of shellcuts."""
     def __init__(self, *args, **kwargs):
         """Initialize tester and set default location for database."""
         super().__init__(*args, **kwargs)
@@ -17,7 +16,7 @@ class DatabaseTester(unittest.TestCase):
         if Path(self.path).is_file():
             Path(self.path).unlink()
 
-    def testCreateNewDatabase(self):
+    def test000CreateNewDatabase(self):
         """Create a new database where one doesn't exist.'"""
         with DatabaseConnection(self.path) as db:
             self.assertTrue(Path(self.path).is_file())
@@ -26,7 +25,7 @@ class DatabaseTester(unittest.TestCase):
             except sqlite3.OperationalError:
                 self.fail("Database not valid.")
 
-    def testLoadExistingDatabase(self):
+    def test001LoadExistingDatabase(self):
         """Create a database and then reopen and confirm data is still there."""
         populateTestingDatabase(self.path)
 
@@ -35,20 +34,20 @@ class DatabaseTester(unittest.TestCase):
             self.assertIsNotNone(db.get_shellcut("Test2"))
             self.assertIsNone(db.get_shellcut("Test4"))
 
-    def testInsertIntoDatabase(self):
+    def test002InsertIntoDatabase(self):
         """Insert data into a database."""
         with DatabaseConnection(self.path) as db:
             db.insert_shellcut("Test", "/tmp/test/")
             self.assertIsNotNone(db.get_shellcut("Test"))
 
-    def testRemoveFromDatabase(self):
+    def test003RemoveFromDatabase(self):
         """Delete data from a database."""
         with DatabaseConnection(self.path) as db:
             db.insert_shellcut("Test", "/tmp/test/")
             db.delete_shellcut("Test")
             self.assertIsNone(db.get_shellcut("Test"))
 
-    def testFlushDatabase(self):
+    def test004FlushDatabase(self):
         """Populate a database and then flush the data."""
         populateTestingDatabase(self.path)
 
@@ -57,13 +56,13 @@ class DatabaseTester(unittest.TestCase):
             self.assertIsNone(db.get_shellcut("Test1"))
             self.assertIsNone(db.get_shellcut("Test2"))
 
-    def testDefaultDisabledInNew(self):
+    def test005DefaultDisabledInNew(self):
         """Check a new database's default command flag.'"""
         with DatabaseConnection(self.path) as db:
             db.cursor.execute("SELECT enabled FROM table_defaults")
             self.assertEqual(db.cursor.fetchone()[0], 0)
 
-    def testToggleDefaults(self):
+    def test006ToggleDefaults(self):
         """Toggle default command flag for database."""
         with DatabaseConnection(self.path) as db:
             self.assertEqual(db.check_default_command_enabled(), 0)
@@ -72,7 +71,7 @@ class DatabaseTester(unittest.TestCase):
             
             self.assertEqual(db.check_default_command_enabled(), 1)
 
-    def testChangeDefaultCommand(self):
+    def test007ChangeDefaultCommand(self):
         """Change default command."""
         with DatabaseConnection(self.path) as db:
             # Check that the default command is nothing at first.
@@ -88,7 +87,7 @@ class DatabaseTester(unittest.TestCase):
             db.set_default_command(False, "pwd")
             self.assertEqual(db.get_default_command(), "echo 'hello'")
 
-    def testSetFollowCommand(self):
+    def test008SetFollowCommand(self):
         """Set follow commands for some shellcuts."""
         populateTestingDatabase(self.path)
 
@@ -101,7 +100,7 @@ class DatabaseTester(unittest.TestCase):
             self.assertEqual(db.get_shellcut_command("Test2"), "clsa; pwd")
             self.assertEqual(db.get_shellcut_command("Test3"), None)
 
-    def testGetFollowCommand(self):
+    def test009GetFollowCommand(self):
         """Get follow commands before and after default commands enabled."""
         populateTestingDatabase(self.path)
 
@@ -123,7 +122,7 @@ class DatabaseTester(unittest.TestCase):
             # any None commands.
             self.assertEqual(db.get_shellcut_command("Test3"), "ls -A")
 
-    def testInitialFollowCommands(self):
+    def test010InitialFollowCommands(self):
         """Test that initial follow commands are set to None."""
         populateTestingDatabase(self.path)
 
