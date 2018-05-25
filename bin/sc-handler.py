@@ -10,11 +10,11 @@ import os
 import json
 import shutil
 import argparse
-from pathlib import Path
+from pathlib import Path ####
 
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
-F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()
+F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()    ####
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 
@@ -30,7 +30,7 @@ class Parser(argparse.ArgumentParser):
     a base argument to attempt before parsing the rest, improving speed when
     jumping.
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs): #### add no help menu here so it doesnt have to be passed
         """Initialize by initializing super and adding base argument."""
         super().__init__(*args, **kwargs)
 
@@ -69,7 +69,7 @@ class Parser(argparse.ArgumentParser):
 
 
 ### COMMANDS ###
-def command_bashmarks(enable):
+def command_bashmarks(enable): ######### maybe dunno
     """Enable or disable Bashmarks syntax.
     
     Determines which shells Shellcuts is configured to use, then either
@@ -95,7 +95,7 @@ def command_bashmarks(enable):
 
     print(command)
 
-def command_delete(shellcut):
+def command_delete(shellcut): #################
     """Delete shellcut and write to file."""
     command = 'printf ""'
     
@@ -104,7 +104,7 @@ def command_delete(shellcut):
     
     print(command)
 
-def command_go(shellcut):
+def command_go(shellcut): #######################33
     """Access shellcut and return 'cd' command to shellcut dir."""
     try:
         command = 'cd "' + shellcuts[shellcut] + '"'
@@ -148,7 +148,7 @@ def command_init(*_):
     
     print(command)
 
-def command_list(*_):
+def command_list(*_): #########
     """List all shellcuts."""
     command = 'printf "'
     
@@ -163,7 +163,7 @@ def command_list(*_):
     command += '"'
     print(command)
 
-def command_new(shellcut):
+def command_new(shellcut): ############
     """Add shellcut and write to file."""
     command = 'printf ""'
     
@@ -172,7 +172,7 @@ def command_new(shellcut):
     
     print(command)
 
-def command_print(shellcut):
+def command_print(shellcut): ##############33
     """Print specific shellcut."""
     try:
         command = 'printf "' + shellcut + ' : ' + shellcuts[shellcut] + '\n"'
@@ -213,7 +213,7 @@ def error_message(error):
     
     print(command)
 
-def load_shellcuts():
+def load_shellcuts():####completely change
     """Load the shellcuts file.
 
     Returns empty dictionary if the file does not exist.
@@ -235,7 +235,7 @@ def load_version_info():
         error_message(3)
         exit(0)
 
-def write_shellcuts():
+def write_shellcuts(): ####### might be totally unneeded
     """Write shellcuts to file.
     
     Creates appropriate directory if it doesn't exist.
@@ -246,14 +246,14 @@ def write_shellcuts():
         json.dump(shellcuts, f)
 
 
-### START MAIN PROGRAM ###
-parser = Parser(add_help=False)
+### START MAIN PROGRAM ### ##################################### need to be able to import
+parser = Parser(add_help=False) ### get rid of the arg here
 arguments, unknown = parser.parse_known_args()
-shellcuts = load_shellcuts()
+shellcuts = load_shellcuts() ### probably dont need to load this
 
 # Attempts to short-circuit the program and jump if only one argument given.
 if len(unknown) < 1:
-    command_go(arguments.shellcut)
+    command_go(arguments.shellcut) # might have to change
     exit(0)
 
 # Adds other flags and re-parses arguments.
@@ -266,7 +266,7 @@ if len(unknown) > 0:
     exit(0)
 
 # This tuple associates arguments from the parser with their functions.
-command_pairs = (
+command_pairs = ( # there's gotta be abetter way
     (arguments.help, command_help),
     (arguments.list, command_list),
     (arguments.version, command_version),
