@@ -36,21 +36,7 @@ class DatabaseConnection:
                                                              command TEXT)""")
         self.cursor.execute("""CREATE TABLE table_defaults (enabled BOOLEAN,
                                                             command TEXT)""")
-        self.toggle_default_commands(False)
-
-    def toggle_default_commands(self, enabled, command=None):
-        """Toggle default flag in table_defaults and set command if true."""
-        self.cursor.execute("SELECT * FROM table_defaults")
-        
-        if self.cursor.fetchone() is None:
-            self.cursor.execute("INSERT INTO table_defaults VALUES (?,?)",
-                                (enabled, command))
-        elif enabled is True:
-            self.cursor.execute("UPDATE table_defaults SET enabled=?, command=?",
-                                (enabled, command))
-        else:
-            self.cursor.execute("UPDATE table_defaults SET enabled=?",
-                                (enabled,))
+        self.set_default_command(False)
 
     def get_default_command(self):
         """Get the default command from table_defaults."""
@@ -60,54 +46,36 @@ class DatabaseConnection:
 
         return None if command is None else command[0]
 
+    def set_default_command(self, enabled, command=None):
+        """Toggle default flag in table_defaults and set command if true."""
+        self.cursor.execute("SELECT * FROM table_defaults")
+       
+        # If the table_defaults is empty, add a new entry.
+        if self.cursor.fetchone() is None:
+            self.cursor.execute("INSERT INTO table_defaults VALUES (?,?)",
+                                (enabled, command))
+        # Else if flag is being set to true, set both flag and command.
+        elif enabled is True:
+            self.cursor.execute("UPDATE table_defaults SET enabled=?, command=?",
+                                (enabled, command))
+        # Else flag is being set to false. Ignores command.
+        else:
+            self.cursor.execute("UPDATE table_defaults SET enabled=?",
+                                (enabled,))
+
     def insert_shellcut(self, name, path):
         """Insert shellcut into database."""
 
         # If the shellcut already exists in the table, delete it first.
-        if self.get_shellcut_path(name) is not None:
+        if self.get_shellcut(name) is not None:
             self.delete_shellcut(name)
 
         self.cursor.execute("INSERT INTO table_shellcuts VALUES (?,?,?)",
                             (name, path, None))
 
-    def get_shellcut_path(self, name):
-        """Get path of named shellcut."""
-        self.cursor.execute("SELECT path FROM table_shellcuts WHERE name=?",
-                            (name,))
-
-        path = self.cursor.fetchone()
-
-        return None if path is None else path[0]
-
-    def default_enabled(self):
-        self.cursor.execute("SELECT enabled FROM table_defaults")
-
-        enabled = self.cursor.fetchone()
-
-        return None if enabled is None else enabled[0]
-
-    def set_follow_command(self, name, command):
-        """"""
-        self.cursor.execute("UPDATE table_shellcuts SET command=? WHERE name=?",
-                            (command, name))
-
-    def get_follow_command(self, name):
-        """"""
-        self.cursor.execute("SELECT command FROM table_shellcuts WHERE name=?",
-                            (name,))
-
-        command = self.cursor.fetchone()
-
-        # If the fetch fails, returns None.
-        if command is None:
-            return None
-        # If the command is None and default commands are enabled, returns
-        # the default command.
-        elif command[0] is None and self.default_enabled():
-            return self.get_default_command()
-        # Else returns the custom command.
-        else:
-            return command[0]
+    def delete_shellcut(self, name):
+        """Delete a shellcut from the database."""
+        self.cursor.execute("DELETE FROM table_shellcuts WHERE name=?", (name,))
 
     def get_shellcut(self, name):
         """Get path, name, and command of named shellcut."""
@@ -116,12 +84,42 @@ class DatabaseConnection:
 
         return self.cursor.fetchone()
 
+    def get_shellcut_path(self, name):
+        """Get path of named shellcut."""
+        shellcut = self.get_shellcut(name)
+        
+        return None if shellcut is None else shellcut[1]
+
     def get_all_shellcuts(self):
         """Get all shellcuts in database."""
         self.cursor.execute("SELECT * FROM table_shellcuts")
 
         return self.cursor.fetchall()
 
-    def delete_shellcut(self, name):
-        """Delete a shellcut from the database."""
-        self.cursor.execute("DELETE FROM table_shellcuts WHERE name=?", (name,))
+    def get_shellcut_command(self, name):
+        """Get follow command for shellcut."""
+        shellcut = self.get_shellcut(name)
+
+        # If the fetch fails, returns None.
+        if shellcut is None:
+            return None
+        # If the command is None and default commands are enabled, returns
+        # the default command.
+        elif shellcut[2] is None and self.check_default_command_enabled():
+            return self.get_default_command()
+        # Else returns the custom command.
+        else:
+            return shellcut[2]
+
+    def set_shellcut_command(self, name, command):
+        """Set follow command for shellcut."""
+        self.cursor.execute("UPDATE table_shellcuts SET command=? WHERE name=?",
+                            (command, name))
+    
+    def check_default_command_enabled(self):
+        """Check if default commands are enabled."""
+        self.cursor.execute("SELECT enabled FROM table_defaults")
+
+        enabled = self.cursor.fetchone()
+
+        return None if enabled is None else enabled[0]
