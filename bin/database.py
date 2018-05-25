@@ -84,17 +84,17 @@ class DatabaseConnection:
 
         return self.cursor.fetchone()
 
-    def get_shellcut_path(self, name):
-        """Get path of named shellcut."""
-        shellcut = self.get_shellcut(name)
-        
-        return None if shellcut is None else shellcut[1]
-
     def get_all_shellcuts(self):
         """Get all shellcuts in database."""
         self.cursor.execute("SELECT * FROM table_shellcuts")
 
         return self.cursor.fetchall()
+
+    def get_shellcut_path(self, name):
+        """Get path of named shellcut."""
+        shellcut = self.get_shellcut(name)
+        
+        return None if shellcut is None else shellcut[1]
 
     def get_shellcut_command(self, name):
         """Get follow command for shellcut."""
