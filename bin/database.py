@@ -38,7 +38,7 @@ class DatabaseConnection:
                                                             command TEXT)""")
         self.toggle_default_commands(False)
 
-    def toggle_default_commands(self, enabled, command=""):
+    def toggle_default_commands(self, enabled, command=None):
         """Toggle default flag in table_defaults and set command if true."""
         self.cursor.execute("SELECT * FROM table_defaults")
         
@@ -56,7 +56,9 @@ class DatabaseConnection:
         """Get the default command from table_defaults."""
         self.cursor.execute("SELECT command FROM table_defaults")
 
-        return self.cursor.fetchone()
+        command = self.cursor.fetchone()
+
+        return None if command is None else command[0]
 
     def insert_shellcut(self, name, path):
         """Insert shellcut into database."""
@@ -66,14 +68,46 @@ class DatabaseConnection:
             self.delete_shellcut(name)
 
         self.cursor.execute("INSERT INTO table_shellcuts VALUES (?,?,?)",
-                            (name, path, ""))
+                            (name, path, None))
 
     def get_shellcut_path(self, name):
         """Get path of named shellcut."""
         self.cursor.execute("SELECT path FROM table_shellcuts WHERE name=?",
                             (name,))
 
-        return self.cursor.fetchone()
+        path = self.cursor.fetchone()
+
+        return None if path is None else path[0]
+
+    def default_enabled(self):
+        self.cursor.execute("SELECT enabled FROM table_defaults")
+
+        enabled = self.cursor.fetchone()
+
+        return None if enabled is None else enabled[0]
+
+    def set_follow_command(self, name, command):
+        """"""
+        self.cursor.execute("UPDATE table_shellcuts SET command=? WHERE name=?",
+                            (command, name))
+
+    def get_follow_command(self, name):
+        """"""
+        self.cursor.execute("SELECT command FROM table_shellcuts WHERE name=?",
+                            (name,))
+
+        command = self.cursor.fetchone()
+
+        # If the fetch fails, returns None.
+        if command is None:
+            return None
+        # If the command is None and default commands are enabled, returns
+        # the default command.
+        elif command[0] is None and self.default_enabled():
+            return self.get_default_command()
+        # Else returns the custom command.
+        else:
+            return command[0]
 
     def get_shellcut(self, name):
         """Get path, name, and command of named shellcut."""
