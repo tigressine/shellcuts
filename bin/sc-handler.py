@@ -10,12 +10,12 @@ import os
 import shutil
 import sqlite3
 import argparse
-from pathlib import Path ####
+from pathlib import Path
 
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
-F_VERSION = '/usr/share/doc/shellcuts/META.txt'
+F_VERSION = Path('/usr/share/doc/shellcuts/META.txt')
 F_SHELLCUTS = Path('~/.config/shellcuts/shellcuts.db').expanduser()
 
 ### SUBCLASSES ###
@@ -154,7 +154,7 @@ class Parser(argparse.ArgumentParser):
     """
     def __init__(self, *args, **kwargs): #### add no help menu here so it doesnt have to be passed
         """Initialize by initializing super and adding base argument."""
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, add_help=False, **kwargs)
 
         self.add_argument('shellcut', nargs='?', default=None)
 
@@ -175,14 +175,6 @@ class Parser(argparse.ArgumentParser):
                           action='store_false',
                           dest='bashmarks',
                           default=None)
-        self.add_argument('--enable-z',
-                          action='store_true',
-                          dest='z',
-                          default=None)
-        self.add_argument('--disable-z',
-                          action='store_false',
-                          dest='z',
-                          default=None)
     
     def error(self, message):
         """Call help command in case of error."""
@@ -191,17 +183,17 @@ class Parser(argparse.ArgumentParser):
 
 
 ### COMMANDS ###
-def command_bashmarks(enable): ######### maybe dunno
+def command_bashmarks(enabled):
     """Enable or disable Bashmarks syntax.
     
     Determines which shells Shellcuts is configured to use, then either
     installs the bashmarks-alias files into the appropriate config folder, or
     removes them.
     """
-    command = 'printf ""'
+    command = 'printf "{0} Bashmarks syntax."'
 
-    for install in [item for item in F_SHELLCUTS_JSON.parent.iterdir() if item.is_dir()]:
-        if enable:
+    for install in [item for item in F_SHELLCUTS.parent.iterdir() if item.is_dir()]:
+        if enabled is True:
             for f in D_SHELL_CONFIGS.joinpath(install.name).iterdir():
                 if f.stem == 'bashmarks-aliases':
                     shutil.copyfile(f, install.joinpath(f.name))
@@ -209,22 +201,22 @@ def command_bashmarks(enable): ######### maybe dunno
             else:
                 error_message("BadInstall")
 
-        elif not enable:
+        elif not enabled:
             for f in install.iterdir():
                 if f.stem == 'bashmarks-aliases':
                     os.remove(f)
                     break
 
-    print(command)
+    print(command.format("Enabled" if enabled is True else "Disabled"))
 
 def command_delete(shellcut):
     """Delete shellcut from database."""
-    command = 'printf "Deleted shellcut \'{0}\'"'.format(shellcut)
+    command = 'printf "Deleted shellcut \'{0}\'"'
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         db.delete_shellcut(shellcut)
 
-    print(command)
+    print(command.format(shellcut))
 
 def command_go(shellcut):
     """Access shellcut and return 'cd' command to shellcut dir."""
@@ -285,7 +277,7 @@ def command_list(*_):
         command += 'SHELLCUTS\n'
     
         for shellcut in shellcuts:
-            command += '{0} : {1} : {2}\n'.format(shellcut[0], shellcut[1], shellcut[2])
+            command += '{0} : {1} : {2}\n'.format(*shellcut)
     else:
         command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -294,23 +286,23 @@ def command_list(*_):
 
 def command_move(shellcut):
     """Reinsert existing shellcut at new location."""
-    command = 'printf "Moved shellcut\'{0}\'"'.format(shellcut)
+    command = 'printf "Moved shellcut\'{0}\'"'
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         # The insert_shellcut function will delete old versions of the shellcut
         # and use the most recent version.
         db.insert_shellcut(shellcut, os.getcwd())
 
-    print(command)
+    print(command.format(shellcut))
 
 def command_new(shellcut):
     """Add shellcut to database and print confirmation."""
-    command = 'printf "Added new shellcut \'{0}\'"'.format(shellcut)
+    command = 'printf "Added new shellcut \'{0}\'"'
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         db.insert_shellcut(shellcut, os.getcwd())
 
-    print(command)
+    print(command.format(shellcut))
 
 def command_print(shellcut):
     """Print specific shellcut."""
@@ -334,10 +326,6 @@ def command_version(*_):
     
     print(command)
 
-def command_z(enable): ### remove
-    """Unimplemented."""
-    error_message("Unimplemented")
-
 
 ### HELPER FUNCTIONS ###
 def error_message(error):
@@ -360,47 +348,48 @@ def error_message(error):
 def load_version_info():
     """Load version information found at F_VERSION."""
     try:
-        with open(F_VERSION, 'r') as f:
+        with open(str(F_VERSION), 'r') as f:
             return f.readlines()
     except FileNotFoundError:
         error_message("NoVersion")
 
-### START MAIN PROGRAM ### ##################################### need to be able to import
-parser = Parser(add_help=False) ### get rid of the arg here
-arguments, unknown = parser.parse_known_args()
 
-# Attempts to short-circuit the program and jump if only one argument given.
-if len(unknown) < 1:
-    command_go(arguments.shellcut) # might have to change
-    exit(0)
+### START MAIN PROGRAM ###
+if __name__ == '__main__':
+    parser = Parser()
+    arguments, unknown = parser.parse_known_args()
 
-# Adds other flags and re-parses arguments.
-parser.add_additional_arguments()
-arguments, unknown = parser.parse_known_args()
+    # Attempts to short-circuit the program and jump if only one argument given.
+    if len(unknown) < 1:
+        command_go(arguments.shellcut)
+        exit(0)
 
-# If anything unknown is passed, show help and exit.
-if len(unknown) > 0:
-    command_help()
-    exit(0)
+    # Adds other flags and re-parses arguments.
+    parser.add_additional_arguments()
+    arguments, unknown = parser.parse_known_args()
 
-# This tuple associates arguments from the parser with their functions.
-command_pairs = ( # there's gotta be abetter way
-    (arguments.help, command_help),
-    (arguments.list, command_list),
-    (arguments.version, command_version),
-    (arguments.init, command_init),
-    (arguments.bashmarks, command_bashmarks),
-    (arguments.z, command_z),
-    (arguments.delete, command_delete),
-    (arguments.new, command_new),
-    (arguments.print, command_print))
+    # If anything unknown is passed, show help and exit.
+    if len(unknown) > 0:
+        command_help()
+        exit(0)
 
-# For each in tuple, if value is not 'None', execute associated function.
-for pair in command_pairs:
-    if pair[0] != None:
-        # Passes value to corresponding function. Functions are designed to
-        # handle this value even if they don't need it.
-        pair[1](pair[0])
-        break
-else:
-    command_help()
+    # This tuple associates arguments from the parser with their functions.
+    command_pairs = ( # there's gotta be abetter way
+        (arguments.help, command_help),
+        (arguments.list, command_list),
+        (arguments.version, command_version),
+        (arguments.init, command_init),
+        (arguments.bashmarks, command_bashmarks),
+        (arguments.delete, command_delete),
+        (arguments.new, command_new),
+        (arguments.print, command_print))
+
+    # For each in tuple, if value is not 'None', execute associated function.
+    for pair in command_pairs:
+        if pair[0] != None:
+            # Passes value to corresponding function. Functions are designed to
+            # handle this value even if they don't need it.
+            pair[1](pair[0])
+            break
+    else:
+        command_help()
