@@ -66,26 +66,26 @@ class DatabaseTester(unittest.TestCase):
     def testToggleDefaults(self):
         """Toggle default command flag for database."""
         with DatabaseConnection(self.path) as db:
-            self.assertEqual(db.default_enabled(), 0)
+            self.assertEqual(db.check_default_command_enabled(), 0)
             
-            db.toggle_default_commands(True)
+            db.set_default_command(True)
             
-            self.assertEqual(db.default_enabled(), 1)
+            self.assertEqual(db.check_default_command_enabled(), 1)
 
     def testChangeDefaultCommand(self):
         """Change default command."""
         with DatabaseConnection(self.path) as db:
             # Check that the default command is nothing at first.
-            db.toggle_default_commands(False)
+            db.set_default_command(False)
             self.assertEqual(db.get_default_command(), None)
 
             # Check that the default command is updated when toggled on.
-            db.toggle_default_commands(True, command="echo 'hello'")
+            db.set_default_command(True, command="echo 'hello'")
             self.assertEqual(db.get_default_command(), "echo 'hello'")
 
             # Check that the default command persists even when toggled off.
             # Ignores command passed if toggling to false.
-            db.toggle_default_commands(False, "pwd")
+            db.set_default_command(False, "pwd")
             self.assertEqual(db.get_default_command(), "echo 'hello'")
 
     def testSetFollowCommand(self):
@@ -93,44 +93,44 @@ class DatabaseTester(unittest.TestCase):
         populateTestingDatabase(self.path)
 
         with DatabaseConnection(self.path) as db:
-            db.set_follow_command("Test1", "clsa")
-            db.set_follow_command("Test2", "clsa; pwd")
-            db.set_follow_command("Test3", None)
+            db.set_shellcut_command("Test1", "clsa")
+            db.set_shellcut_command("Test2", "clsa; pwd")
+            db.set_shellcut_command("Test3", None)
 
-            self.assertEqual(db.get_follow_command("Test1"), "clsa")
-            self.assertEqual(db.get_follow_command("Test2"), "clsa; pwd")
-            self.assertEqual(db.get_follow_command("Test3"), None)
+            self.assertEqual(db.get_shellcut_command("Test1"), "clsa")
+            self.assertEqual(db.get_shellcut_command("Test2"), "clsa; pwd")
+            self.assertEqual(db.get_shellcut_command("Test3"), None)
 
     def testGetFollowCommand(self):
         """Get follow commands before and after default commands enabled."""
         populateTestingDatabase(self.path)
 
         with DatabaseConnection(self.path) as db:
-            self.assertEqual(db.default_enabled(), 0)
-            db.set_follow_command("Test1", "clsa")
-            db.set_follow_command("Test2", "clsa; pwd")
-            db.set_follow_command("Test3", None)
+            self.assertEqual(db.check_default_command_enabled(), 0)
+            db.set_shellcut_command("Test1", "clsa")
+            db.set_shellcut_command("Test2", "clsa; pwd")
+            db.set_shellcut_command("Test3", None)
 
-            self.assertEqual(db.get_follow_command("Test1"), "clsa")
-            self.assertEqual(db.get_follow_command("Test2"), "clsa; pwd")
-            self.assertEqual(db.get_follow_command("Test3"), None)
+            self.assertEqual(db.get_shellcut_command("Test1"), "clsa")
+            self.assertEqual(db.get_shellcut_command("Test2"), "clsa; pwd")
+            self.assertEqual(db.get_shellcut_command("Test3"), None)
 
-            db.toggle_default_commands(True, command="ls -A")
-            self.assertEqual(db.default_enabled(), 1)
-            self.assertEqual(db.get_follow_command("Test1"), "clsa")
-            self.assertEqual(db.get_follow_command("Test2"), "clsa; pwd")
+            db.set_default_command(True, command="ls -A")
+            self.assertEqual(db.check_default_command_enabled(), 1)
+            self.assertEqual(db.get_shellcut_command("Test1"), "clsa")
+            self.assertEqual(db.get_shellcut_command("Test2"), "clsa; pwd")
             # The return command for Test3 changes because default overrides
             # any None commands.
-            self.assertEqual(db.get_follow_command("Test3"), "ls -A")
+            self.assertEqual(db.get_shellcut_command("Test3"), "ls -A")
 
     def testInitialFollowCommands(self):
         """Test that initial follow commands are set to None."""
         populateTestingDatabase(self.path)
 
         with DatabaseConnection(self.path) as db:
-            self.assertEqual(db.get_follow_command("Test1"), None)
-            self.assertEqual(db.get_follow_command("Test2"), None)
-            self.assertEqual(db.get_follow_command("Test3"), None)
+            self.assertEqual(db.get_shellcut_command("Test1"), None)
+            self.assertEqual(db.get_shellcut_command("Test2"), None)
+            self.assertEqual(db.get_shellcut_command("Test3"), None)
 
 def populateTestingDatabase(path):
     """Populate a database for testing."""
