@@ -1,4 +1,4 @@
-.TH shellcuts 1 "3 March 2018" "1.2.1"
+.TH shellcuts 1 "25 May 2018" "1.2.2"
 
 .SH NAME
 shellcuts - directory shortcuts for your shell.
@@ -30,8 +30,6 @@ Planned features include:
 .PP
 - Csh, Korn shell support
 .PP
-- z-like features
-.PP
 - local, non-administrator installs
 .RE
 
@@ -58,13 +56,19 @@ list all available shellcuts
 create a new shellcut for the current working directory
 .RE
 .PP
+.B -m, --move
+.I shellcut
+.RS 4
+move an existing shellcut to a new directory
+.RE
+.PP
 .B -p, --print
 .I shellcut
 .RS 4
 print the specified shellcut to the screen
 .RE
 .PP
-.B --version
+.B -v, --version
 .RS 4
 display version information
 .RE
@@ -77,11 +81,6 @@ launch the initialization script
 .B --enable-bashmarks-syntax, --disable-bashmarks-syntax
 .RS 4
 enable or disable Bashmarks syntax (default: disabled)
-.RE
-.PP
-.B --enable-z, --disable-z
-.RS 4
-enable or disable z-like features (default: disabled) [PLANNED]
 .RE
 
 .SH USAGE

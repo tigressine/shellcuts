@@ -1,5 +1,10 @@
 Changelog for Shellcuts
 
+v1.2.2 - 05/25/2018
+  - Changed data storage technology from JSON to SQLite
+  - Added --move command
+  - Some operations now tell you what they did afterwards
+
 v1.2.1 - 03/03/2018
   - Added support for spaces in path names
   - Fixed issue with Fish printing some things weirdly
