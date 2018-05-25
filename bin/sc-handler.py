@@ -219,25 +219,29 @@ def command_bashmarks(enable): ######### maybe dunno
 
     print(command)
 
-def command_delete(shellcut): #################
-    """Delete shellcut and write to file."""
-    command = 'printf ""'
+def command_delete(shellcut):
+    """Delete shellcut from database."""
+    command = 'printf "Deleted shellcut \'{0}\'"'.format(shellcut)
     
-    shellcuts.pop(shellcut, None)
-    write_shellcuts()
-    
+    with DatabaseConnection(F_SHELLCUTS) as db:
+        db.delete_shellcut(shellcut)
+
     print(command)
 
-def command_go(shellcut): #######################33
+def command_go(shellcut):
     """Access shellcut and return 'cd' command to shellcut dir."""
-    try:
-        command = 'cd "' + shellcuts[shellcut] + '"'
-        if Path(shellcuts[shellcut]).exists():
-            print(command)
+    command = 'cd "{0}"'
+
+    with DatabaseConnection(F_SHELLCUTS) as db:
+        path = db.get_shellcut_path(shellcut)
+
+        if path is None:
+            error_message(1) # no shellcut
+        elif Path(path).exists():
+            print(command.format(path))
         else:
-            error_message(5)
-    except KeyError:
-        error_message(1)
+            db.delete_shellcut(shellcut)
+            error_message(5) # path invalid
 
 def command_help(*_):
     """Print a small help menu to the screen."""
@@ -300,7 +304,7 @@ def command_move(shellcut):
 
 def command_new(shellcut):
     """Add shellcut to database and print confirmation."""
-    command = 'printf "Added new shellcut\'{0}\'"'.format(shellcut)
+    command = 'printf "Added new shellcut \'{0}\'"'.format(shellcut)
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         db.insert_shellcut(shellcut, os.getcwd())
