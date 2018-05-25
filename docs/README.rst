@@ -15,7 +15,6 @@ Planned features include:
 - tab completion
 - Csh, Korn shell support
 - installable via APT, DNF, Homebrew
-- z-like_ features
 - local, non-administrator installs
 
 installation
@@ -27,13 +26,13 @@ Shellcuts is meant to be easy to install--use any of the following methods. You 
 
 If you use a Debian-based machine (Ubuntu, Linux Mint, Debian, etc) then use this method! APT support is hopefully coming soon. Run the following command:
 ::
-  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.1/shellcuts.deb && sudo dpkg -i shellcuts.deb
+  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.2/shellcuts.deb && sudo dpkg -i shellcuts.deb
 
 **METHOD 2:** Install with wget and dnf
 
 RedHat-based machines (Fedora, CentOS, etc) should install using this method! DNF support is on the way. Run the following command:
 ::
-  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.1/shellcuts-1.2.1-1.fc27.noarch.rpm && sudo dnf install shellcuts-1.2.1-1.fc27.noarch.rpm
+  $ wget https://github.com/tgsachse/shellcuts/releases/download/v1.2.2/shellcuts-1.2.2-1.fc27.noarch.rpm && sudo dnf install shellcuts-1.2.2-1.fc27.noarch.rpm
 
 usage
 -----
@@ -72,16 +71,16 @@ Here is a list of all available options/flags:
   List all available shellcuts.
 ``-n, --new [shellcut]``
   Create a new shellcut for the current working directory.
+``-m, --move [shellcut]``
+  Move an existing shellcut to a new directory.
 ``-p, --print [shellcut]``
   Print the specified shellcut to the screen.
-``--version``
+``-v, --version``
   Display version information.
 ``--init``
   Launch the initialization script.
 ``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
   Enable or disable Bashmarks syntax. (default: disabled)
-``--enable-z, --disable-z`` (planned)
-  Enable or disable z-like features. (default: disabled)
   
 examples
 --------
@@ -114,5 +113,4 @@ Here are some examples of Shellcuts in action. See this program's man page for m
   bin : /bin
 
 .. _Bashmarks: https://www.github.com/huyng/bashmarks
-.. _z-like: https://github.com/rupa/z
 .. _`Python 3`: https://www.python.org
