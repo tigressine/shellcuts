@@ -91,18 +91,3 @@ class DatabaseConnection:
     def delete_shellcut(self, name):
         """Delete a shellcut from the database."""
         self.cursor.execute("DELETE FROM table_shellcuts WHERE name=?", (name,))
-
-with DatabaseConnection("hello.db") as database:
-    database.insert_shellcut("f", "/f")
-    print(database.get_shellcut_path("restinpeace"))
-    print(database.get_shellcut("destroyme"))
-    
-    database.delete_shellcut("destroyme")
-    
-    print(database.get_all_shellcuts())
-    
-    print(database.get_default_command())
-    database.toggle_default_commands(True, command="clsa")
-    print(database.get_default_command())
-    database.toggle_default_commands(False)
-    print(database.get_default_command())
