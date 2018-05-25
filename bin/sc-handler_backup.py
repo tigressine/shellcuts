@@ -18,14 +18,14 @@ from pathlib import Path ####
 F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()    ####
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
-F_SHELLCUTS = Path('~/.config/shellcuts/shellcuts.db').expanduser()
+
 
 ### SUBCLASSES ###
 class DatabaseConnection:
     """An SQLite database connection containing shellcuts."""
     def __init__(self, path):
         """Save path of database as self.path."""
-        self.path = str(path)
+        self.path = path
 
     def __enter__(self):
         """Initialize connection and cursor."""
@@ -209,7 +209,7 @@ def command_bashmarks(enable): ######### maybe dunno
                     shutil.copyfile(f, install.joinpath(f.name))
                     break
             else:
-                error_message("BadInstall")
+                error_message(4)
 
         elif not enable:
             for f in install.iterdir():
@@ -219,29 +219,25 @@ def command_bashmarks(enable): ######### maybe dunno
 
     print(command)
 
-def command_delete(shellcut):
-    """Delete shellcut from database."""
-    command = 'printf "Deleted shellcut \'{0}\'"'.format(shellcut)
+def command_delete(shellcut): #################
+    """Delete shellcut and write to file."""
+    command = 'printf ""'
     
-    with DatabaseConnection(F_SHELLCUTS) as db:
-        db.delete_shellcut(shellcut)
-
+    shellcuts.pop(shellcut, None)
+    write_shellcuts()
+    
     print(command)
 
-def command_go(shellcut):
+def command_go(shellcut): #######################33
     """Access shellcut and return 'cd' command to shellcut dir."""
-    command = 'cd "{0}"'
-
-    with DatabaseConnection(F_SHELLCUTS) as db:
-        path = db.get_shellcut_path(shellcut)
-
-        if path is None:
-            error_message("DoesNotExist")
-        elif Path(path).exists():
-            print(command.format(path))
+    try:
+        command = 'cd "' + shellcuts[shellcut] + '"'
+        if Path(shellcuts[shellcut]).exists():
+            print(command)
         else:
-            db.delete_shellcut(shellcut)
-            error_message("BadPath")
+            error_message(5)
+    except KeyError:
+        error_message(1)
 
 def command_help(*_):
     """Print a small help menu to the screen."""
@@ -291,24 +287,13 @@ def command_list(*_): #########
     command += '"'
     print(command)
 
-def command_move(shellcut):
-    """Reinsert existing shellcut at new location."""
-    command = 'printf "Moved shellcut\'{0}\'"'.format(shellcut)
+def command_new(shellcut): ############
+    """Add shellcut and write to file."""
+    command = 'printf ""'
     
-    with DatabaseConnection(F_SHELLCUTS) as db:
-        # The insert_shellcut function will delete old versions of the shellcut
-        # and use the most recent version.
-        db.insert_shellcut(shellcut, os.getcwd())
-
-    print(command)
-
-def command_new(shellcut):
-    """Add shellcut to database and print confirmation."""
-    command = 'printf "Added new shellcut \'{0}\'"'.format(shellcut)
+    shellcuts[shellcut] = os.getcwd()
+    write_shellcuts()
     
-    with DatabaseConnection(F_SHELLCUTS) as db:
-        db.insert_shellcut(shellcut, os.getcwd())
-
     print(command)
 
 def command_print(shellcut): ##############33
@@ -317,7 +302,7 @@ def command_print(shellcut): ##############33
         command = 'printf "' + shellcut + ' : ' + shellcuts[shellcut] + '\n"'
         print(command)
     except KeyError:
-        error_message("DoesNotExist")
+        error_message(1)
 
 def command_version(*_):
     """Echo version information found in F_VERSION."""
@@ -329,9 +314,9 @@ def command_version(*_):
     
     print(command)
 
-def command_z(enable): ### remove
+def command_z(enable):
     """Unimplemented."""
-    error_message("Unimplemented")
+    error_message(2)
 
 
 ### HELPER FUNCTIONS ###
@@ -339,15 +324,16 @@ def error_message(error):
     """Echo an error message.
     
     Includes a master dictionary of all supported errors. These are accessible
-    by key.
+    by number.
     """
-    errors = {
-        "DoesNotExist"  : "That shellcut does not exist.",
-        "Unimplemented" : "This feature is unimplemented.",
-        "NoVersion"     : "Version information not found.",
-        "BadInstall"    : "Installed files are not in the expected place.",
-        "BadPath"       : "The path associated with this shellcut is invalid."}
-    command = 'printf "ERROR {0}: {1}\n"'.format(error, errors[error])
+    ERRORS = {
+        1 : "That shellcut does not exist.",
+        2 : "This feature is unimplemented.",
+        3 : "Version information not found.",
+        4 : "Installed files are not in the expected place.",
+        5 : "The path associated with this shellcut is invalid."}
+    
+    command = 'printf "ERROR {0}: {1}\n"'.format(error, ERRORS[error])
     
     print(command)
 
@@ -370,7 +356,7 @@ def load_version_info():
         with open(F_VERSION, 'r') as f:
             return f.readlines()
     except FileNotFoundError:
-        error_message("NoVersion")
+        error_message(3)
         exit(0)
 
 def write_shellcuts(): ####### might be totally unneeded
