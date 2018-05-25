@@ -7,7 +7,6 @@ the calling shell function.
 Part of Shellcuts by Tgsachse.
 """
 import os
-import json ##
 import shutil
 import sqlite3
 import argparse
@@ -15,7 +14,6 @@ from pathlib import Path ####
 
 ### CONSTANTS ###
 # Can be changed to save the shellcuts in a different location.
-F_SHELLCUTS_JSON = Path('~/.config/shellcuts/shellcuts.json').expanduser()    ####
 D_SHELL_CONFIGS = Path('/usr/share/shellcuts/')
 F_VERSION = '/usr/share/doc/shellcuts/META.txt'
 F_SHELLCUTS = Path('~/.config/shellcuts/shellcuts.db').expanduser()
@@ -25,15 +23,15 @@ class DatabaseConnection:
     """An SQLite database connection containing shellcuts."""
     def __init__(self, path):
         """Save path of database as self.path."""
-        self.path = str(path)
+        self.path = path
 
     def __enter__(self):
         """Initialize connection and cursor."""
-        if Path(self.path).is_file():
-            self.connection = sqlite3.connect(self.path)
+        if self.path.is_file():
+            self.connection = sqlite3.connect(str(self.path))
             self.cursor = self.connection.cursor()
         else:
-            self.connection = sqlite3.connect(self.path)
+            self.connection = sqlite3.connect(str(self.path))
             self.cursor = self.connection.cursor()
             self.create()
 
@@ -276,15 +274,18 @@ def command_init(*_):
     
     print(command)
 
-def command_list(*_): #########
+def command_list(*_):
     """List all shellcuts."""
     command = 'printf "'
-    
-    if len(shellcuts) > 0:
+
+    with DatabaseConnection(F_SHELLCUTS) as db:
+        shellcuts = db.get_all_shellcuts()
+
+    if shellcuts is not None and len(shellcuts) > 0:
         command += 'SHELLCUTS\n'
     
         for shellcut in shellcuts:
-            command += '{0} : {1}\n'.format(shellcut, shellcuts[shellcut])
+            command += '{0} : {1} : {2}\n'.format(shellcut[0], shellcut[1], shellcut[2])
     else:
         command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -311,14 +312,18 @@ def command_new(shellcut):
 
     print(command)
 
-def command_print(shellcut): ##############33
+def command_print(shellcut):
     """Print specific shellcut."""
-    try:
-        command = 'printf "' + shellcut + ' : ' + shellcuts[shellcut] + '\n"'
-        print(command)
-    except KeyError:
+    command = 'printf "{0} : {1} : {2}\n"'
+    
+    with DatabaseConnection(F_SHELLCUTS) as db:
+        shellcut_tuple = db.get_shellcut(shellcut)
+   
+    if shellcut_tuple is not None:
+        print(command.format(*shellcut_tuple))
+    else:
         error_message("DoesNotExist")
-
+   
 def command_version(*_):
     """Echo version information found in F_VERSION."""
     command = 'printf "'
@@ -350,19 +355,7 @@ def error_message(error):
     command = 'printf "ERROR {0}: {1}\n"'.format(error, errors[error])
     
     print(command)
-
-def load_shellcuts():####completely change
-    """Load the shellcuts file.
-
-    Returns empty dictionary if the file does not exist.
-    """
-    try:
-        with open(F_SHELLCUTS_JSON, 'r') as f:
-            shellcuts = json.load(f)
-    except FileNotFoundError:
-        shellcuts = {}
-
-    return shellcuts
+    exit(0)
 
 def load_version_info():
     """Load version information found at F_VERSION."""
@@ -371,23 +364,10 @@ def load_version_info():
             return f.readlines()
     except FileNotFoundError:
         error_message("NoVersion")
-        exit(0)
-
-def write_shellcuts(): ####### might be totally unneeded
-    """Write shellcuts to file.
-    
-    Creates appropriate directory if it doesn't exist.
-    """
-    F_SHELLCUTS_JSON.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(F_SHELLCUTS_JSON, 'w') as f:
-        json.dump(shellcuts, f)
-
 
 ### START MAIN PROGRAM ### ##################################### need to be able to import
 parser = Parser(add_help=False) ### get rid of the arg here
 arguments, unknown = parser.parse_known_args()
-shellcuts = load_shellcuts() ### probably dont need to load this
 
 # Attempts to short-circuit the program and jump if only one argument given.
 if len(unknown) < 1:
