@@ -164,8 +164,9 @@ class Parser(argparse.ArgumentParser):
         self.add_argument('-h', '--help', action='store_true', default=None)
         self.add_argument('-l', '--list', action='store_true', default=None)
         self.add_argument('-n', '--new')
+        self.add_argument('-m', '--move')
         self.add_argument('-p', '--print')
-        self.add_argument('--version', action='store_true', default=None)
+        self.add_argument('-v', '--version', action='store_true', default=None)
         self.add_argument('--init', action='store_true', default=None)
         self.add_argument('--enable-bashmarks-syntax',
                           action='store_true',
@@ -190,7 +191,7 @@ def command_bashmarks(enabled):
     installs the bashmarks-alias files into the appropriate config folder, or
     removes them.
     """
-    command = 'printf "{0} Bashmarks syntax."'
+    command = 'printf "{0} Bashmarks syntax.\n"'
 
     for install in [item for item in F_SHELLCUTS.parent.iterdir() if item.is_dir()]:
         if enabled is True:
@@ -211,7 +212,7 @@ def command_bashmarks(enabled):
 
 def command_delete(shellcut):
     """Delete shellcut from database."""
-    command = 'printf "Deleted shellcut \'{0}\'"'
+    command = 'printf "Deleted shellcut \'{0}\'\n"'
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         db.delete_shellcut(shellcut)
@@ -286,7 +287,7 @@ def command_list(*_):
 
 def command_move(shellcut):
     """Reinsert existing shellcut at new location."""
-    command = 'printf "Moved shellcut\'{0}\'"'
+    command = 'printf "Moved shellcut \'{0}\'\n"'
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         # The insert_shellcut function will delete old versions of the shellcut
@@ -297,7 +298,7 @@ def command_move(shellcut):
 
 def command_new(shellcut):
     """Add shellcut to database and print confirmation."""
-    command = 'printf "Added new shellcut \'{0}\'"'
+    command = 'printf "Added new shellcut \'{0}\'\n"'
     
     with DatabaseConnection(F_SHELLCUTS) as db:
         db.insert_shellcut(shellcut, os.getcwd())
@@ -382,6 +383,7 @@ if __name__ == '__main__':
         (arguments.bashmarks, command_bashmarks),
         (arguments.delete, command_delete),
         (arguments.new, command_new),
+        (arguments.move, command_move),
         (arguments.print, command_print))
 
     # For each in tuple, if value is not 'None', execute associated function.
