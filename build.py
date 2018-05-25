@@ -64,7 +64,7 @@ def build_deb():
 
 def build_rpm():
     """Build RPM package from source."""
-    ARCHIVE_NAME = 'v1.2.1'
+    ARCHIVE_NAME = 'v1.2.2'
     SOURCE_SPEC = 'pack/rpm/shellcuts.spec'
     ARCHIVE = Path.cwd().joinpath(ARCHIVE_NAME)
     RPM_BUILD = Path('~/rpmbuild').expanduser()
@@ -80,7 +80,11 @@ def build_rpm():
         shutil.copytree(directory, ARCHIVE.joinpath(directory))
 
     # Generates the RPM build folder.
-    subprocess.run('rpmdev-setuptree')
+    RPM_BUILD.joinpath('BUILD').mkdir(parents=True)
+    RPM_BUILD.joinpath('RPMS/noarch').mkdir(parents=True)
+    RPM_BUILD.joinpath('SOURCES').mkdir(parents=True)
+    RPM_BUILD.joinpath('SPECS').mkdir(parents=True)
+    RPM_BUILD.joinpath('SRPMS').mkdir(parents=True)
      
     # Compresses a tarball from source and copy files into RPM build folder.
     shutil.make_archive(TARBALL, 'gztar', os.getcwd(), ARCHIVE_NAME)
