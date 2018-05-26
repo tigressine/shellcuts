@@ -138,3 +138,6 @@ def populateTestingDatabase(path):
         db.insert_shellcut("Test1", "/tmp/test1/")
         db.insert_shellcut("Test2", "/tmp/test2/")
         db.insert_shellcut("Test3", "/tmp/test3/")
+
+##if __name__ == '__main__':
+##    unittest.main()
