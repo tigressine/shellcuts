@@ -30,10 +30,10 @@ class CommandTester(unittest.TestCase):
     def create_test_database(self):
         """Create a test database with some sample entries."""
         with DatabaseConnection(SHELLCUTS_FILE) as db:
-            db.insert_shellcut('test1', '/tmp/test1')
-            db.insert_shellcut('test2', '/tmp/test2')
-            db.insert_shellcut('test3', '/tmp/test3')
-            db.insert_shellcut('test4', '/tmp/test4')
+            db.insert_shellcut('test1', '/tmp/test1/')
+            db.insert_shellcut('test2', '/tmp/test2/')
+            db.insert_shellcut('test3', '/tmp/test3/')
+            db.insert_shellcut('test4', '/tmp/test4/')
 
     @patch('core.utils.VERSION_FILE', VERSION_FILE)
     @patch('sys.stdout', new_callable=StringIO)
@@ -174,7 +174,7 @@ class CommandTester(unittest.TestCase):
         command_print('test1')
         
         # Confirm that the output stream contains information from test1.
-        self.assertTrue(re.search('test1.*/tmp/test1.*None', stream.getvalue()))
+        self.assertTrue(re.search('test1.*/tmp/test1/.*None', stream.getvalue()))
         
         command_print('test5')
         
@@ -191,7 +191,7 @@ class CommandTester(unittest.TestCase):
 
         # Check that each of the four entries is printed into the output stream.
         for num in range(1, 5):
-            self.assertTrue(re.search('test{0}.*/tmp/test{0}.*None'.format(num),
+            self.assertTrue(re.search('test{0}.*/tmp/test{0}/.*None'.format(num),
                             stream.getvalue()))
 
         self.delete_test_database()
@@ -200,9 +200,38 @@ class CommandTester(unittest.TestCase):
         # Check that if the database is empty, a helpful message appears.
         self.assertTrue(re.search('No shellcuts yet.', stream.getvalue()))
 
-    def test_008_check_go_command(self):
-        """"""
-        pass
+    @patch('core.commands.SHELLCUTS_FILE', SHELLCUTS_FILE)
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_008_check_go_command(self, stream):
+        """Test the multiple behaviors of the go command."""
+        self.create_test_database()
+        destination = Path('/tmp/test4/')
+        if destination.is_dir():
+            destination.rmdir()
+    
+        # Attempting to go to a nonexistant shellcut results in a
+        # DoesNotExist error.
+        command_go('test5')
+        self.assertTrue(re.search('DoesNotExist', stream.getvalue()))
+
+        # Attempting to go to a shellcut whose path does not exist throws a
+        # BadPath error and deletes the shellcut from the database.
+        command_go('test4')
+        self.assertTrue(re.search('BadPath', stream.getvalue()))
+
+        # Confirm that the shellcut has been deleted from the database.
+        command_go('test4')
+        self.assertTrue(re.search('DoesNotExist', stream.getvalue()))
+
+        # Make the test4 path valid.
+        destination.mkdir()
+        # Re-add test4 to the database.
+        with DatabaseConnection(SHELLCUTS_FILE) as db:
+            db.insert_shellcut('test4', '/tmp/test4/')
+
+        # Call command_go for a valid shellcut and retrieve the cd command.
+        command_go('test4')
+        self.assertTrue(re.search('cd "/tmp/test4/"', stream.getvalue()))
 
     def test_009_check_bashmarks_command(self):
         """"""
