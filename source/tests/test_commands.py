@@ -3,6 +3,7 @@
 Part of Shellcuts by Tgsachse.
 """
 import re
+import shutil
 import unittest
 from io import StringIO
 from core.utils import *
@@ -233,6 +234,27 @@ class CommandTester(unittest.TestCase):
         command_go('test4')
         self.assertTrue(re.search('cd "/tmp/test4/"', stream.getvalue()))
 
-    def test_009_check_bashmarks_command(self):
-        """"""
-        pass
+    @patch('core.commands.SHELL_CONFIGS', Path('/tmp/src/')) 
+    @patch('core.commands.SHELLCUTS_FILE', Path('/tmp/dest/shellcuts.db'))
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_009_check_bashmarks_command(self, stream):
+        """Unfinished."""
+        dest_directories = [Path('/tmp/dest/bash/'),
+                            Path('/tmp/dest/fish/'),
+                            Path('/tmp/dest/zsh/')]
+        src_directories = [Path('/tmp/src/bash/'),
+                           Path('/tmp/src/fish/'),
+                           Path('/tmp/src/zsh/')]
+
+        shutil.rmtree(str('/tmp/dest/'))
+        for directory in dest_directories:
+            directory.mkdir(parents=True)
+
+        shutil.rmtree(str('/tmp/src/'))
+        for directory in src_directories:
+            directory.mkdir(parents=True)
+            directory.joinpath('bashmarks-aliases.txt').touch()
+            directory.joinpath('other1.txt').touch()
+            directory.joinpath('other2.txt').touch()
+        
+        command_bashmarks(True)
