@@ -1,4 +1,6 @@
-"""
+"""Define a testing class for all commands in core package.
+
+Part of Shellcuts by Tgsachse.
 """
 import re
 import unittest
