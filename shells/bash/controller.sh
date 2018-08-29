@@ -1,21 +1,15 @@
 # Part of Shellcuts by Tgsachse.
 
-# File path constants.
-F_BASHMARKS=~/.config/shellcuts/bash/bashmarks-aliases.sh
+HANDLER_PATH=~/.shellcuts/binary/sc_handler
+PLUGINS_PATH=~/.shellcuts/shells/bash/plugins
 
-# Core function of program. Sends first two arguments to sc-handler.
-# sc-handler returns a function, which is then executed.
+# Get a command from the handler, based on the given
+# inputs, then execute that command.
 function sc {
-    eval "$(python3 /usr/bin/sc-handler $1 $2)"
+    eval "$(python3 $HANDLER_PATH $1 $2)"
 }
 
-# Full-name aliases.
-alias shellcut="sc"
-alias shellcuts="sc"
-alias shellc="sc"
-alias scut="sc"
-
-# If Bashmarks syntax is enabled (e.g. the file exists), load it.
-if [ -f "$F_BASHMARKS" ]; then
-    . $F_BASHMARKS
-fi
+# Load all shell plugins.
+for FILE in ${PLUGINS_PATH}/*; do
+    . $FILE
+done
