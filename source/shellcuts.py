@@ -1,7 +1,7 @@
 from pathlib import Path
-from utilities.commander import Commander
 from utilities.parser import Parser
 from utilities import constants, extras
+from utilities.commander import Commander
 
 commander = Commander(constants.VERSION_FILE, constants.SHELLCUTS_FILE)
 
