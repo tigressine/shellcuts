@@ -43,6 +43,9 @@ class JSONDictionary:
         return iter(self.__generate_items())
 
 
+    def __len__(self):
+        return len(self.__contents)
+
     def __generate_items(self):
         """Generate all items in the list."""
         for key in self.__contents.keys():
