@@ -1,6 +1,5 @@
 
 # Load Shellcuts controller file if it exists.
-SHELLCUTS_CONTROLLER="~/.shellcuts/config/bash/controller.sh"
-if [ -f $SHELLCUTS_CONTROLLER ]; then
-    . $SHELLCUTS_CONTROLLER
+if [ -f $HOME/.shellcuts/shells/bash/controller.sh ]; then
+    . $HOME/.shellcuts/shells/bash/controller.sh
 fi
