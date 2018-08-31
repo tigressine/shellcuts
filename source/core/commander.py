@@ -45,7 +45,9 @@ class Commander:
     def go(self, name):
         """"""
         command = 'cd "{0}"'
-        if self.shellcuts[name] is None:
+        if name is None:
+            utilities.throw_help()
+        elif self.shellcuts[name] is None:
             utilities.throw_error("DoesNotExist")
         elif not Path(self.shellcuts[name]).exists():
             del self.shellcuts[name]
