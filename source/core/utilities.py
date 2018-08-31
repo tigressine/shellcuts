@@ -1,4 +1,6 @@
-"""
+"""A collection of utilities and constants necessary for Shellcuts.
+
+Part of Shellcuts by Tiger Sachse.
 """
 from pathlib import Path
 
