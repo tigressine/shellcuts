@@ -33,21 +33,6 @@ Planned features include:
 .RE
 
 .SH OPTIONS
-.B  -d, --delete 
-.I shellcut
-.RS 4
-delete the specified shellcut if it exists
-.RE
-.PP
-.B -h, --help
-.RS 4
-display a help menu for quick reference
-.RE
-.PP
-.B -l, --list
-.RS 4
-list all available shellcuts
-.RE
 .PP
 .B -n, --new
 .I shellcut
@@ -61,10 +46,26 @@ create a new shellcut for the current working directory
 move an existing shellcut to a new directory
 .RE
 .PP
+.B  -d, --delete 
+.I shellcut
+.RS 4
+delete the specified shellcut if it exists
+.RE
+.PP
 .B -p, --print
 .I shellcut
 .RS 4
 print the specified shellcut to the screen
+.RE
+.PP
+.B -l, --list
+.RS 4
+list all available shellcuts
+.RE
+.PP
+.B -h, --help
+.RS 4
+display a help menu for quick reference
 .RE
 .PP
 .B --version
@@ -99,12 +100,7 @@ and this program includes the following aliases:
 Feel free to use any of the above or the main
 .I sc
 command to operate Shellcuts. This program also includes aliases to replicate Bashmarks syntax. They are as follows:
-.PP
 .RS 2
--
-.I d
-to delete, equivalent to
-.I sc -d
 .PP
 -
 .I g
@@ -112,9 +108,14 @@ to go, equivalent to
 .I sc
 .PP
 -
-.I l
-to list, equivalent to
-.I sc -l
+.I s
+to save, equivalent to
+.I sc -n
+.PP
+-
+.I d
+to delete, equivalent to
+.I sc -d
 .PP
 -
 .I p
@@ -122,9 +123,9 @@ to print, equivalent to
 .I sc -p
 .PP
 -
-.I s
-to save, equivalent to
-.I sc -n
+.I l
+to list, equivalent to
+.I sc -l
 .RE
 
 .SH EXAMPLES
