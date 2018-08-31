@@ -1,5 +1,5 @@
 # Load Shellcuts controller file if it exists.
-set CONTROLLER "~/.shellcuts/config/fish/controller.fish"
-if test -e $CONTROLLER
-    . $CONTROLLER
+set SHELLCUTS_CONTROLLER "~/.shellcuts/config/fish/controller.fish"
+if test -e $SHELLCUTS_CONTROLLER
+    . $SHELLCUTS_CONTROLLER
 end
