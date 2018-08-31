@@ -1,4 +1,7 @@
-"""An iterable JSON jsonary with extra safety.
+"""An iterable JSON dictionary with extra safety.
+
+In the future, this class will be updated to extend dict directly, thus
+eliminating some redundancy and inefficiencies.
 
 Part of Shellcuts by Tiger Sachse.
 """
@@ -6,8 +9,7 @@ import json
 from pathlib import Path
 
 class Jsonary:
-    """Implements a jsonary that is iterable and handles JSON I/O."""
-
+    """A JSON dictionary that is iterable and handles JSON I/O."""
     def __init__(self, json_path):
         """Attempt to load the given JSON path."""
         self.__json_path = json_path

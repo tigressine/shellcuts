@@ -1,4 +1,13 @@
-"""
+"""Print commands associated with Shellcuts' options.
+
+All printed shell commands are captured by the shell script that calls
+shellcuts.py, where they are then executed by the shell script. This is
+necessary because the 'cd' command moves the user only if it is called by the
+user (or a shell script that the user has directly invoked). Any calls to 'cd',
+or even system calls to 'chdir', will change the working directory of the
+script but not the user.
+
+Part of Shellcuts by Tiger Sachse.
 """
 import os
 from pathlib import Path
@@ -6,28 +15,28 @@ from core import utilities
 from core.jsonary import Jsonary
 
 class Commander:
-    """"""
+    """A class that holds all possible commands for Shellcuts."""
     def __init__(self, version_file, shellcuts_file, manual_file):
-        """"""
+        """Initialize with external, saved information."""
         self.manual_file = manual_file
         self.version_file = version_file
         self.shellcuts = Jsonary(shellcuts_file)
 
 
     def execute(self, arguments):
-        """"""
-        if arguments.delete:
+        """Call the appropriate function based on the given arguments."""
+        if arguments.new:
+            self.new(arguments.new)
+        elif arguments.delete:
             self.delete(arguments.delete)
-        elif arguments.help:
-            utilities.throw_help()
-        elif arguments.list:
-            self.list()
         elif arguments.move:
             self.move(arguments.move)
-        elif arguments.new:
-            self.new(arguments.new)
+        elif arguments.list:
+            self.list()
         elif arguments.print:
             self.print(arguments.print)
+        elif arguments.help:
+            utilities.throw_help()
         elif arguments.version:
             self.version()
         elif arguments.man:
@@ -35,7 +44,7 @@ class Commander:
 
 
     def delete(self, name):
-        """"""
+        """Delete a shellcut from the jsonary."""
         command = 'printf "Deleted shellcut \'{0}\'\n"'
         del self.shellcuts[name]
         self.shellcuts.write()
@@ -43,7 +52,7 @@ class Commander:
 
 
     def go(self, name):
-        """"""
+        """Change the user's directory based on a saved shellcut."""
         command = 'cd "{0}"'
         if name is None:
             utilities.throw_help()
@@ -57,7 +66,7 @@ class Commander:
 
 
     def list(self):
-        """"""
+        """List all saved shellcuts."""
         command = 'printf "'
 
         if len(self.shellcuts) > 0:
@@ -72,16 +81,15 @@ class Commander:
 
 
     def move(self, name):
-        """"""
+        """Move an existing shellcut to the current working directory."""
         command = 'printf "Moved shellcut \'{0}\'\n"'
-        del self.shellcuts[name]
         self.shellcuts[name] = os.getcwd()
         self.shellcuts.write()
         print(command.format(name))
 
 
     def new(self, name):
-        """"""
+        """Create a new shellcut."""
         command = 'printf "Added new shellcut \'{0}\'\n"'
         self.shellcuts[name] = os.getcwd()
         self.shellcuts.write()
@@ -89,7 +97,7 @@ class Commander:
 
 
     def print(self, name):
-        """"""
+        """Print a specific shellcut."""
         command = 'printf "{0} : {1}\n"'
         if name not in self.shellcuts:
             utilities.throw_error("DoesNotExist")
@@ -98,7 +106,7 @@ class Commander:
 
 
     def version(self):
-        """"""
+        """Print the version information for Shellcuts."""
         command = 'printf "'
 
         try:
@@ -114,7 +122,7 @@ class Commander:
 
 
     def manual(self):
-        """"""
+        """Open the manual page for Shellcuts."""
         command = 'man ".'
         command += str(self.manual_file)
         command += '"'
