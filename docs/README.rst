@@ -1,21 +1,22 @@
 shellcuts - directory shortcuts for your shell
 ----------------------------------------------
 
-Shellcuts are directory shortcuts for your shell. This program allows you to save locations as 'shellcuts' and then cut back to those locations with a single, short command. This program is inspired by Bashmarks and hopes to improve on Bashmarks_ by supporting more systems and shells. Shellcuts includes the following features:
+Shellcuts  are  directory shortcuts for your shell. This program allows you to save locations in 
+your filesystem and then cut back to those locations with a single, short command. This  program
+is  inspired  by  Bashmarks  and  hopes  to  improve on Bashmarks by supporting more systems and
+shells. Shellcuts includes the following features:
 
 - creates named shellcuts to any location in the filesystem
 - lists all saved shellcuts
 - deletes shellcuts by name
 - saves shellcuts on a per-user basis
-- Bashmarks syntax can be enabled for user comfort and familiarity
+- Bashmarks syntax is supported for user comfort and familiarity
 - supports Bash, Fish, and Zsh
 
 Planned features include:
 
 - tab completion
 - Csh, Korn shell support
-- installable via APT, DNF, Homebrew
-- local, non-administrator installs
 
 installation
 ------------
@@ -36,16 +37,12 @@ RedHat-based machines (Fedora, CentOS, etc) should install using this method! DN
 
 usage
 -----
-The configuration utility that runs during installation can automatically configure your system, or if you'd prefer it can show you how to do the configuration manually. It's highly recommended that you use the automatic configuration, as it's safe from human error and is really easy! If you want to re-run the configuration utility, use this command:
-::
-  $ sc --init
+The core command for Shellcuts is ``sc`` and this program includes the following aliases:
 
-The core command for Shellcuts is ``sc`` and by default this program includes the aliases:
-
+- ``scut``
+- ``shellc``
 - ``shellcut``
 - ``shellcuts``
-- ``shellc``
-- ``scut``
 
 Feel free to use any of the above or the main ``sc`` command to operate Shellcuts. This program also includes aliases to replicate Bashmarks_ syntax. They are as follows:
 
@@ -55,32 +52,26 @@ Feel free to use any of the above or the main ``sc`` command to operate Shellcut
 - ``d`` to delete, equivalent to ``sc -d``
 - ``l`` to list, equivalent to ``sc -l``
 
-This syntax is disabled by default, but it can be enabled easily using this command:
-::
-    $ sc --enable-bashmarks-syntax
-
 flags
 -----
 Here is a list of all available options/flags:
 
-``-d, --delete [shellcut]``
-  Delete the specified shellcut if it exists.
-``-h, --help``
-  Display a help menu for quick reference.
-``-l, --list``
-  List all available shellcuts.
 ``-n, --new [shellcut]``
   Create a new shellcut for the current working directory.
 ``-m, --move [shellcut]``
   Move an existing shellcut to a new directory.
+``-d, --delete [shellcut]``
+  Delete the specified shellcut if it exists.
 ``-p, --print [shellcut]``
   Print the specified shellcut to the screen.
-``-v, --version``
+``-l, --list``
+  List all available shellcuts.
+``-h, --help``
+  Display a help menu for quick reference.
+``--version``
   Display version information.
-``--init``
-  Launch the initialization script.
-``--enable-bashmarks-syntax, --disable-bashmarks-syntax``
-  Enable or disable Bashmarks syntax. (default: disabled)
+``--man``
+  Display a Linux manual page.
   
 examples
 --------
