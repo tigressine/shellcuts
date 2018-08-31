@@ -1,14 +1,19 @@
-from pathlib import Path
-from utilities.parser import Parser
-from utilities import constants, extras
-from utilities.commander import Commander
+"""
+"""
+from core import utilities
+from core.parser import Parser
+from core.commander import Commander
 
-commander = Commander(constants.VERSION_FILE, constants.SHELLCUTS_FILE)
+commander = Commander(utilities.VERSION_FILE,
+                      utilities.SHELLCUTS_FILE,
+                      utilities.MANUAL_FILE)
 
 parser = Parser(commander)
 parser.parse_arguments()
 
-if len(parser.unknown) <= 0:
+if parser.arguments.name is None:
+    utilities.throw_help()
+elif len(parser.unknown) <= 0:
     commander.go(parser.arguments.name)
     exit(0)
 
@@ -16,6 +21,6 @@ parser.add_arguments()
 parser.parse_arguments()
 
 if len(parser.unknown) > 0:
-    extras.throw_help()
+    utilities.throw_help()
 else:
-    commander.execute_command(parser.arguments)
+    commander.execute(parser.arguments)

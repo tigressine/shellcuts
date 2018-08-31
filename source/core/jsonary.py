@@ -1,12 +1,12 @@
-"""An iterable JSON dictionary with extra safety.
+"""An iterable JSON jsonary with extra safety.
 
 Part of Shellcuts by Tiger Sachse.
 """
 import json
 from pathlib import Path
 
-class JSONDictionary:
-    """Implements a dictionary that is iterable and handles JSON I/O."""
+class Jsonary:
+    """Implements a jsonary that is iterable and handles JSON I/O."""
 
     def __init__(self, json_path):
         """Attempt to load the given JSON path."""
@@ -20,13 +20,13 @@ class JSONDictionary:
 
 
     def __delitem__(self, key):
-        """Delete an item from the dictionary, if it exists."""
+        """Delete an item from the jsonary, if it exists."""
         if key in self.__contents:
             del self.__contents[key]
 
 
     def __getitem__(self, key):
-        """Return a value from the dictionary, if it exists."""
+        """Return a value from the jsonary, if it exists."""
         if key in self.__contents:
             return self.__contents[key]
         else:
@@ -34,17 +34,24 @@ class JSONDictionary:
 
 
     def __setitem__(self, key, value):
-        """Set an item in the dictionary."""
+        """Set an item in the jsonary."""
         self.__contents[key] = value
 
 
     def __iter__(self):
-        """Return an iterator for the dictionary."""
+        """Return an iterator for the jsonary."""
         return iter(self.__generate_items())
 
 
     def __len__(self):
+        """Return the size of the jsonary."""
         return len(self.__contents)
+
+
+    def __contains__(self, key):
+        """Return whether a key is in the jsonary."""
+        return key in self.__contents
+
 
     def __generate_items(self):
         """Generate all items in the list."""
@@ -53,6 +60,6 @@ class JSONDictionary:
 
 
     def write(self):
-        """Write the dictionary to a file."""
+        """Write the jsonary to a file."""
         with open(self.__json_path, 'w') as f:
             json.dump(self.__contents, f)
