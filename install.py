@@ -9,7 +9,9 @@ CORE = 'core'
 CACHE = '__pycache__'
 SHELLS = ('zsh', 'fish', 'bash')
 SOURCE_DIRS = ('docs', 'source', 'shells')
+TEMPORARY_JSON = Path('/tmp/shellcuts.json.temp')
 COMPILE_PATTERN = r'^(?P<name>[_a-z]+)\.[\-a-z0-9]+\.pyc$'
+SHELLCUTS_JSON = Path('~/.shellcuts/data/shellcuts.json').expanduser()
 
 SHELL_CONFIGS = {
     'zsh' : Path('~/.zshrc').expanduser(),
@@ -30,6 +32,10 @@ DESTINATION_DIRS = {
     'binaries' : Path('~/.shellcuts/binaries').expanduser(),
     'core' : Path('~/.shellcuts/binaries/core').expanduser(),
 }
+
+# Save any existing json file
+if SHELLCUTS_JSON.exists():
+    SHELLCUTS_JSON.replace(TEMPORARY_JSON)
 
 # remove old installations
 shutil.rmtree(str(DESTINATION_DIRS['shellcuts']))
@@ -83,3 +89,6 @@ for shell in SHELLS:
                 for new_line in new_lines:
                     f.write(new_line)
 
+# if a temporary file was saved, move
+if TEMPORARY_JSON.exists():
+    TEMPORARY_JSON.replace(SHELLCUTS_JSON)
