@@ -1,5 +1,15 @@
 Changelog for Shellcuts
 
+v1.2.3 - 09/01/2018
+  - Changed storage technology back to JSON
+  - Removed bashmarks syntax toggle
+  - Completely reorganized file structure
+  - Removed deb and rpm support
+  - Removed initialization script
+  - Added installation script
+  - Added manual command
+  - Added local installation support for universality
+
 v1.2.2 - 05/25/2018
   - Changed data storage technology from JSON to SQLite
   - Added --move command
