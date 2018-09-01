@@ -21,22 +21,22 @@ Planned features include:
 installation
 ------------
 
-Shellcuts is easy to install and doesn't require any special privileges! To run, you need the latest version of `Python 3`_ installed, as well as a supported shell. Linux users almost certainly have both of these but macOS users may need to install Python3. Windows is not supported by Shellcuts.
+Shellcuts is easy to install and doesn't require any special privileges! To run, you need the latest version of `Python 3`_ installed, as well as a supported shell. Linux users almost certainly have both of these but macOS users may need to install Python3. Shellcuts is not available for Windows shell or PowerShell.
 
 **METHOD 1:** Install with ``wget`` and ``tar``
 
 The following commands will work for nearly everyone. If it does not work for you, try the next method.
 ::
-  wget https://github.com/tgsachse/shellcuts/archive/v1.2.2.tar.gz -P /tmp
-  tar xzf /tmp/v1.2.2.tar.gz -C /tmp/shellcuts
-  python3 /tmp/shellcuts/install.py
+  cd /tmp && wget https://github.com/tgsachse/shellcuts/archive/v1.2.3.tar.gz
+  tar -xzf v1.2.3.tar.gz && cd shellcuts-1.2.3
+  python3 install.py
 
 **METHOD 2:** Install with ``git``
 
 This method requires that you have ``git`` installed on your machine. Run these commands:
 ::
-  git clone https://www.github.com/tgsachse/shellcuts.git /tmp/shellcuts
-  python3 /tmp/shellcuts/install.py
+  cd /tmp && git clone https://www.github.com/tgsachse/shellcuts.git
+  cd shellcuts && python3 install.py
 
 **METHOD 3:** Install manually
 
@@ -114,4 +114,4 @@ Here are some examples of Shellcuts in action. See this program's manual page fo
 
 .. _Bashmarks: https://www.github.com/huyng/bashmarks
 .. _`Python 3`: https://www.python.org
-.. _`this link`: https://github.com/tgsachse/shellcuts/archive/v1.2.2.tar.gz
+.. _`this link`: https://github.com/tgsachse/shellcuts/archive/v1.2.3.tar.gz
