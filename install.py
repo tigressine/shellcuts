@@ -38,16 +38,34 @@ DESTINATION_DIRS = {
     'core' : Path('~/.shellcuts/binaries/core').expanduser(),
 }
 
-# add a thing to confirm that all the files exist
+print('Thank you for choosing Shellcuts.')
+print('=================================\n')
+print('Beginning installation.')
+
+missing_dirs = False
+for directory in SOURCE_DIRS:
+    if not Path(directory).exists():
+        print('Missing directory \'{0}\'...'.format(str(directory)))
+        missing_dirs = True
+
+if missing_dirs:
+    print('You appear to be missing some source directories, so the installation')
+    print('cannot continue. Please follow the installation instructions located')
+    print('at www.github.com/tgsachse/shellcuts')
+    print('Aborting script.')
+    exit(0)
 
 # If a shellcuts JSON file already exists, temporarily move it to save it.
 if SHELLCUTS_JSON.exists():
+    print('Saving existing shellcuts...')
     SHELLCUTS_JSON.replace(TEMPORARY_JSON)
 
 # Remove any old installation files.
+print('Removing old installations...')
 shutil.rmtree(str(DESTINATION_DIRS['shellcuts']))
 
 # Copy the source directories to the installation location.
+print('Making directory structure and copying source...')
 DESTINATION_DIRS['shellcuts'].mkdir(parents=True)
 for directory in SOURCE_DIRS:
     shutil.copytree(Path(directory), DESTINATION_DIRS[directory])
@@ -57,6 +75,7 @@ for directory in DESTINATION_DIRS.keys():
     DESTINATION_DIRS[directory].mkdir(exist_ok=True)
 
 # Compile all of the installed source code.
+print('\nCompiling from source...')
 compileall.compile_dir(str(DESTINATION_DIRS['source']))
 
 # Move all compiled top-level files into the binaries folder, then delete the
@@ -76,6 +95,9 @@ for binary in core_cache.iterdir():
     target = Path(binary_match.group('name') + '.pyc')
     binary.replace(DESTINATION_DIRS['binaries'] / CORE / target)
 core_cache.rmdir()
+
+print()
+need_extra_space = False
 
 # Append example shell configuration instructions to existing shell
 # configuration files. These configuration instructions allow Shellcuts to
@@ -101,6 +123,8 @@ for shell in SHELLS:
 
         # if the instructions are not in the configuration file, add them.
         if missing_new_lines:
+            need_extra_space = True
+            print('Appending hook for {0} shell...'.format(shell))
             with open(SHELL_CONFIGS[shell], 'a') as f:
                 for new_line in new_lines:
                     f.write(new_line)
@@ -108,3 +132,8 @@ for shell in SHELLS:
 # Move the old shellcuts JSON back into place.
 if TEMPORARY_JSON.exists():
     TEMPORARY_JSON.replace(SHELLCUTS_JSON)
+
+if need_extra_space:
+    print()
+print('Installation complete!')
+print('Restart your terminal to apply changes.')
