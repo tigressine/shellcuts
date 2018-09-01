@@ -1,4 +1,4 @@
-.TH shellcuts 1 "25 May 2018" "1.2.3"
+.TH shellcuts 1 "1 September 2018" "1.2.3"
 
 .SH NAME
 shellcuts - directory shortcuts for your shell.
