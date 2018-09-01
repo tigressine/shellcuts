@@ -20,7 +20,8 @@ commander = Commander(utilities.VERSION_FILE,
 parser = Parser()
 parser.parse_arguments()
 
-# If there are no unknowns after the initial parse then it must be a 'go' command.
+# If there are no unknowns after the initial parse then it must
+# be a 'go' command.
 if len(parser.unknown) <= 0:
     commander.go(parser.arguments.name)
     exit(0)

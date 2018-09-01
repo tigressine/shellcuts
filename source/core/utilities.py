@@ -26,20 +26,20 @@ def throw_help():
     """Print a help message."""
     script = (
         'Shellcuts usage: \$ sc [-f] <shellcut>',
-        '--------------------------------------------------------',
+        '---------------------------------------------------',
         'Create a new shellcut for the current directory:',
         '    \$ sc -n example',
         '',
-        'Jump to that location from anywhere else on the system:',
+        'Jump to the example location:',
         '    \$ sc example',
         '',
-        'Remove that shellcut:',
+        'Remove the example shellcut:',
         '    \$ sc -d example',
         '',
         'List all available shellcuts:',
         '    \$ sc -l',
         '',
-        'See the manpage for lots more information and examples:',
+        'See the manpage for more information and examples:',
         '    \$ sc --man')
     command = 'printf "'
     

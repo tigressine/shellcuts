@@ -1,6 +1,6 @@
 """An iterable JSON dictionary with extra safety.
 
-In the future, this class will be updated to extend dict directly, thus
+In the future, this class may be updated to extend dict directly, thus
 eliminating some redundancy and inefficiencies.
 
 Part of Shellcuts by Tiger Sachse.
@@ -56,7 +56,7 @@ class Jsonary:
 
 
     def __generate_items(self):
-        """Generate all items in the list."""
+        """Generate all items in the jsonary."""
         for key in self.__contents.keys():
             yield key, self.__contents[key]
 
