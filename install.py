@@ -12,19 +12,21 @@ from pathlib import Path
 
 CORE = 'core'
 CACHE = '__pycache__'
-SHELLS = ('zsh', 'fish', 'bash')
 SOURCE_DIRS = ('docs', 'source', 'shells')
+SHELLS = ('ksh', 'zsh', 'fish', 'bash')
 TEMPORARY_JSON = Path('/tmp/shellcuts.json.temp')
 COMPILE_PATTERN = r'^(?P<name>[_a-z]+)\.[\-a-z0-9]+\.pyc$'
 SHELLCUTS_JSON = Path('~/.shellcuts/data/shellcuts.json').expanduser()
 
 SHELL_CONFIGS = {
     'zsh' : Path('~/.zshrc').expanduser(),
+    'ksh' : Path('~/.kshrc').expanduser(),
     'bash' : Path('~/.bashrc').expanduser(),
     'fish' : Path('~/.config/fish/config.fish').expanduser(),
 }
 SHELL_EXAMPLES = {
     'zsh' : Path('~/.shellcuts/shells/zsh/zshrc.example').expanduser(),
+    'ksh' : Path('~/.shellcuts/shells/ksh/kshrc.example').expanduser(),
     'bash' : Path('~/.shellcuts/shells/bash/bashrc.example').expanduser(),
     'fish' : Path('~/.shellcuts/shells/fish/config.fish.example').expanduser(),
 }
