@@ -1,4 +1,0 @@
-# Load Shellcuts controller file if it exists.
-if [ -f ~/.config/shellcuts/zsh/controller.sh ]; then
-    . ~/.config/shellcuts/zsh/controller.sh
-fi
