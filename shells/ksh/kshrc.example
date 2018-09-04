@@ -1,0 +1,5 @@
+
+# Load the Shellcuts controller file if it exists.
+if [ -f $HOME/.shellcuts/shells/ksh/controller.ksh ]; then
+    . $HOME/.shellcuts/shells/ksh/controller.ksh
+fi
