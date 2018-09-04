@@ -1,0 +1,217 @@
+.TH shellcuts 1 "1 September 2018" "1.2.3"
+
+.SH NAME
+shellcuts - directory shortcuts for your shell.
+
+.SH SYNOPSIS
+sc [-f/--flag]
+.I shellcut
+
+.SH DESCRIPTION
+Shellcuts are directory shortcuts for your shell. This program allows you to save locations in your filesystem and then cut back to those locations with a single, short command. This program is inspired by Bashmarks and hopes to improve on Bashmarks by supporting more systems and shells. Shellcuts includes the following features:
+.PP
+.RS 2
+- create named shellcuts to any location in the filesystem
+.PP
+- list all saved shellcuts
+.PP
+- delete shellcuts by name
+.PP
+- save shellcuts on a per-user basis
+.PP
+- Bashmarks syntax is supported for user comfort and familiarity
+.PP
+- supports Bash, Fish, and Zsh
+.RE
+.PP
+Planned features include:
+.RS 2
+.PP
+- tab completion
+.PP
+- Csh, Korn shell support
+.RE
+
+.SH OPTIONS
+.PP
+.B -n, --new
+.I shellcut
+.RS 4
+create a new shellcut for the current working directory
+.RE
+.PP
+.B -m, --move
+.I shellcut
+.RS 4
+move an existing shellcut to a new directory
+.RE
+.PP
+.B  -d, --delete 
+.I shellcut
+.RS 4
+delete the specified shellcut if it exists
+.RE
+.PP
+.B -p, --print
+.I shellcut
+.RS 4
+print the specified shellcut to the screen
+.RE
+.PP
+.B -l, --list
+.RS 4
+list all available shellcuts
+.RE
+.PP
+.B -h, --help
+.RS 4
+display a help menu for quick reference
+.RE
+.PP
+.B --version
+.RS 4
+display version information
+.RE
+.PP
+.B --man
+.RS 4
+display this manual page
+.RE
+
+.SH USAGE
+The core command for Shellcuts is 
+.I sc
+and this program includes the following aliases:
+.PP
+.RS 2
+-
+.I scut
+.PP
+-
+.I shellc
+.PP
+-
+.I shellcut
+.PP
+-
+.I shellcuts
+.PP
+.RE
+Feel free to use any of the above or the main
+.I sc
+command to operate Shellcuts. This program also includes aliases to replicate Bashmarks syntax. They are as follows:
+.RS 2
+.PP
+-
+.I g
+to go, equivalent to
+.I sc
+.PP
+-
+.I s
+to save, equivalent to
+.I sc -n
+.PP
+-
+.I d
+to delete, equivalent to
+.I sc -d
+.PP
+-
+.I p
+to print, equivalent to
+.I sc -p
+.PP
+-
+.I l
+to list, equivalent to
+.I sc -l
+.RE
+
+.SH EXAMPLES
+Save a shellcut named
+.I downloads
+using the user's current directory:
+.PP
+.RS 4
+.I sc -n downloads
+.RE
+.PP
+Go to the shellcut named
+.I downloads
+if it exists:
+.PP
+.RS 4
+.I sc downloads
+.RE
+.PP
+List all saved shellcuts:
+.PP
+.RS 4
+.I sc -l
+.RE
+.PP
+Delete shellcut named
+.I binaries
+if it exists:
+.PP
+.RS 4
+.I sc -d binaries
+.RE
+.PP
+Print shellcut named
+.I home
+if it exists:
+.PP
+.RS 4
+.I sc -p home
+.RE
+.PP
+Save a new shellcut named
+.I downloads
+using Bashmarks syntax, then print the same shellcut:
+.PP
+.RS 4
+.I s downloads
+.PP
+.I p downloads
+.RE
+.PP
+Go to shellcut named
+.I pictures
+using an
+.I sc
+alias:
+.PP
+.RS 4
+.I scut pictures
+.RE
+
+.SH FILES
+.B ~/.shellcuts/
+.RS 4
+contains all program files
+.RE
+.B ~/.shellcuts/docs/
+.RS 4
+location of all documentation
+.RE
+.B ~/.shellcuts/source/
+.RS 4
+contains all Python source code for Shellcuts
+.RE
+.B ~/.shellcuts/data/shellcuts.json
+.RS 4
+contains all Shellcuts in the JSON format
+.RE
+
+.SH LICENSE
+GPLv3
+
+.SH SOURCE
+Visit
+.I https://www.github.com/tgsachse/shellcuts
+to view the complete project and give the repository a star if you really liked it!
+
+.SH AUTHOR
+Tiger Sachse (tgsachse)
