@@ -40,7 +40,8 @@ def throw_help():
         '    \$ sc -l',
         '',
         'See the manpage for more information and examples:',
-        '    \$ sc --man')
+        '    \$ sc --man'
+    )
     command = 'printf "'
     
     for line in script:

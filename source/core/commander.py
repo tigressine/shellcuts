@@ -60,10 +60,10 @@ class Commander:
         if name is None:
             utilities.throw_help()
         elif self.shellcuts[name] is None:
-            utilities.throw_error("DoesNotExist")
+            utilities.throw_error('DoesNotExist')
         elif not Path(self.shellcuts[name]).exists():
             del self.shellcuts[name]
-            utilities.throw_error("BadPath")
+            utilities.throw_error('BadPath')
         else:
             print(command.format(self.shellcuts[name]))
 
@@ -116,7 +116,7 @@ class Commander:
             with open(str(self.version_file), 'r') as f:
                 lines = f.readlines()
         except FileNotFoundError:
-            utilities.throw_error("NoVersion")
+            utilities.throw_error('NoVersion')
 
         for line in lines:
             command += line
