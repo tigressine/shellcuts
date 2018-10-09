@@ -126,7 +126,7 @@ class Commander:
 
     def manual(self):
         """Open the manual page for Shellcuts."""
-        command = 'man ".'
+        command = 'man -l "'
         command += str(self.manual_file)
         command += '"'
         print(command)
