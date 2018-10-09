@@ -10,9 +10,11 @@ from core import utilities
 from core.parser import Parser
 from core.commander import Commander
 
-commander = Commander(utilities.VERSION_FILE,
-                      utilities.SHELLCUTS_FILE,
-                      utilities.MANUAL_FILE)
+commander = Commander(
+    utilities.VERSION_FILE,
+    utilities.SHELLCUTS_FILE,
+    utilities.MANUAL_FILE
+)
 
 # The initial parser only accepts 'go' commands (in an attempt to
 # short-circuit the program). This allows the most common command to execute
