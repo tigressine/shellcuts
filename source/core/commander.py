@@ -44,6 +44,8 @@ class Commander:
             self.version()
         elif arguments.man:
             self.manual()
+        elif arguments.follow:
+            self.follow(arguments.follow)
 
 
     def delete(self, name):
@@ -138,3 +140,22 @@ class Commander:
         command += str(self.manual_file)
         command += '"'
         print(command)
+
+
+    def follow(self, inputs):
+        """"""
+        command = 'printf "Added \'{0}\' follow command to shellcut \'{1}\'\n"'
+
+        if inputs is None or len(inputs) < 2:
+            utilities.throw_help()
+
+        name, follow = inputs
+        if name not in self.shellcuts:
+            utilities.throw_error('DoesNotExist')
+        elif not Path(self.shellcuts[name][0]).exists():
+            del self.shellcuts[name]
+            utilities.throw_error('BadPath')
+        else:
+            self.shellcuts[name] = (self.shellcuts[name][0], follow)
+            self.shellcuts.write()
+            print(command.format(follow, name))
