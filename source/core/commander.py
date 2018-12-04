@@ -59,13 +59,17 @@ class Commander:
         command = 'cd "{0}"'
         if name is None:
             utilities.throw_help()
-        elif self.shellcuts[name] is None:
+        elif name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
-        elif not Path(self.shellcuts[name]).exists():
+        elif not Path(self.shellcuts[name][0]).exists():
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
-            print(command.format(self.shellcuts[name]))
+            path, follow_command = self.shellcuts[name]
+            if follow_command is None:
+                print(command.format(path))
+            else:
+                print(command.format(path) + " && {0}".format(follow_command))
 
 
     def list(self):
@@ -75,7 +79,7 @@ class Commander:
         if len(self.shellcuts) > 0:
             command += 'SHELLCUTS\n'
             for shellcut in self.shellcuts:
-                command += '{0} : {1}\n'.format(*shellcut)
+                command += '{0} : {1}\n'.format(shellcut[0], shellcut[1][0])
         else:
             command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -86,7 +90,7 @@ class Commander:
     def move(self, name):
         """Move an existing shellcut to the current working directory."""
         command = 'printf "Moved shellcut \'{0}\'\n"'
-        self.shellcuts[name] = os.getcwd()
+        self.shellcuts[name] = (os.getcwd(), self.shellcuts[name][1])
         self.shellcuts.write()
         print(command.format(name))
 
@@ -94,7 +98,7 @@ class Commander:
     def new(self, name):
         """Create a new shellcut."""
         command = 'printf "Added new shellcut \'{0}\'\n"'
-        self.shellcuts[name] = os.getcwd()
+        self.shellcuts[name] = (os.getcwd(), None)
         self.shellcuts.write()
         print(command.format(name))
 
@@ -105,7 +109,7 @@ class Commander:
         if name not in self.shellcuts:
             utilities.throw_error("DoesNotExist")
         else:
-            print(command.format(name, self.shellcuts[name]))
+            print(command.format(name, self.shellcuts[name][0]))
 
 
     def version(self):
