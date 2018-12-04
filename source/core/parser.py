@@ -29,6 +29,7 @@ class Parser(argparse.ArgumentParser):
         self.add_argument('-p', '--print')
         self.add_argument('-d', '--delete')
         self.add_argument('-n', '--new', nargs='+')
+        self.add_argument('-f', '--follow', nargs='+')
         self.add_argument('--man', action='store_true', default=None)
         self.add_argument('--version', action='store_true', default=None)
         self.add_argument('-h', '--help', action='store_true', default=None)
