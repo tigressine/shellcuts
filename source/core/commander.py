@@ -95,12 +95,16 @@ class Commander:
         print(command.format(name))
 
 
-    def new(self, name):
+    def new(self, inputs):
         """Create a new shellcut."""
         command = 'printf "Added new shellcut \'{0}\'\n"'
-        self.shellcuts[name] = (os.getcwd(), None)
+
+        if len(inputs) is 1:
+            self.shellcuts[inputs[0]] = (os.getcwd(), None)
+        else:
+            self.shellcuts[inputs[0]] = (os.getcwd(), inputs[1])
         self.shellcuts.write()
-        print(command.format(name))
+        print(command.format(inputs[0]))
 
 
     def print(self, name):
