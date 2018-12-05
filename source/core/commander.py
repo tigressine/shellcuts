@@ -73,7 +73,7 @@ class Commander:
             if follow_command is None:
                 print(command.format(path))
             else:
-                print(command.format(path) + " && {0}".format(follow_command))
+                print(command.format(path) + "; {0}".format(follow_command))
 
 
     def list(self):
