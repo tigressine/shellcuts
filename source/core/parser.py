@@ -28,6 +28,7 @@ class Parser(argparse.ArgumentParser):
         self.add_argument('-m', '--move')
         self.add_argument('-p', '--print')
         self.add_argument('-d', '--delete')
+        self.add_argument('--remove-follow')
         self.add_argument('-n', '--new', nargs='+')
         self.add_argument('-f', '--follow', nargs='+')
         self.add_argument('--man', action='store_true', default=None)

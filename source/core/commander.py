@@ -46,6 +46,8 @@ class Commander:
             self.manual()
         elif arguments.follow:
             self.follow(arguments.follow)
+        elif arguments.remove_follow:
+            self.remove_follow(arguments.remove_follow)
 
 
     def delete(self, name):
@@ -156,6 +158,22 @@ class Commander:
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
-            self.shellcuts[name] = (self.shellcuts[name][0], follow)
+            self.shellcuts[name][1] = follow
             self.shellcuts.write()
             print(command.format(follow, name))
+
+
+    def remove_follow(self, name):
+        """"""
+        command = 'printf "Removed \'{0}\' follow command from shellcut \'{1}\'\n"'
+
+        if name not in self.shellcuts:
+            utilities.throw_error('DoesNotExist')
+        elif not Path(self.shellcuts[name][0]).exists():
+            del self.shellcuts[name]
+            utilities.throw_error('BadPath')
+        else:
+            old_follow = self.shellcuts[name][1]
+            self.shellcuts[name][1] = None
+            self.shellcuts.write()
+            print(command.format(old_follow, name))
