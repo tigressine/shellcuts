@@ -103,21 +103,32 @@ class Commander:
         """Create a new shellcut."""
         command = 'printf "Added new shellcut \'{0}\'\n"'
 
+        # If no follow command is given, create the new shellcut with a
+        # blank follow command.
         if len(inputs) is 1:
             self.shellcuts[inputs[0]] = (os.getcwd(), None)
+
+        # Otherwise, create the new shellcut with the specified follow command.
         else:
             self.shellcuts[inputs[0]] = (os.getcwd(), inputs[1])
         self.shellcuts.write()
+
         print(command.format(inputs[0]))
 
 
     def print(self, name):
         """Print a specific shellcut."""
-        command = 'printf "{0} : {1}\n"'
+        command = 'printf "{0} : {1} : {2}\n"'
         if name not in self.shellcuts:
             utilities.throw_error("DoesNotExist")
         else:
-            print(command.format(name, self.shellcuts[name][0]))
+            print(
+                command.format(
+                    name,
+                    self.shellcuts[name][0],
+                    self.shellcuts[name][1]
+                )
+            )
 
 
     def version(self):
@@ -133,21 +144,21 @@ class Commander:
         for line in lines:
             command += line
         command += '"'
+
         print(command)
 
 
     def manual(self):
         """Open the manual page for Shellcuts."""
-        command = 'man -l "'
-        command += str(self.manual_file)
-        command += '"'
+        command = 'man -l "{0}"'.format(str(self.manual_file))
         print(command)
 
 
     def follow(self, inputs):
-        """"""
+        """Add a follow command to a specific shellcut."""
         command = 'printf "Added \'{0}\' follow command to shellcut \'{1}\'\n"'
 
+        # Throw the help menu if not enough arguments are provided.
         if inputs is None or len(inputs) < 2:
             utilities.throw_help()
 
@@ -164,7 +175,7 @@ class Commander:
 
 
     def remove_follow(self, name):
-        """"""
+        """Remove a follow command from a shellcut."""
         command = 'printf "Removed \'{0}\' follow command from shellcut \'{1}\'\n"'
 
         if name not in self.shellcuts:
