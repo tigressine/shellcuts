@@ -106,11 +106,11 @@ need_extra_space = False
 # hook into the shell correctly.
 for shell in SHELLS:
 
+    with open(SHELL_EXAMPLES[shell], 'r') as f:
+        new_lines = f.readlines()
+
     # Only append to configuration files that exist.
     if SHELL_CONFIGS[shell].exists():
-        with open(SHELL_EXAMPLES[shell], 'r') as f:
-            new_lines = f.readlines()
-
         with open(SHELL_CONFIGS[shell], 'r') as f:
             shell_lines = f.readlines()
 
@@ -123,13 +123,21 @@ for shell in SHELLS:
             else:
                 missing_new_lines = False
 
-        # if the instructions are not in the configuration file, add them.
+        # If the instructions are not in the configuration file, add them.
         if missing_new_lines:
             need_extra_space = True
             print('Appending hook for {0} shell...'.format(shell))
             with open(SHELL_CONFIGS[shell], 'a') as f:
                 for new_line in new_lines:
                     f.write(new_line)
+
+    # Otherwise create a new file and add the necessary hooks.
+    else:
+        need_extra_space = True
+        print('Creating {0} configuration file...'.format(shell))
+        with open(SHELL_CONFIGS[shell], 'w') as f:
+            for new_line in new_lines:
+                f.write(new_line)
 
 # Move the old shellcuts JSON back into place.
 if TEMPORARY_JSON.exists():
