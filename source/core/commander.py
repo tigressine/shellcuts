@@ -44,6 +44,10 @@ class Commander:
             self.version()
         elif arguments.man:
             self.manual()
+        elif arguments.follow:
+            self.follow(arguments.follow)
+        elif arguments.remove_follow:
+            self.remove_follow(arguments.remove_follow)
 
 
     def delete(self, name):
@@ -59,13 +63,17 @@ class Commander:
         command = 'cd "{0}"'
         if name is None:
             utilities.throw_help()
-        elif self.shellcuts[name] is None:
+        elif name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
-        elif not Path(self.shellcuts[name]).exists():
+        elif not Path(self.shellcuts[name][0]).exists():
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
-            print(command.format(self.shellcuts[name]))
+            path, follow_command = self.shellcuts[name]
+            if follow_command is None:
+                print(command.format(path))
+            else:
+                print(command.format(path) + "; {0}".format(follow_command))
 
 
     def list(self):
@@ -75,7 +83,7 @@ class Commander:
         if len(self.shellcuts) > 0:
             command += 'SHELLCUTS\n'
             for shellcut in self.shellcuts:
-                command += '{0} : {1}\n'.format(*shellcut)
+                command += '{0} : {1}\n'.format(shellcut[0], shellcut[1][0])
         else:
             command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -86,26 +94,41 @@ class Commander:
     def move(self, name):
         """Move an existing shellcut to the current working directory."""
         command = 'printf "Moved shellcut \'{0}\'\n"'
-        self.shellcuts[name] = os.getcwd()
+        self.shellcuts[name] = (os.getcwd(), self.shellcuts[name][1])
         self.shellcuts.write()
         print(command.format(name))
 
 
-    def new(self, name):
+    def new(self, inputs):
         """Create a new shellcut."""
         command = 'printf "Added new shellcut \'{0}\'\n"'
-        self.shellcuts[name] = os.getcwd()
+
+        # If no follow command is given, create the new shellcut with a
+        # blank follow command.
+        if len(inputs) is 1:
+            self.shellcuts[inputs[0]] = (os.getcwd(), None)
+
+        # Otherwise, create the new shellcut with the specified follow command.
+        else:
+            self.shellcuts[inputs[0]] = (os.getcwd(), inputs[1])
         self.shellcuts.write()
-        print(command.format(name))
+
+        print(command.format(inputs[0]))
 
 
     def print(self, name):
         """Print a specific shellcut."""
-        command = 'printf "{0} : {1}\n"'
+        command = 'printf "{0} : {1} : {2}\n"'
         if name not in self.shellcuts:
             utilities.throw_error("DoesNotExist")
         else:
-            print(command.format(name, self.shellcuts[name]))
+            print(
+                command.format(
+                    name,
+                    self.shellcuts[name][0],
+                    self.shellcuts[name][1]
+                )
+            )
 
 
     def version(self):
@@ -121,12 +144,47 @@ class Commander:
         for line in lines:
             command += line
         command += '"'
+
         print(command)
 
 
     def manual(self):
         """Open the manual page for Shellcuts."""
-        command = 'man -l "'
-        command += str(self.manual_file)
-        command += '"'
+        command = 'man -l "{0}"'.format(str(self.manual_file))
         print(command)
+
+
+    def follow(self, inputs):
+        """Add a follow command to a specific shellcut."""
+        command = 'printf "Added \'{0}\' follow command to shellcut \'{1}\'\n"'
+
+        # Throw the help menu if not enough arguments are provided.
+        if inputs is None or len(inputs) < 2:
+            utilities.throw_help()
+
+        name, follow = inputs
+        if name not in self.shellcuts:
+            utilities.throw_error('DoesNotExist')
+        elif not Path(self.shellcuts[name][0]).exists():
+            del self.shellcuts[name]
+            utilities.throw_error('BadPath')
+        else:
+            self.shellcuts[name][1] = follow
+            self.shellcuts.write()
+            print(command.format(follow, name))
+
+
+    def remove_follow(self, name):
+        """Remove a follow command from a shellcut."""
+        command = 'printf "Removed \'{0}\' follow command from shellcut \'{1}\'\n"'
+
+        if name not in self.shellcuts:
+            utilities.throw_error('DoesNotExist')
+        elif not Path(self.shellcuts[name][0]).exists():
+            del self.shellcuts[name]
+            utilities.throw_error('BadPath')
+        else:
+            old_follow = self.shellcuts[name][1]
+            self.shellcuts[name][1] = None
+            self.shellcuts.write()
+            print(command.format(old_follow, name))
