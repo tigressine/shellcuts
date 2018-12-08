@@ -66,7 +66,7 @@ flags
 Here is a list of all available options/flags:
 
 ``-n, --new [shellcut] {follow}``
-  Create a new shellcut for the current directory. A follow up command can be included after the name of the shellcut.
+  Create a new shellcut for the current directory with an optional follow up command.
 ``-m, --move [shellcut]``
   Move an existing shellcut to a new directory.
 ``-d, --delete [shellcut]``
