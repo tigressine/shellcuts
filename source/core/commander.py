@@ -188,7 +188,7 @@ class Commander:
 
 
     def add_crumb(self):
-        """"""
+        """Add a temporary bread crumb that points to the current directory."""
         command = 'printf "Added a bread crumb at this location.\n"'
 
         self.variables['crumb'] = os.getcwd()
@@ -198,7 +198,7 @@ class Commander:
 
 
     def follow_crumb(self):
-        """"""
+        """Jump to the last bread-crumbed directory."""
         command = 'cd "{0}"'
 
         if 'crumb' not in self.variables:
