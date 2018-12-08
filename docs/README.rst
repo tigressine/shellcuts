@@ -11,12 +11,12 @@ shells. Shellcuts includes the following features:
 - deletes shellcuts by name
 - saves shellcuts on a per-user basis
 - Bashmarks syntax is supported for user comfort and familiarity
-- supports Bash, Fish, and Zsh
+- supports Bash, Fish, Ksh, and Zsh
 
 Planned features include:
 
 - tab completion
-- Csh, Korn shell support
+- easy compatibility with competing software
 
 installation
 ------------
@@ -65,18 +65,24 @@ flags
 -----
 Here is a list of all available options/flags:
 
-``-n, --new [shellcut]``
-  Create a new shellcut for the current working directory.
+``-n, --new [shellcut] {follow}``
+  Create a new shellcut for the current directory. A follow up command can be included after the name of the shellcut.
 ``-m, --move [shellcut]``
   Move an existing shellcut to a new directory.
 ``-d, --delete [shellcut]``
   Delete the specified shellcut if it exists.
 ``-p, --print [shellcut]``
   Print the specified shellcut to the screen.
+``-f, --follow [shellcut] [follow]``
+  Add a follow up command that executes after each jump to a particular shellcut.
 ``-l, --list``
   List all available shellcuts.
+``-c, --crumb``
+  Create a temporary bread crumb that can be jumped to via ``sc`` alone.
 ``-h, --help``
   Display a help menu for quick reference.
+``--unfollow [shellcut]``
+  Remove a follow up command from a particular shellcut.
 ``--version``
   Display version information.
 ``--man``
