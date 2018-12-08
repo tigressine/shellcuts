@@ -68,7 +68,7 @@ class Commander:
             utilities.throw_help()
         elif name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
-        elif not Path(self.shellcuts[name][0]).exists():
+        elif not Path(self.shellcuts[name][utilities.PATH]).exists():
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
@@ -86,8 +86,8 @@ class Commander:
 
         if len(self.shellcuts) > 0:
             command += 'SHELLCUTS\n'
-            for name, path, follow in self.shellcuts:
-                command += '{0} : {1} : {2}\n'.format(name, path, follow)
+            for name, details in self.shellcuts:
+                command += '{0} : {1} : {2}\n'.format(name, *details)
         else:
             command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -99,7 +99,7 @@ class Commander:
         """Move an existing shellcut to the current working directory."""
         command = 'printf "Moved shellcut \'{0}\'\n"'
 
-        self.shellcuts[name][0] = os.getcwd()
+        self.shellcuts[name][utilities.PATH] = os.getcwd()
         self.shellcuts.write()
         
         print(command.format(name))
@@ -167,11 +167,11 @@ class Commander:
         name, follow = inputs
         if name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
-        elif not Path(self.shellcuts[name][0]).exists():
+        elif not Path(self.shellcuts[name][utilities.PATH]).exists():
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
-            self.shellcuts[name][1] = follow
+            self.shellcuts[name][utilities.FOLLOW] = follow
             self.shellcuts.write()
 
             print(command.format(follow, name))
@@ -183,12 +183,12 @@ class Commander:
 
         if name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
-        elif not Path(self.shellcuts[name][0]).exists():
+        elif not Path(self.shellcuts[name][utilities.PATH]).exists():
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
-            old_follow = self.shellcuts[name][1]
-            self.shellcuts[name][1] = None
+            old_follow = self.shellcuts[name][utilities.FOLLOW]
+            self.shellcuts[name][utilities.FOLLOW] = None
             self.shellcuts.write()
 
             print(command.format(old_follow, name))

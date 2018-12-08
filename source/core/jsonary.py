@@ -55,11 +55,7 @@ class Jsonary:
     def __generate_items(self):
         """Generate all items in the jsonary."""
         for name in self.__contents.keys():
-            contents = self.__contents[name]
-            if len(contents) != 2:
-                yield name, contents
-            else:
-                yield name, contents[0], contents[1]
+            yield name, self.__contents[name]
 
 
     def write(self):

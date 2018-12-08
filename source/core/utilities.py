@@ -5,6 +5,8 @@ Part of Shellcuts by Tiger Sachse.
 from pathlib import Path
 
 # Constants for the whole program.
+PATH = 0
+FOLLOW = 1
 SHELL_DIRS = Path('~/.shellcuts/shells').expanduser()
 VERSION_FILE = Path('~/.shellcuts/docs/VERSION.txt').expanduser()
 MANUAL_FILE = Path('~/.shellcuts/docs/SHELLCUTS.man').expanduser()
