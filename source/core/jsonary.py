@@ -1,8 +1,5 @@
 """An iterable JSON dictionary with extra safety.
 
-In the future, this class may be updated to extend dict directly, thus
-eliminating some redundancy and inefficiencies.
-
 Part of Shellcuts by Tiger Sachse.
 """
 import json
@@ -57,8 +54,12 @@ class Jsonary:
 
     def __generate_items(self):
         """Generate all items in the jsonary."""
-        for key in self.__contents.keys():
-            yield key, self.__contents[key]
+        for name in self.__contents.keys():
+            contents = self.__contents[name]
+            if len(contents) != 2:
+                yield name, contents
+            else:
+                yield name, contents[0], contents[1]
 
 
     def write(self):

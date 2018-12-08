@@ -53,14 +53,17 @@ class Commander:
     def delete(self, name):
         """Delete a shellcut from the jsonary."""
         command = 'printf "Deleted shellcut \'{0}\'\n"'
+
         del self.shellcuts[name]
         self.shellcuts.write()
+
         print(command.format(name))
 
 
     def go(self, name):
         """Change the user's directory based on a saved shellcut."""
         command = 'cd "{0}"'
+
         if name is None:
             utilities.throw_help()
         elif name not in self.shellcuts:
@@ -69,11 +72,12 @@ class Commander:
             del self.shellcuts[name]
             utilities.throw_error('BadPath')
         else:
-            path, follow_command = self.shellcuts[name]
-            if follow_command is None:
+            path, follow = self.shellcuts[name]
+
+            if follow is None:
                 print(command.format(path))
             else:
-                print(command.format(path) + "; {0}".format(follow_command))
+                print(command.format(path) + "; {0}".format(follow))
 
 
     def list(self):
@@ -82,8 +86,8 @@ class Commander:
 
         if len(self.shellcuts) > 0:
             command += 'SHELLCUTS\n'
-            for shellcut in self.shellcuts:
-                command += '{0} : {1}\n'.format(shellcut[0], shellcut[1][0])
+            for name, path, follow in self.shellcuts:
+                command += '{0} : {1} : {2}\n'.format(name, path, follow)
         else:
             command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -94,8 +98,10 @@ class Commander:
     def move(self, name):
         """Move an existing shellcut to the current working directory."""
         command = 'printf "Moved shellcut \'{0}\'\n"'
-        self.shellcuts[name] = (os.getcwd(), self.shellcuts[name][1])
+
+        self.shellcuts[name][0] = os.getcwd()
         self.shellcuts.write()
+        
         print(command.format(name))
 
 
@@ -119,16 +125,12 @@ class Commander:
     def print(self, name):
         """Print a specific shellcut."""
         command = 'printf "{0} : {1} : {2}\n"'
+
         if name not in self.shellcuts:
             utilities.throw_error("DoesNotExist")
         else:
-            print(
-                command.format(
-                    name,
-                    self.shellcuts[name][0],
-                    self.shellcuts[name][1]
-                )
-            )
+            path, follow = self.shellcuts[name]
+            print(command.format(name, path, follow))
 
 
     def version(self):
@@ -171,6 +173,7 @@ class Commander:
         else:
             self.shellcuts[name][1] = follow
             self.shellcuts.write()
+
             print(command.format(follow, name))
 
 
@@ -187,4 +190,5 @@ class Commander:
             old_follow = self.shellcuts[name][1]
             self.shellcuts[name][1] = None
             self.shellcuts.write()
+
             print(command.format(old_follow, name))
