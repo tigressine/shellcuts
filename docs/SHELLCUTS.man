@@ -21,23 +21,21 @@ Shellcuts are directory shortcuts for your shell. This program allows you to sav
 .PP
 - Bashmarks syntax is supported for user comfort and familiarity
 .PP
-- supports Bash, Fish, and Zsh
+- supports Bash, Fish, Ksh, and Zsh
 .RE
 .PP
 Planned features include:
 .RS 2
 .PP
 - tab completion
-.PP
-- Csh, Korn shell support
 .RE
 
 .SH OPTIONS
 .PP
 .B -n, --new
-.I shellcut
+.I shellcut follow
 .RS 4
-create a new shellcut for the current working directory
+create a new shellcut for the current directory with an optional follow up command
 .RE
 .PP
 .B -m, --move
@@ -58,14 +56,33 @@ delete the specified shellcut if it exists
 print the specified shellcut to the screen
 .RE
 .PP
+.B -f, --follow
+.I shellcut follow
+.RS 4
+add a follow up command that executes after each jump to a particular shellcut
+.RE
+.PP
 .B -l, --list
 .RS 4
 list all available shellcuts
 .RE
 .PP
+.B -c, --crumb
+.RS 4
+create a temporary bread crumb that can be jumped to via
+.I sc
+alone
+.RE
+.PP
 .B -h, --help
 .RS 4
 display a help menu for quick reference
+.RE
+.PP
+.B --unfollow
+.I shellcut
+.RS 4
+remove a follow up command from a particular shellcut
 .RE
 .PP
 .B --version
@@ -151,7 +168,7 @@ List all saved shellcuts:
 .I sc -l
 .RE
 .PP
-Delete shellcut named
+Delete a shellcut named
 .I binaries
 if it exists:
 .PP
@@ -159,7 +176,7 @@ if it exists:
 .I sc -d binaries
 .RE
 .PP
-Print shellcut named
+Print a shellcut named
 .I home
 if it exists:
 .PP
@@ -169,7 +186,7 @@ if it exists:
 .PP
 Save a new shellcut named
 .I downloads
-using Bashmarks syntax, then print the same shellcut:
+using Bashmarks syntax, then print that same shellcut:
 .PP
 .RS 4
 .I s downloads
@@ -177,7 +194,7 @@ using Bashmarks syntax, then print the same shellcut:
 .I p downloads
 .RE
 .PP
-Go to shellcut named
+Go to a shellcut named
 .I pictures
 using an
 .I sc
@@ -186,6 +203,49 @@ alias:
 .RS 4
 .I scut pictures
 .RE
+.PP
+Save the current directory as a bread crumb:
+.PP
+.RS 4
+.I sc -c
+.RE
+.PP
+Jump to the most recent bread crumb:
+.PP
+.RS 4
+.I sc
+.RE
+.PP
+Save a new shellcut named
+.I home
+with the
+.I clear
+follow command:
+.PP
+.RS 4
+.I sc -n home clear
+.RE
+.PP
+Add the
+.I ls
+follow command to the existing
+.I downloads
+shellcut:
+.PP
+.RS 4
+.I sc -f downloads ls
+.RE
+.PP
+Remove the
+.I ls
+command from the
+.I downloads
+shellcut:
+.PP
+.RS 4
+.I sc --unfollow downloads
+.RE
+.PP
 
 .SH FILES
 .B ~/.shellcuts/
@@ -202,7 +262,11 @@ contains all Python source code for Shellcuts
 .RE
 .B ~/.shellcuts/data/shellcuts.json
 .RS 4
-contains all Shellcuts in the JSON format
+contains all shellcuts in the JSON format
+.RE
+.B ~/.shellcuts/data/variables.json
+.RS 4
+contains all variables and settings for Shellcuts
 .RE
 
 .SH LICENSE

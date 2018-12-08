@@ -5,14 +5,18 @@ Part of Shellcuts by Tiger Sachse.
 from pathlib import Path
 
 # Constants for the whole program.
+PATH = 0
+FOLLOW = 1
 SHELL_DIRS = Path('~/.shellcuts/shells').expanduser()
 VERSION_FILE = Path('~/.shellcuts/docs/VERSION.txt').expanduser()
 MANUAL_FILE = Path('~/.shellcuts/docs/SHELLCUTS.man').expanduser()
 SHELLCUTS_FILE = Path('~/.shellcuts/data/shellcuts.json').expanduser()
+VARIABLES_FILE = Path('~/.shellcuts/data/variables.json').expanduser()
 ERRORS = {
     'DoesNotExist' : 'That shellcut does not exist.',
     'NoVersion'    : 'Version information not found.',
-    'BadPath'      : 'The path associated with this shellcut is invalid.',
+    'NoCrumb'      : 'No valid crumb is available.',
+    'BadPath'      : 'The path associated with this shellcut or crumb is invalid.',
 }
 
 def throw_error(error):
@@ -25,8 +29,8 @@ def throw_error(error):
 def throw_help():
     """Print a help message."""
     script = (
-        'Shellcuts usage: \$ sc [-f] <shellcut>',
-        '---------------------------------------------------',
+        'Shellcuts usage: \$ sc [-f/--flag] <shellcut> <follow>',
+        '------------------------------------------------------',
         'Create a new shellcut for the current directory:',
         '    \$ sc -n example',
         '',
