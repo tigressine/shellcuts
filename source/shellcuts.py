@@ -26,7 +26,10 @@ parser.parse_arguments()
 # If there are no unknowns after the initial parse then it must
 # be a 'go' command.
 if len(parser.unknown) <= 0:
-    commander.go(parser.arguments.name)
+    if parser.arguments.name is not None:
+        commander.go(parser.arguments.name)
+    else:
+        commander.follow_crumb()
     exit(0)
 
 # Add in all the rest of the arguments and re-parse.

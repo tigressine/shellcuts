@@ -15,7 +15,8 @@ VARIABLES_FILE = Path('~/.shellcuts/data/variables.json').expanduser()
 ERRORS = {
     'DoesNotExist' : 'That shellcut does not exist.',
     'NoVersion'    : 'Version information not found.',
-    'BadPath'      : 'The path associated with this shellcut is invalid.',
+    'NoCrumb'      : 'No valid crumb is available.',
+    'BadPath'      : 'The path associated with this shellcut or crumb is invalid.',
 }
 
 def throw_error(error):

@@ -67,9 +67,7 @@ class Commander:
         """Change the user's directory based on a saved shellcut."""
         command = 'cd "{0}"'
 
-        if name is None:
-            utilities.throw_help()
-        elif name not in self.shellcuts:
+        if name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
         elif not Path(self.shellcuts[name][utilities.PATH]).exists():
             del self.shellcuts[name]
@@ -197,3 +195,15 @@ class Commander:
         self.variables.write()
 
         print(command)
+
+
+    def follow_crumb(self):
+        """"""
+        command = 'cd "{0}"'
+
+        if 'crumb' not in self.variables:
+            utilities.throw_error('NoCrumb')
+        elif not Path(self.variables['crumb']).exists():
+            utilities.throw_error('BadPath')
+        else:        
+            print(command.format(self.variables['crumb']))
