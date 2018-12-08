@@ -29,8 +29,8 @@ def throw_error(error):
 def throw_help():
     """Print a help message."""
     script = (
-        'Shellcuts usage: \$ sc [-f] <shellcut>',
-        '---------------------------------------------------',
+        'Shellcuts usage: \$ sc [-f/--flag] <shellcut> <follow>',
+        '------------------------------------------------------',
         'Create a new shellcut for the current directory:',
         '    \$ sc -n example',
         '',
