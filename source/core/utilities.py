@@ -11,6 +11,7 @@ SHELL_DIRS = Path('~/.shellcuts/shells').expanduser()
 VERSION_FILE = Path('~/.shellcuts/docs/VERSION.txt').expanduser()
 MANUAL_FILE = Path('~/.shellcuts/docs/SHELLCUTS.man').expanduser()
 SHELLCUTS_FILE = Path('~/.shellcuts/data/shellcuts.json').expanduser()
+VARIABLES_FILE = Path('~/.shellcuts/data/variables.json').expanduser()
 ERRORS = {
     'DoesNotExist' : 'That shellcut does not exist.',
     'NoVersion'    : 'Version information not found.',

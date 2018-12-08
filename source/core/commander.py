@@ -15,7 +15,7 @@ from core.jsonary import Jsonary
 
 class Commander:
     """A class that holds all possible commands for Shellcuts."""
-    def __init__(self, version_file, shellcuts_file, manual_file):
+    def __init__(self, shellcuts_file, variables_file, version_file, manual_file):
         """Initialize with external, saved information.
         
         The jsonary loads shellcuts from an external JSON file into a
@@ -24,6 +24,7 @@ class Commander:
         self.manual_file = manual_file
         self.version_file = version_file
         self.shellcuts = Jsonary(shellcuts_file)
+        self.variables = Jsonary(variables_file)
 
 
     def execute(self, arguments):
@@ -41,13 +42,15 @@ class Commander:
         elif arguments.help:
             utilities.throw_help()
         elif arguments.version:
-            self.version()
+            self.display_version()
         elif arguments.man:
-            self.manual()
+            self.display_manual()
         elif arguments.follow:
             self.follow(*arguments.follow)
-        elif arguments.remove_follow:
-            self.remove_follow(arguments.remove_follow)
+        elif arguments.unfollow:
+            self.unfollow(arguments.unfollow)
+        elif arguments.crumb:
+            self.add_crumb()
 
 
     def delete(self, name):
@@ -77,7 +80,7 @@ class Commander:
             if follow is None:
                 print(command.format(path))
             else:
-                print(command.format(path) + "; {0}".format(follow))
+                print(command.format(path) + '; {0}'.format(follow))
 
 
     def list(self):
@@ -126,7 +129,7 @@ class Commander:
             print(command.format(name, path, follow))
 
 
-    def version(self):
+    def display_version(self):
         """Print the version information for Shellcuts."""
         command = 'printf "'
 
@@ -143,7 +146,7 @@ class Commander:
         print(command)
 
 
-    def manual(self):
+    def display_manual(self):
         """Open the manual page for Shellcuts."""
         command = 'man -l "{0}"'.format(str(self.manual_file))
         print(command)
@@ -169,7 +172,7 @@ class Commander:
             print(command.format(follow, name))
 
 
-    def remove_follow(self, name):
+    def unfollow(self, name):
         """Remove a follow command from a shellcut."""
         command = 'printf "Removed \'{0}\' follow command from shellcut \'{1}\'\n"'
 
@@ -184,3 +187,13 @@ class Commander:
             self.shellcuts.write()
 
             print(command.format(old_follow, name))
+
+
+    def add_crumb(self):
+        """"""
+        command = 'printf "Added a bread crumb at this location.\n"'
+
+        self.variables['crumb'] = os.getcwd()
+        self.variables.write()
+
+        print(command)

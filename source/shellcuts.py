@@ -11,8 +11,9 @@ from core.parser import Parser
 from core.commander import Commander
 
 commander = Commander(
-    utilities.VERSION_FILE,
     utilities.SHELLCUTS_FILE,
+    utilities.VARIABLES_FILE,
+    utilities.VERSION_FILE,
     utilities.MANUAL_FILE
 )
 
