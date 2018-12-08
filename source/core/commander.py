@@ -29,7 +29,7 @@ class Commander:
     def execute(self, arguments):
         """Call the appropriate function based on given arguments."""
         if arguments.new:
-            self.new(arguments.new)
+            self.new(*arguments.new)
         elif arguments.delete:
             self.delete(arguments.delete)
         elif arguments.move:
@@ -45,7 +45,7 @@ class Commander:
         elif arguments.man:
             self.manual()
         elif arguments.follow:
-            self.follow(arguments.follow)
+            self.follow(*arguments.follow)
         elif arguments.remove_follow:
             self.remove_follow(arguments.remove_follow)
 
@@ -87,7 +87,7 @@ class Commander:
         if len(self.shellcuts) > 0:
             command += 'SHELLCUTS\n'
             for name, details in self.shellcuts:
-                command += '{0} : {1} : {2}\n'.format(name, *details)
+                command += '{0} : {1}\n'.format(name, details[utilities.PATH])
         else:
             command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -105,21 +105,14 @@ class Commander:
         print(command.format(name))
 
 
-    def new(self, inputs):
+    def new(self, name, follow=None, *args):
         """Create a new shellcut."""
         command = 'printf "Added new shellcut \'{0}\'\n"'
 
-        # If no follow command is given, create the new shellcut with a
-        # blank follow command.
-        if len(inputs) is 1:
-            self.shellcuts[inputs[0]] = (os.getcwd(), None)
-
-        # Otherwise, create the new shellcut with the specified follow command.
-        else:
-            self.shellcuts[inputs[0]] = (os.getcwd(), inputs[1])
+        self.shellcuts[name] = (os.getcwd(), follow)
         self.shellcuts.write()
 
-        print(command.format(inputs[0]))
+        print(command.format(name))
 
 
     def print(self, name):
@@ -156,15 +149,14 @@ class Commander:
         print(command)
 
 
-    def follow(self, inputs):
+    def follow(self, name, follow=None, *args):
         """Add a follow command to a specific shellcut."""
         command = 'printf "Added \'{0}\' follow command to shellcut \'{1}\'\n"'
 
         # Throw the help menu if not enough arguments are provided.
-        if inputs is None or len(inputs) < 2:
+        if follow is None:
             utilities.throw_help()
 
-        name, follow = inputs
         if name not in self.shellcuts:
             utilities.throw_error('DoesNotExist')
         elif not Path(self.shellcuts[name][utilities.PATH]).exists():
