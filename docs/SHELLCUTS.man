@@ -29,6 +29,10 @@ Planned features include:
 .PP
 - tab completion
 .RE
+.RS 2
+.PP
+- easy compatibility with competing software
+.RE
 
 .SH OPTIONS
 .PP
