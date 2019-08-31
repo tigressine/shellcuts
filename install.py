@@ -142,7 +142,7 @@ for shell in SHELLS:
 # Move the old shellcuts JSON back into place.
 if TEMPORARY_JSON.exists():
     TEMPORARY_JSON.replace(SHELLCUTS_JSON)
-
+print(
 if need_extra_space:
     print()
 print('Installation complete!')
