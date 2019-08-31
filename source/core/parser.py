@@ -7,6 +7,7 @@ from core import utilities
 
 class Parser(argparse.ArgumentParser):
     """Class to handle command line arguments."""
+    
     def __init__(self, *args, **kwargs):
         """Initialize super and add a base argument for short-circuiting."""
         super().__init__(*args, add_help=False, **kwargs)
