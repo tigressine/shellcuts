@@ -17,7 +17,7 @@ class Commander:
     """A class that holds all possible commands for Shellcuts."""
     def __init__(self, shellcuts_file, variables_file, version_file, manual_file):
         """Initialize with external, saved information.
-        
+
         The jsonary loads shellcuts from an external JSON file into a
         dictionary structure.
         """
@@ -86,9 +86,12 @@ class Commander:
         command = 'printf "'
 
         if len(self.shellcuts) > 0:
-            command += 'SHELLCUTS\n'
             for name, details in self.shellcuts:
-                command += '{0} : {1}\n'.format(name, details[utilities.PATH])
+                command += '{0} : {1} : {2}\n'.format(
+                    name,
+                    details[utilities.PATH],
+                    details[utilities.FOLLOW],
+                )
         else:
             command += '(No shellcuts yet. Create some with the -n flag!)\n'
 
@@ -102,7 +105,7 @@ class Commander:
 
         self.shellcuts[name][utilities.PATH] = os.getcwd()
         self.shellcuts.write()
-        
+
         print(command.format(name))
 
 
@@ -205,5 +208,5 @@ class Commander:
             utilities.throw_error('NoCrumb')
         elif not Path(self.variables['crumb']).exists():
             utilities.throw_error('BadPath')
-        else:        
+        else:
             print(command.format(self.variables['crumb']))
