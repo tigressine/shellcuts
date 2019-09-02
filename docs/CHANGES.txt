@@ -1,10 +1,10 @@
 Changelog for Shellcuts
 
-v1.3 - XX/XX/XXXX
+v1.3.0 - 09/02/2019
   - Added Ksh support
-  - Changed format of the JSON file to support follow commands
   - Added follow commands
   - Added bread crumbs for quick, temporary jumps
+  - Changed to MIT license
 
 v1.2.3 - 09/01/2018
   - Changed storage technology back to JSON
@@ -48,7 +48,7 @@ v1.1.2 - 01/28/2018
   - Added deb support and deb packaging tools
   - Improved initialization experience
   - Changed user shellcut save dir to .config/shellcuts
-  - Create .bashrc if one does not exist
+  - Now creates .bashrc if one does not exist
   - Added version and help commands
   - Added initialization command
 
