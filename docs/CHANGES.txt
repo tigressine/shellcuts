@@ -1,10 +1,10 @@
 Changelog for Shellcuts
 
-v1.3 - XX/XX/XXXX
+v1.3.0 - 09/02/2019
   - Added Ksh support
-  - Changed format of the JSON file to support follow commands
   - Added follow commands
   - Added bread crumbs for quick, temporary jumps
+  - Changed to MIT license
 
 v1.2.3 - 09/01/2018
   - Changed storage technology back to JSON

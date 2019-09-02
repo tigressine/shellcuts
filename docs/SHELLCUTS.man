@@ -1,4 +1,4 @@
-.TH shellcuts 1 "1 September 2018" "1.2.3"
+.TH shellcuts 1 "2 September 2019" "1.3.0"
 
 .SH NAME
 shellcuts - directory shortcuts for your shell.
@@ -8,30 +8,25 @@ sc [-f/--flag]
 .I shellcut
 
 .SH DESCRIPTION
-Shellcuts are directory shortcuts for your shell. This program allows you to save locations in your filesystem and then cut back to those locations with a single, short command. This program is inspired by Bashmarks and hopes to improve on Bashmarks by supporting more systems and shells. Shellcuts includes the following features:
+Shellcuts allows you to jump between saved locations in your filesystem via a single, short command. Shellcuts can:
 .PP
 .RS 2
-- create named shellcuts to any location in the filesystem
-.PP
-- list all saved shellcuts
-.PP
-- delete shellcuts by name
-.PP
-- save shellcuts on a per-user basis
-.PP
-- Bashmarks syntax is supported for user comfort and familiarity
-.PP
-- supports Bash, Fish, Ksh, and Zsh
-.RE
-.PP
-Planned features include:
-.RS 2
-.PP
-- tab completion
+- create a named shellcut for any location in your filesystem
 .RE
 .RS 2
-.PP
-- easy compatibility with competing software
+- add a follow-up command to any shellcut like
+.I ls
+or
+.I clear
+.RE
+.RS 2
+- save a temporary "bread crumb" shellcut
+.RE
+.RS 2
+- delete any shellcut by name
+.RE
+.RS 2
+- list all available shellcuts
 .RE
 
 .SH OPTIONS
@@ -99,125 +94,48 @@ display version information
 display this manual page
 .RE
 
-.SH USAGE
-The core command for Shellcuts is 
-.I sc
-and this program includes the following aliases:
-.PP
-.RS 2
--
-.I scut
-.PP
--
-.I shellc
-.PP
--
-.I shellcut
-.PP
--
-.I shellcuts
-.PP
-.RE
-Feel free to use any of the above or the main
-.I sc
-command to operate Shellcuts. This program also includes aliases to replicate Bashmarks syntax. They are as follows:
-.RS 2
-.PP
--
-.I g
-to go, equivalent to
-.I sc
-.PP
--
-.I s
-to save, equivalent to
-.I sc -n
-.PP
--
-.I d
-to delete, equivalent to
-.I sc -d
-.PP
--
-.I p
-to print, equivalent to
-.I sc -p
-.PP
--
-.I l
-to list, equivalent to
-.I sc -l
-.RE
-
 .SH EXAMPLES
 Save a shellcut named
 .I downloads
 using the user's current directory:
-.PP
 .RS 4
-.I sc -n downloads
+.B sc -n downloads
 .RE
 .PP
 Go to the shellcut named
 .I downloads
 if it exists:
-.PP
 .RS 4
-.I sc downloads
+.B sc downloads
 .RE
 .PP
 List all saved shellcuts:
-.PP
 .RS 4
-.I sc -l
+.B sc -l
 .RE
 .PP
 Delete a shellcut named
 .I binaries
 if it exists:
-.PP
 .RS 4
-.I sc -d binaries
+.B sc -d binaries
 .RE
 .PP
 Print a shellcut named
 .I home
 if it exists:
-.PP
 .RS 4
-.I sc -p home
-.RE
-.PP
-Save a new shellcut named
-.I downloads
-using Bashmarks syntax, then print that same shellcut:
-.PP
-.RS 4
-.I s downloads
-.PP
-.I p downloads
-.RE
-.PP
-Go to a shellcut named
-.I pictures
-using an
-.I sc
-alias:
-.PP
-.RS 4
-.I scut pictures
+.B sc -p home
 .RE
 .PP
 Save the current directory as a bread crumb:
-.PP
 .RS 4
-.I sc -c
+.B sc -c
 .RE
 .PP
 Jump to the most recent bread crumb:
-.PP
 .RS 4
-.I sc
+.B sc
 .RE
 .PP
 Save a new shellcut named
@@ -225,9 +143,8 @@ Save a new shellcut named
 with the
 .I clear
 follow command:
-.PP
 .RS 4
-.I sc -n home clear
+.B sc -n home clear
 .RE
 .PP
 Add the
@@ -235,9 +152,8 @@ Add the
 follow command to the existing
 .I downloads
 shellcut:
-.PP
 .RS 4
-.I sc -f downloads ls
+.B sc -f downloads ls
 .RE
 .PP
 Remove the
@@ -245,9 +161,8 @@ Remove the
 command from the
 .I downloads
 shellcut:
-.PP
 .RS 4
-.I sc --unfollow downloads
+.B sc --unfollow downloads
 .RE
 .PP
 
@@ -274,7 +189,7 @@ contains all variables and settings for Shellcuts
 .RE
 
 .SH LICENSE
-GPLv3
+MIT
 
 .SH SOURCE
 Visit
