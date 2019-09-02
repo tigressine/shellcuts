@@ -4,8 +4,16 @@
 shellcuts - directory shortcuts for your shell.
 
 .SH SYNOPSIS
-sc [-f/--flag]
-.I shellcut
+.RS 0
+.B sc
+.RI [ shellcut ]
+.RE
+.RS 0
+.B sc
+.I option
+.RI [ shellcut
+.RI [ follow ]]
+.RE
 
 .SH DESCRIPTION
 Shellcuts allows you to jump between saved locations in your filesystem via a single, short command. Shellcuts can:
@@ -78,13 +86,13 @@ alone
 display a help menu for quick reference
 .RE
 .PP
-.B --unfollow
+.B -u, --unfollow
 .I shellcut
 .RS 4
 remove a follow up command from a particular shellcut
 .RE
 .PP
-.B --version
+.B -v, --version
 .RS 4
 display version information
 .RE
