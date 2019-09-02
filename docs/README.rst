@@ -14,7 +14,7 @@ Before you begin, install the latest version of `Python 3`_. You also need ``wge
 ::
   cd /tmp
   wget github.com/tgsachse/shellcuts/releases/latest/download/shellcuts.tar.gz
-  tar -xzf shellcuts.tar.gz
+  tar xf shellcuts.tar.gz
   cd shellcuts
   python3 install.py
 
