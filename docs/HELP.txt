@@ -1,0 +1,17 @@
+
+        'Shellcuts usage: \$ sc [-f/--flag] <shellcut> <follow>',
+        '------------------------------------------------------',
+        'Create a new shellcut for the current directory:',
+        '    \$ sc -n example',
+        '',
+        'Jump to the example location:',
+        '    \$ sc example',
+        '',
+        'Remove the example shellcut:',
+        '    \$ sc -d example',
+        '',
+        'List all available shellcuts:',
+        '    \$ sc -l',
+        '',
+        'See the manpage for more information and examples:',
+        '    \$ sc --man'
