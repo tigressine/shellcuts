@@ -13,16 +13,23 @@ object NewOperation extends Operation {
     parameters: List[String]):
     Either[String, Configuration] = {
 
-    if (parameters.length < 3) {
-      return Left("No params")
+    if (parameters.length < 1) {
+      return Left("no name provided for new shellcut")
     }
 
-    val shellcut = Shellcut(
+    if (properties.length < 2) {
+      return Left(
+        "working directory and/or home directory could not be determined"
+      )
+    }
+
+    val newShellcut = Shellcut(
       parameters(0),
-      Option(parameters(1)),
-      List(parameters(2))
+      parameters.lift(1),
+      List(properties(1))
     )
-    val shellcuts = configuration.shellcuts filter {
+
+    val filteredShellcuts = configuration.shellcuts filter {
       (shellcut) => shellcut.name != parameters(0)
     } toList
 
@@ -30,7 +37,7 @@ object NewOperation extends Operation {
       Configuration(
         configuration.crumb,
         configuration.defaultFollow,
-        shellcut :: shellcuts
+        newShellcut :: filteredShellcuts
       )
     )
   }
@@ -41,6 +48,6 @@ object NewOperation extends Operation {
     parameters: List[String]):
     String = {
 
-    "gooble"
+    s"""printf 'New shellcut "${parameters(0)}" created.\n'"""
   }
 }
