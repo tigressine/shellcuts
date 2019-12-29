@@ -3,11 +3,13 @@ package shellcuts
 import java.nio.charset.Charset
 import java.nio.file.{
   Files,
-  Paths,
-  NoSuchFileException
+  NoSuchFileException,
+  Paths
 }
 
-object Unsafe {
+object IO {
+
+  // Load the contents of a file as a string.
   def load(charset: Charset)(path: String): Either[String, String] = {
     try {
       Right(new String(Files.readAllBytes(Paths.get(path)), charset))
@@ -18,6 +20,7 @@ object Unsafe {
     }
   }
 
+  // Dump the contents of a string to a file.
   def dump(charset: Charset)
           (path: String, content: String):
           Either[String, Unit] = {
@@ -28,6 +31,7 @@ object Unsafe {
     }
   }
 
+  // Fetch system properties as a list.
   def fetchProperties(properties: String*): Either[String, List[String]] = {
     try {
       Right(

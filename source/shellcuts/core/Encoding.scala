@@ -1,26 +1,29 @@
 package shellcuts.core
 
 import java.nio.charset.Charset
-import scala.util.matching.Regex
 
 object Encoding {
-  def decode(globalsPattern: Regex, shellcutPattern: Regex, pathPattern: Regex)
-            (encoded: String):
-            Configuration = {
+  val SmallDelimiter = "\0"
+  val BigDelimiter = "\0\0\0"
+  val GlobalsPattern = """^([^\0]*)\0([^\0]*)""".r
+  val ShellcutPattern = """\0\0\0([^\0]+)\0([^\0]*)((?:\0[^\0]+)+)""".r
+  val PathPattern = """\0([^\0]+)""".r
 
-    val (crumb, defaultFollow) = globalsPattern.findFirstIn(encoded) map {
-      case globalsPattern(crumb, defaultFollow) => {
+  // Decode a configuration string into a Configuration object.
+  def decode(encoded: String): Configuration = {
+    val (crumb, defaultFollow) = GlobalsPattern.findFirstIn(encoded) map {
+      case GlobalsPattern(crumb, defaultFollow) => {
         (Option(crumb), Option(defaultFollow))
       }
     } getOrElse((None, None))
 
-    val shellcuts = shellcutPattern.findAllIn(encoded).toList map {
-      case shellcutPattern(name, follow, paths) => {
+    val shellcuts = ShellcutPattern.findAllIn(encoded).toList map {
+      case ShellcutPattern(name, follow, paths) => {
         Shellcut(
           name,
           Option(follow),
-          pathPattern.findAllIn(paths).toList map {
-            case pathPattern(path) => path
+          PathPattern.findAllIn(paths).toList map {
+            case PathPattern(path) => path
           }
         )
       }
@@ -29,23 +32,19 @@ object Encoding {
     Configuration(crumb, defaultFollow, shellcuts)
   }
 
-  def encode(bigDelimiter: String,
-             smallDelimiter: String,
-             charset: Charset)
-            (configuration: Configuration):
-            String = {
-
-    val globals = configuration.crumb.getOrElse("") +
-      smallDelimiter +
+  // Encode a Configuration object into a configuration string.
+  def encode(charset: Charset)(configuration: Configuration): String = {
+    val head = configuration.crumb.getOrElse("") +
+      SmallDelimiter +
       configuration.defaultFollow.getOrElse("")
 
-    val shellcuts = configuration.shellcuts map {
+    val body = configuration.shellcuts map {
       (shellcut) => {
         (shellcut.name :: shellcut.follow.getOrElse("") :: shellcut.paths)
-          .mkString(smallDelimiter)
+          .mkString(SmallDelimiter)
       }
-    } mkString(bigDelimiter)
+    } mkString(BigDelimiter)
 
-    globals + bigDelimiter + shellcuts
+    head + BigDelimiter + body
   }
 }
