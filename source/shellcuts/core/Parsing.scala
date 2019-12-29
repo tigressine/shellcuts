@@ -3,15 +3,16 @@ package shellcuts.core
 object Parsing {
   val FlagPattern = "(--?[a-zA-Z0-9\\-]*)".r
 
-  def parse(defaultOperation: Operation,
-            unknownOperation: Operation,
+  // Retrieve the appropriate operation for given commandline arguments.
+  def parse(crumbOperation: Operation,
+            goOperation: Operation,
             helpOperation: Operation,
             operations: Map[String, Operation])
            (arguments: Array[String]):
            (Operation, List[String]) = {
 
     arguments.headOption match {
-      case None => (defaultOperation, List())
+      case None => (crumbOperation, List())
       case Some(argument) => argument match {
         case FlagPattern(flag) => {
           if (operations.contains(flag)) {
@@ -20,7 +21,7 @@ object Parsing {
             (helpOperation, arguments.toList)
           }
         }
-        case _ => (unknownOperation, arguments.toList)
+        case _ => (goOperation, arguments.toList)
       }
     }
   }
