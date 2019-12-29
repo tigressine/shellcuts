@@ -5,23 +5,25 @@ import java.nio.charset.Charset
 object Encoding {
   val SmallDelimiter = "\0"
   val BigDelimiter = "\0\0\0"
-  val GlobalsPattern = """^([^\0]*)\0([^\0]*)""".r
-  val ShellcutPattern = """\0\0\0([^\0]+)\0([^\0]*)((?:\0[^\0]+)+)""".r
-  val PathPattern = """\0([^\0]+)""".r
+  val GlobalsPattern = """^([^\u0000]*)\0([^\u0000]*)""".r
+  val ShellcutPattern =
+    """\0\0\0([^\u0000]+)\0([^\u0000]*)((?:\0[^\u0000]+)+)""".r
+  val PathPattern = """\0([^\u0000]+)""".r
 
   // Decode a configuration string into a Configuration object.
   def decode(encoded: String): Configuration = {
     val (crumb, defaultFollow) = GlobalsPattern.findFirstIn(encoded) map {
-      case GlobalsPattern(crumb, defaultFollow) => {
-        (Option(crumb), Option(defaultFollow))
-      }
+      case GlobalsPattern(crumb, defaultFollow) => (
+        if (crumb.isEmpty) None else Some(crumb),
+        if (defaultFollow.isEmpty) None else Some(defaultFollow)
+      )
     } getOrElse((None, None))
 
     val shellcuts = ShellcutPattern.findAllIn(encoded).toList map {
       case ShellcutPattern(name, follow, paths) => {
         Shellcut(
           name,
-          Option(follow),
+          if (follow.isEmpty) None else Some(follow),
           PathPattern.findAllIn(paths).toList map {
             case PathPattern(path) => path
           }
@@ -45,6 +47,10 @@ object Encoding {
       }
     } mkString(BigDelimiter)
 
-    head + BigDelimiter + body
+    if (body.isEmpty) {
+      head
+    } else {
+      head + BigDelimiter + body
+    }
   }
 }
