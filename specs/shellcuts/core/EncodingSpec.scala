@@ -6,21 +6,21 @@ import org.scalatest.FlatSpec
 class EncodingSpec extends FlatSpec {
   val encode = Encoding.encode(StandardCharsets.UTF_8) _
 
-  "decode()" should "process an empty string" in {
+  "decode()" should "handle an empty string" in {
     val encodedConfig = ""
     val expectedConfig = Configuration(None, None, List())
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
   }
 
-  it should "process a malformed string" in {
+  it should "handle a malformed string" in {
     val encodedConfig = "malformed"
     val expectedConfig = Configuration(None, None, List())
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
   }
 
-  it should "process a string with a nameless shellcut" in {
+  it should "handle a string with a nameless shellcut" in {
     val encodedConfig = "\0\0\0\0\0\0path"
     val expectedConfig = Configuration(None, None, List())
 
@@ -47,7 +47,6 @@ class EncodingSpec extends FlatSpec {
     )
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
-
   }
 
   it should "process a string with one shellcut that has multiple paths" in {
@@ -115,7 +114,7 @@ class EncodingSpec extends FlatSpec {
     assert(expectedConfig == Encoding.decode(encodedConfig))
   }
 
-  "encode()" should "process an empty config" in {
+  "encode()" should "handle an empty config" in {
     val givenConfig = Configuration(None, None, List())
     val encodedConfig = "\0"
 

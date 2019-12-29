@@ -27,7 +27,7 @@ class ParsingSpec extends FlatSpec {
     assert(expectedParameters == parsedParameters)
   }
 
-  it should "process an invalid flag" in {
+  it should "handle an invalid flag" in {
     val givenArguments = Array("--invalid")
     val expectedOperation = HelpOperation
     val expectedParameters = List("--invalid")
