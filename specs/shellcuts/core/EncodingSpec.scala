@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets
 import org.scalatest.FlatSpec
 
 class EncodingSpec extends FlatSpec {
+  val encode = Encoding.encode(StandardCharsets.UTF_8) _
+
   "decode()" should "process an empty string" in {
     val encodedConfig = ""
     val expectedConfig = Configuration(None, None, List())
@@ -117,7 +119,6 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(None, None, List())
     val encodedConfig = "\0"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -129,7 +130,6 @@ class EncodingSpec extends FlatSpec {
     )
     val encodedConfig = "\0\0\0\0name\0\0path"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -141,7 +141,6 @@ class EncodingSpec extends FlatSpec {
     )
     val encodedConfig = "\0\0\0\0name\0follow\0path"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -153,7 +152,6 @@ class EncodingSpec extends FlatSpec {
     )
     val encodedConfig = "\0\0\0\0name\0\0path1\0path2\0path3\0path4"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -165,7 +163,6 @@ class EncodingSpec extends FlatSpec {
     )
     val encodedConfig = "crumb😀\0follow😀\0\0\0name😀\0follow😀\0path😀"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -173,7 +170,6 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(None, Some("follow"), List())
     val encodedConfig = "\0follow"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -181,7 +177,6 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(Some("crumb"), Some("follow"), List())
     val encodedConfig = "crumb\0follow"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -193,7 +188,6 @@ class EncodingSpec extends FlatSpec {
     )
     val encodedConfig = "crumb\0follow\0\0\0name\0\0path"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 
@@ -212,7 +206,6 @@ class EncodingSpec extends FlatSpec {
       "\0\0\0name2\0\0path2" +
       "\0\0\0name3\0\0path3"
 
-    val encode = Encoding.encode(StandardCharsets.UTF_8) _
     assert(encodedConfig == encode(givenConfig))
   }
 }
