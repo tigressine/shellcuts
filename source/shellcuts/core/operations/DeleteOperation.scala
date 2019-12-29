@@ -13,18 +13,18 @@ object DeleteOperation extends Operation {
     Either[String, Configuration] = {
 
     if (parameters.length < 1) {
-      Left("Missing shellcut name.")
-    } else {
-      Right(
-        Configuration(
-          configuration.crumb,
-          configuration.defaultFollow,
-          configuration.shellcuts filter {
-            (shellcut) => shellcut.name != parameters(0)
-          } toList
-        )
-      )
+      return Left("no name provided for deletion")
     }
+
+    Right(
+      Configuration(
+        configuration.crumb,
+        configuration.defaultFollow,
+        configuration.shellcuts filter {
+          (shellcut) => shellcut.name != parameters(0)
+        } toList
+      )
+    )
   }
 
   override def command(
@@ -33,6 +33,6 @@ object DeleteOperation extends Operation {
     parameters: List[String]):
     String = {
 
-    "delete"
+    s"""printf 'Shellcut "${parameters(0)}" deleted.\n'"""
   }
 }

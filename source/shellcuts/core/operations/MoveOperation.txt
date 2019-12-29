@@ -1,0 +1,23 @@
+
+    /* for move ***
+    val newShellcut = configuration.shellcuts find {
+      (shellcut) => shellcut.name == parameters(0)
+    } map {
+      (shellcut) => {
+        Shellcut(
+          parameters(0),
+          parameters.lift(1) match {
+            case Some(follow) => Some(follow)
+            case None => shellcut.follow
+          },
+          properties(1) :: shellcut.paths
+        )
+      }
+    } getOrElse(
+      Shellcut(
+        parameters(0),
+        parameters.lift(1),
+        List(properties(1))
+      )
+    )*/
+
