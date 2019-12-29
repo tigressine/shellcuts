@@ -3,25 +3,22 @@ package shellcuts
 import java.nio.charset.StandardCharsets
 import shellcuts.core.{
   Configuration,
+  Encoding,
+  Parsing,
+  Shellcut
+}
+import shellcuts.core.operations.{
   CrumbOperation,
   DefaultFollowOperation,
   DeleteOperation,
-  Encoding,
   GoOperation,
   HelpOperation,
-  NewOperation,
-  Parsing,
-  Shellcut
+  NewOperation
 }
 
 object Main {
   val DefaultCharset = StandardCharsets.UTF_8
   val ConfigurationFile = "/tmp/junkjunkjunkjunk"
-  val BigDelimiter = "\0\0\0"
-  val SmallDelimiter = "\0"
-  val GlobalsPattern = """^([^\0]*)\0([^\0]*)""".r
-  val ShellcutPattern = """\0\0\0([^\0]+)\0([^\0]*)((?:\0[^\0]+)+)""".r
-  val PathPattern = """\0([^\0]+)""".r
   val HomeProperty = "user.home"
   val CurrentDirProperty = "user.dir"
   val Operations = Map(
@@ -46,17 +43,12 @@ object Main {
 
     // Retrieve relevant system properties that may be required by the
     // operation.
-    val properties = Unsafe.fetchProperties(HomeProperty, CurrentDirProperty)
+    val properties = IO.fetchProperties(HomeProperty, CurrentDirProperty)
 
     // Load the program configuration from the configuration file.
-    val decode = Encoding.decode(
-      GlobalsPattern,
-      ShellcutPattern,
-      PathPattern
-    ) _
-    val load = Unsafe.load(DefaultCharset) _
+    val load = IO.load(DefaultCharset) _
     val originalConfig = load(ConfigurationFile).right map {
-      (raw) => decode(raw)
+      (raw) => Encoding.decode(raw)
     }
 
     // Modify the configuration via the given operation's modify() function.
@@ -68,8 +60,6 @@ object Main {
       case (_, Left(message)) => Left(message)
     }
 
-    print(modifiedConfig)
-
     // Retrieve the appropriate return command for the given operation.
     val command = (properties, modifiedConfig) match {
       case (Right(properties), Right(modifiedConfig)) => {
@@ -80,17 +70,13 @@ object Main {
     }
 
     // Write the modified configuration to the configuration file.
-    val encode = Encoding.encode(
-      BigDelimiter,
-      SmallDelimiter,
-      DefaultCharset
-    ) _
-    val dump = Unsafe.dump(DefaultCharset) _
+    val encode = Encoding.encode(DefaultCharset) _
+    val dump = IO.dump(DefaultCharset) _
     val result = modifiedConfig.right flatMap {
       (config) => dump(ConfigurationFile, encode(config))
     }
 
-    // Error messages propagate through this function as Lefts. If any lefts
+    // Error messages propagate through this function as Lefts. If any Lefts
     // exist, print the error message. Otherwise, print the successfully
     // generated return command.
     (command, result) match {
