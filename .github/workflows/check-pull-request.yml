@@ -1,0 +1,25 @@
+name: Check Pull Request
+
+on:
+  pull_request:
+    branches:
+     - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Install build dependencies
+        run: sudo apt install clang libunwind-dev libre2-dev
+
+      - name: Pull repository
+        uses: actions/checkout@v2
+
+      - name: Run unit tests
+        run: sbt test
