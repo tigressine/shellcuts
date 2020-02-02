@@ -1,4 +1,4 @@
-shellcuts - directory shortcuts for your shell
+shellcuts - directory shortcuts for your shel
 ----------------------------------------------
 Shellcuts allows you to jump between saved locations in your filesystem via a single, short command. Shellcuts can:
 
