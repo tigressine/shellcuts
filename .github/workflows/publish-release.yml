@@ -2,6 +2,8 @@ name: Publish Release
 
 on:
   push:
+    branches: 
+      - master
     tags:
       - v*
 
@@ -11,7 +13,7 @@ jobs:
 
     steps:
       - name: Pull repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
 
       - name: Build repository
         run: |
@@ -20,7 +22,7 @@ jobs:
 
       - name: Create release
         id: create-release
-        uses: actions/create-release@v1
+        uses: actions/create-release@master
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
@@ -31,7 +33,7 @@ jobs:
 
       - name: Upload build artifacts
         id: upload-build-artifacts
-        uses: actions/upload-release-assert@v1.0.1
+        uses: actions/upload-release-assert@master
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
