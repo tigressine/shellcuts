@@ -20,7 +20,7 @@ jobs:
         
       - name: Install Scala-Native dependencies
         run: |
-          apt install clang libre2-4
+          sudo apt install clang libre2-4
 
       - name: Test Shellcuts
         run: |
