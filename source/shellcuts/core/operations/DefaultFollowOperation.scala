@@ -9,8 +9,8 @@ object DefaultFollowOperation extends Operation {
   override def modify(
     configuration: Configuration,
     properties: List[String],
-    parameters: List[String]):
-    Either[String, Configuration] = {
+    parameters: List[String]
+  ): Either[String, Configuration] = {
 
     if (parameters.length < 1) {
       Left("Missing follow command.")
@@ -28,8 +28,8 @@ object DefaultFollowOperation extends Operation {
   override def command(
     configuration: Configuration,
     properties: List[String],
-    parameters: List[String]):
-    String = {
+    parameters: List[String]
+  ): String = {
 
     "defaultfollow"
   }

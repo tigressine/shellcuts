@@ -4,12 +4,14 @@ object Parsing {
   val FlagPattern = "(--?[a-zA-Z0-9\\-]*)".r
 
   // Retrieve the appropriate operation for given commandline arguments.
-  def parse(crumbOperation: Operation,
-            goOperation: Operation,
-            helpOperation: Operation,
-            operations: Map[String, Operation])
-           (arguments: Array[String]):
-           (Operation, List[String]) = {
+  def parse(
+    crumbOperation: Operation,
+    goOperation: Operation,
+    helpOperation: Operation,
+    operations: Map[String, Operation]
+  )(
+    arguments: Array[String]
+  ): (Operation, List[String]) = {
 
     arguments.headOption match {
       case None => (crumbOperation, List())

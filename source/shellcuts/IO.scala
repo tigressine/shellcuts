@@ -21,9 +21,13 @@ object IO {
   }
 
   // Dump the contents of a string to a file.
-  def dump(charset: Charset)
-          (path: String, content: String):
-          Either[String, Unit] = {
+  def dump(
+    charset: Charset
+  )(
+    path: String,
+    content: String
+  ): Either[String, Unit] = {
+
     try {
       Right(Files.write(Paths.get(path), content.getBytes(charset)))
     } catch {

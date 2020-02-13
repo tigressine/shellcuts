@@ -9,8 +9,8 @@ object HelpOperation extends Operation {
   override def modify(
     configuration: Configuration,
     properties: List[String],
-    parameters: List[String]):
-    Either[String, Configuration] = {
+    parameters: List[String]
+  ): Either[String, Configuration] = {
 
     Right(configuration)
   }
@@ -18,8 +18,8 @@ object HelpOperation extends Operation {
   override def command(
     configuration: Configuration,
     properties: List[String],
-    parameters: List[String]):
-    String = {
+    parameters: List[String]
+  ): String = {
 
     "help"
   }
