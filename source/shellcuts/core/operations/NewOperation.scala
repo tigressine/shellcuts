@@ -10,8 +10,8 @@ object NewOperation extends Operation {
   override def modify(
     configuration: Configuration,
     properties: List[String],
-    parameters: List[String]):
-    Either[String, Configuration] = {
+    parameters: List[String]
+  ): Either[String, Configuration] = {
 
     if (parameters.length < 1) {
       return Left("no name provided for new shellcut")
@@ -45,8 +45,8 @@ object NewOperation extends Operation {
   override def command(
     configuration: Configuration,
     properties: List[String],
-    parameters: List[String]):
-    String = {
+    parameters: List[String]
+  ): String = {
 
     s"""printf 'New shellcut "${parameters(0)}" created.\n'"""
   }
