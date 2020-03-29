@@ -48,6 +48,6 @@ object NewOperation extends Operation {
     parameters: List[String]
   ): String = {
 
-    s"""printf 'New shellcut "${parameters(0)}" created.\n'"""
+    s"""printf 'new shellcut "${parameters(0)}" created\n'"""
   }
 }

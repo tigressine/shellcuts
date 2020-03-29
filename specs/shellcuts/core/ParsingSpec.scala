@@ -2,6 +2,7 @@ package shellcuts.core
 
 import org.scalatest.FlatSpec
 import shellcuts.core.operations.{
+  CrumbOperation,
   DeleteOperation,
   GoOperation,
   HelpOperation,
@@ -10,7 +11,7 @@ import shellcuts.core.operations.{
 
 class ParsingSpec extends FlatSpec {
   val parse = Parsing.parse(
-    HelpOperation,
+    CrumbOperation,
     GoOperation,
     HelpOperation,
     Map("-n" -> NewOperation, "-d" -> DeleteOperation)
@@ -18,7 +19,7 @@ class ParsingSpec extends FlatSpec {
 
   "parse()" should "process zero arguments" in {
     val givenArguments = Array[String]()
-    val expectedOperation = HelpOperation
+    val expectedOperation = CrumbOperation
     val expectedParameters = List[String]()
 
     val (parsedOperation, parsedParameters) = parse(givenArguments)
@@ -49,7 +50,7 @@ class ParsingSpec extends FlatSpec {
   it should "process a valid flag with additional parameters" in {
     val givenArguments = Array("-n", "name", "follow")
     val expectedOperation = NewOperation
-    val expectedParameters = List("name", "follow")
+    val expectedParameters = List[String]("name", "follow")
 
     val (parsedOperation, parsedParameters) = parse(givenArguments)
     assert(expectedOperation == parsedOperation)

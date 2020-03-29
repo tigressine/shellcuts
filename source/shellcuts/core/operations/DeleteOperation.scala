@@ -33,6 +33,6 @@ object DeleteOperation extends Operation {
     parameters: List[String]
   ): String = {
 
-    s"""printf 'Shellcut "${parameters(0)}" deleted.\n'"""
+    s"""printf 'shellcut "${parameters(0)}" deleted\n'"""
   }
 }

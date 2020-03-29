@@ -8,6 +8,8 @@ import shellcuts.core.{
   Shellcut
 }
 import shellcuts.core.operations.{
+  CrumbOperation,
+  DefaultFollowOperation,
   DeleteOperation,
   GoOperation,
   HelpOperation,
@@ -22,10 +24,9 @@ object Main {
   val Operations = Map(
     "-n" -> NewOperation,
     "--new" -> NewOperation,
+    "--default-follow" -> DefaultFollowOperation,
     "-d" -> DeleteOperation,
-    "--delete" -> DeleteOperation,
-    "-h" -> HelpOperation,
-    "--help" -> HelpOperation
+    "--delete" -> DeleteOperation
   )
 
   def main(arguments: Array[String]): Unit = {
@@ -33,7 +34,7 @@ object Main {
     // Parse the input arguments. This will produce an operation and all
     // necessary parameters for that operation.
     def parse = Parsing.parse(
-      HelpOperation,
+      CrumbOperation,
       GoOperation,
       HelpOperation,
       Operations
