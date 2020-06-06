@@ -1,5 +1,7 @@
 package shellcuts.core
 
+import shellcuts.core.operations.Operation
+
 object Parsing {
   val FlagPattern = "(--?[a-zA-Z0-9\\-]*)".r
 

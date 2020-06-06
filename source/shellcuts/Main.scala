@@ -2,18 +2,18 @@ package shellcuts
 
 import java.nio.charset.StandardCharsets
 import shellcuts.core.{
-  Configuration,
   Encoding,
-  Parsing,
-  Shellcut
+  Parsing
 }
 import shellcuts.core.operations.{
-  CrumbOperation,
-  DefaultFollowOperation,
   DeleteOperation,
   GoOperation,
   HelpOperation,
   NewOperation
+}
+import shellcuts.core.structures.{
+  Configuration,
+  Shellcut
 }
 
 object Main {
@@ -24,7 +24,6 @@ object Main {
   val Operations = Map(
     "-n" -> NewOperation,
     "--new" -> NewOperation,
-    "--default-follow" -> DefaultFollowOperation,
     "-d" -> DeleteOperation,
     "--delete" -> DeleteOperation
   )
@@ -34,7 +33,7 @@ object Main {
     // Parse the input arguments. This will produce an operation and all
     // necessary parameters for that operation.
     def parse = Parsing.parse(
-      CrumbOperation,
+      HelpOperation, // Revert to CrumbOperation
       GoOperation,
       HelpOperation,
       Operations

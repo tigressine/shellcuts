@@ -4,7 +4,7 @@ import org.scalatest.{
   EitherValues,
   FlatSpec
 }
-import shellcuts.core.{
+import shellcuts.core.structures.{
   Configuration,
   Shellcut
 }

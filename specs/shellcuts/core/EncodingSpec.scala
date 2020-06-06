@@ -2,6 +2,10 @@ package shellcuts.core
 
 import java.nio.charset.StandardCharsets
 import org.scalatest.FlatSpec
+import shellcuts.core.structures.{
+  Configuration,
+  Shellcut
+}
 
 class EncodingSpec extends FlatSpec {
   val encode = Encoding.encode(StandardCharsets.UTF_8) _

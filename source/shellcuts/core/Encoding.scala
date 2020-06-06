@@ -1,6 +1,10 @@
 package shellcuts.core
 
 import java.nio.charset.Charset
+import shellcuts.core.structures.{
+  Configuration,
+  Shellcut
+}
 
 object Encoding {
   val SmallDelimiter = "\0"

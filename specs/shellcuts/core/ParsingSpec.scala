@@ -2,7 +2,6 @@ package shellcuts.core
 
 import org.scalatest.FlatSpec
 import shellcuts.core.operations.{
-  CrumbOperation,
   DeleteOperation,
   GoOperation,
   HelpOperation,
@@ -11,7 +10,7 @@ import shellcuts.core.operations.{
 
 class ParsingSpec extends FlatSpec {
   val parse = Parsing.parse(
-    CrumbOperation,
+    HelpOperation, // Revert to CrumbOperation
     GoOperation,
     HelpOperation,
     Map("-n" -> NewOperation, "-d" -> DeleteOperation)
@@ -19,7 +18,7 @@ class ParsingSpec extends FlatSpec {
 
   "parse()" should "process zero arguments" in {
     val givenArguments = Array[String]()
-    val expectedOperation = CrumbOperation
+    val expectedOperation = HelpOperation // Revert to CrumbOperation
     val expectedParameters = List[String]()
 
     val (parsedOperation, parsedParameters) = parse(givenArguments)

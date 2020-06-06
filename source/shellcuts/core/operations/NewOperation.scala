@@ -1,8 +1,7 @@
 package shellcuts.core.operations
 
-import shellcuts.core.{
+import shellcuts.core.structures.{
   Configuration,
-  Operation,
   Shellcut
 }
 

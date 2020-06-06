@@ -1,9 +1,6 @@
 package shellcuts.core.operations
 
-import shellcuts.core.{
-  Configuration,
-  Operation
-}
+import shellcuts.core.structures.Configuration
 
 object DeleteOperation extends Operation {
   override def modify(
