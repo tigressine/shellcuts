@@ -1,6 +1,5 @@
-package shellcuts.core
+package shellcuts.core.structures
 
-case class Shellcut(name: String, follow: Option[String], paths: List[String])
 case class Configuration(
   crumb: Option[String],
   defaultFollow: Option[String],

@@ -1,4 +1,6 @@
-package shellcuts.core
+package shellcuts.core.operations
+
+import shellcuts.core.structures.Configuration
 
 trait Operation {
   def modify(
