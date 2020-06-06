@@ -62,14 +62,14 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name2")
-    val expectedCommand = s"""printf 'no shellcut named "name2"\n'"""
+    val expectedMessage = s"""no shellcut named "name2""""
 
-    val producedCommand = GoOperation.command(
+    val producedMessage = GoOperation.command(
       givenConfig,
       givenProperties,
       givenParameters
     )
-    assert(expectedCommand == producedCommand)
+    assert(expectedMessage == producedMessage.left.value)
   }
 
   it should "jump without a follow command" in {
@@ -87,7 +87,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
       givenProperties,
       givenParameters
     )
-    assert(expectedCommand == producedCommand)
+    assert(expectedCommand == producedCommand.right.value)
   }
 
   it should "jump with the default follow command when available" in {
@@ -105,7 +105,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
       givenProperties,
       givenParameters
     )
-    assert(expectedCommand == producedCommand)
+    assert(expectedCommand == producedCommand.right.value)
   }
 
   it should "jump with the custom follow command when available" in {
@@ -123,7 +123,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
       givenProperties,
       givenParameters
     )
-    assert(expectedCommand == producedCommand)
+    assert(expectedCommand == producedCommand.right.value)
   }
 
   it should "override the default with the custom follow command" in {
@@ -141,6 +141,6 @@ class GoOperationSpec extends FlatSpec with EitherValues {
       givenProperties,
       givenParameters
     )
-    assert(expectedCommand == producedCommand)
+    assert(expectedCommand == producedCommand.right.value)
   }
 }

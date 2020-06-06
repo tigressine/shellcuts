@@ -62,7 +62,7 @@ object Main {
     // Retrieve the appropriate return command for the given operation.
     val command = (properties, modifiedConfig) match {
       case (Right(properties), Right(modifiedConfig)) => {
-        Right(operation.command(modifiedConfig, properties, parameters))
+        operation.command(modifiedConfig, properties, parameters)
       }
       case (Left(message), _) => Left(message)
       case (_, Left(message)) => Left(message)

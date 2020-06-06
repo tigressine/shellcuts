@@ -45,8 +45,8 @@ object NewOperation extends Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): String = {
+  ): Either[String, String] = {
 
-    s"""printf 'new shellcut "${parameters(0)}" created\n'"""
+    Right(s"""printf 'new shellcut "${parameters(0)}" created\n'""")
   }
 }

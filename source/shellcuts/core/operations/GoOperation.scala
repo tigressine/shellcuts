@@ -16,14 +16,14 @@ object GoOperation extends Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): String = {
+  ): Either[String, String] = {
 
     val shellcut = configuration.shellcuts find {
       (shellcut) => shellcut.name == parameters(0)
     }
 
     if (shellcut.isEmpty) {
-      s"""printf 'no shellcut named "${parameters(0)}"\n'"""
+      Left(s"""no shellcut named "${parameters(0)}"""")
     } else {
       val follow = if (shellcut.get.follow.isEmpty) {
         if (configuration.defaultFollow.isEmpty) {
@@ -35,7 +35,7 @@ object GoOperation extends Operation {
         shellcut.get.follow.get
       }
 
-      s"""cd '${shellcut.get.paths(0)}'; ${follow}"""
+      Right(s"""cd '${shellcut.get.paths(0)}'; ${follow}""")
     }
   }
 }

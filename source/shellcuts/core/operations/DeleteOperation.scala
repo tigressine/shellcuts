@@ -28,8 +28,8 @@ object DeleteOperation extends Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): String = {
+  ): Either[String, String] = {
 
-    s"""printf 'shellcut "${parameters(0)}" deleted\n'"""
+    Right(s"""printf 'shellcut "${parameters(0)}" deleted\n'""")
   }
 }
