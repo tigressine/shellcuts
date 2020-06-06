@@ -16,8 +16,8 @@ object HelpOperation extends Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): String = {
+  ): Either[String, String] = {
 
-    "help"
+    Right("help")
   }
 }
