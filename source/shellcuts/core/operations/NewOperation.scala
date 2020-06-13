@@ -1,6 +1,8 @@
 package shellcuts.core.operations
 
 import shellcuts.core.structures.{
+  Action,
+  Command,
   Configuration,
   Shellcut
 }
@@ -45,8 +47,13 @@ object NewOperation extends Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): Either[String, String] = {
+  ): Either[String, Command] = {
 
-    Right(s"""printf 'new shellcut "${parameters(0)}" created\n'""")
+    Right(
+      Command(
+        Action.PrintLine,
+        List(s"""new shellcut "${parameters(0)}" created""")
+      )
+    )
   }
 }

@@ -1,6 +1,9 @@
 package shellcuts.core.operations
 
-import shellcuts.core.structures.Configuration
+import shellcuts.core.structures.{
+  Command,
+  Configuration
+}
 
 trait Operation {
   def modify(
@@ -13,5 +16,5 @@ trait Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): Either[String, String]
+  ): Either[String, Command]
 }

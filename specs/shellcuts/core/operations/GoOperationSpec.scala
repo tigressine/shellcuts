@@ -5,6 +5,8 @@ import org.scalatest.{
   FlatSpec
 }
 import shellcuts.core.structures.{
+  Action,
+  Command,
   Configuration,
   Shellcut
 }
@@ -80,7 +82,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
-    val expectedCommand = s"""cd 'working1'; """
+    val expectedCommand = Command(Action.Jump, List("working1"))
 
     val producedCommand = GoOperation.command(
       givenConfig,
@@ -98,7 +100,10 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
-    val expectedCommand = s"""cd 'working1'; default"""
+    val expectedCommand = Command(
+      Action.JumpAndFollow,
+      List("working1", "default")
+    )
 
     val producedCommand = GoOperation.command(
       givenConfig,
@@ -116,7 +121,10 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
-    val expectedCommand = s"""cd 'working1'; follow1"""
+    val expectedCommand = Command(
+      Action.JumpAndFollow,
+      List("working1", "follow1")
+    )
 
     val producedCommand = GoOperation.command(
       givenConfig,
@@ -134,7 +142,10 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
-    val expectedCommand = s"""cd 'working1'; follow1"""
+    val expectedCommand = Command(
+      Action.JumpAndFollow,
+      List("working1", "follow1")
+    )
 
     val producedCommand = GoOperation.command(
       givenConfig,
