@@ -1,6 +1,10 @@
 package shellcuts.core.operations
 
-import shellcuts.core.structures.Configuration
+import shellcuts.core.structures.{
+  Action,
+  Command,
+  Configuration
+}
 
 object DeleteOperation extends Operation {
   override def modify(
@@ -28,8 +32,13 @@ object DeleteOperation extends Operation {
     configuration: Configuration,
     properties: List[String],
     parameters: List[String]
-  ): Either[String, String] = {
+  ): Either[String, Command] = {
 
-    Right(s"""printf 'shellcut "${parameters(0)}" deleted\n'""")
+    Right(
+      Command(
+        Action.PrintLine,
+        List(s"""shellcut "${parameters(0)}" deleted""")
+      )
+    )
   }
 }
