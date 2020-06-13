@@ -5,6 +5,8 @@ import org.scalatest.{
   FlatSpec
 }
 import shellcuts.core.structures.{
+  Action,
+  Command,
   Configuration,
   Shellcut
 }
@@ -164,5 +166,47 @@ class NewOperationSpec extends FlatSpec with EitherValues {
       givenParameters
     )
     assert(expectedConfig == producedConfig.right.value)
+  }
+
+  "command()" should "show a creation message with an empty configuration" in {
+    val givenConfig = Configuration(None, None, List())
+    val givenProperties = List("home", "working")
+    val givenParameters = List("name")
+    val expectedCommand = Command(
+      Action.PrintLine,
+      List(s"""new shellcut "name" created""")
+    )
+
+    val producedCommand = NewOperation.command(
+      givenConfig,
+      givenProperties,
+      givenParameters
+    )
+    assert(expectedCommand == producedCommand.right.value)
+  }
+
+  it should "show a creation message with a populated configuration" in {
+    val givenConfig = Configuration(
+      None,
+      None,
+      List(
+        Shellcut("name1", None, List("working1")),
+        Shellcut("name2", None, List("working2")),
+        Shellcut("name3", None, List("working3"))
+      )
+    )
+    val givenProperties = List("home", "working4")
+    val givenParameters = List("name4")
+    val expectedCommand = Command(
+      Action.PrintLine,
+      List(s"""new shellcut "name4" created""")
+    )
+
+    val producedCommand = NewOperation.command(
+      givenConfig,
+      givenProperties,
+      givenParameters
+    )
+    assert(expectedCommand == producedCommand.right.value)
   }
 }
