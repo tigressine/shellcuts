@@ -6,6 +6,11 @@ import java.nio.file.{
   NoSuchFileException,
   Paths
 }
+import io.AnsiColor.{
+  RED,
+  RESET
+}
+import shellcuts.core.actions.PrintLineAction
 import shellcuts.core.structures.Command
 
 object IO {
@@ -49,11 +54,18 @@ object IO {
     }
   }
 
-  // Offer up a command through stdout.
+  // Send an error to stdout.
+  def error(message: String): Unit = {
+    offer(Command(PrintLineAction, List(s"${RED}${message}${RESET}")))
+  }
+
+  // Offer a command to stdout.
   def offer(command: Command): Unit = {
     command.action.posixFormat(command.arguments) match {
       case Right(command) => print(command)
-      case Left(message) => print(message)
+      case Left(message) => {
+        print(PrintLineAction.posixFormat(List(message)).right)
+      }
     }
   }
 }
