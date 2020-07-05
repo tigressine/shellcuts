@@ -79,8 +79,8 @@ object Main {
     // exist, print the error message. Otherwise, offer the successfully
     // generated return command.
     (command, result) match {
-      case (Left(message), _) => print(message)
-      case (_, Left(message)) => print(message)
+      case (Left(message), _) => IO.error(message)
+      case (_, Left(message)) => IO.error(message)
       case (Right(command), Right(result)) => IO.offer(command)
     }
   }
