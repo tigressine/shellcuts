@@ -22,6 +22,26 @@ object HelpOperation extends Operation {
     parameters: List[String]
   ): Either[String, Command] = {
 
-    Right(Command(Action.PrintLine, List("help")))
+    val prompt = """
+      |Usage: $ sc [-F/--FLAG] [SHELLCUT [FOLLOW...]]
+
+      |Examples:
+      |  Create a new shellcut for the current directory:
+      |    $ sc -n example
+
+      |  Jump to the example location:
+      |    $ sc example
+
+      |  Remove the example shellcut:
+      |    $ sc -d example
+
+      |  List all available shellcuts:
+      |    $ sc -l
+
+      |  See the manpage for more information and examples:
+      |    $ man sc
+      |""".stripMargin.replaceFirst("\n", "").dropRight(1)
+
+    Right(Command(Action.PrintLine, List(prompt)))
   }
 }
