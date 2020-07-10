@@ -6,6 +6,7 @@ import java.nio.file.{
   NoSuchFileException,
   Paths
 }
+import shellcuts.core.structures.Command
 
 object IO {
 
@@ -45,6 +46,14 @@ object IO {
       )
     } catch {
       case exception: Exception => Left(exception.getMessage())
+    }
+  }
+
+  // Offer up a command through stdout.
+  def offer(command: Command): Unit = {
+    command.action.posixFormat(command.arguments) match {
+      case Right(command) => print(command)
+      case Left(message) => print(message)
     }
   }
 }

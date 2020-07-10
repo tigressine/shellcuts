@@ -1,7 +1,7 @@
 package shellcuts.core.operations
 
+import shellcuts.core.actions.PrintLineAction
 import shellcuts.core.structures.{
-  Action,
   Command,
   Configuration,
   Shellcut
@@ -51,7 +51,7 @@ object NewOperation extends Operation {
 
     Right(
       Command(
-        Action.PrintLine,
+        PrintLineAction,
         List(s"""new shellcut "${parameters(0)}" created""")
       )
     )
