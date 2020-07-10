@@ -76,12 +76,12 @@ object Main {
     }
 
     // Error messages propagate through this function as Lefts. If any Lefts
-    // exist, print the error message. Otherwise, print the successfully
+    // exist, print the error message. Otherwise, offer the successfully
     // generated return command.
     (command, result) match {
       case (Left(message), _) => print(message)
       case (_, Left(message)) => print(message)
-      case (Right(command), Right(result)) => print(command)
+      case (Right(command), Right(result)) => IO.offer(command)
     }
   }
 }

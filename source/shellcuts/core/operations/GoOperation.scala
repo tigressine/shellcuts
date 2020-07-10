@@ -1,7 +1,10 @@
 package shellcuts.core.operations
 
+import shellcuts.core.actions.{
+  JumpAction,
+  JumpAndFollowAction
+}
 import shellcuts.core.structures.{
-  Action,
   Command,
   Configuration
 }
@@ -31,20 +34,20 @@ object GoOperation extends Operation {
     }
 
     if (shellcut.get.follow.isEmpty && configuration.defaultFollow.isEmpty) {
-        return Right(Command(Action.Jump, List(shellcut.get.paths(0))))
+        return Right(Command(JumpAction, List(shellcut.get.paths(0))))
     }
 
     if (shellcut.get.follow.isEmpty) {
       Right(
         Command(
-          Action.JumpAndFollow,
+          JumpAndFollowAction,
           List(shellcut.get.paths(0), configuration.defaultFollow.get)
         )
       )
     } else {
       Right(
         Command(
-          Action.JumpAndFollow,
+          JumpAndFollowAction,
           List(shellcut.get.paths(0), shellcut.get.follow.get)
         )
       )

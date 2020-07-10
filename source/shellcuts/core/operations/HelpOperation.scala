@@ -1,7 +1,7 @@
 package shellcuts.core.operations
 
+import shellcuts.core.actions.PrintLineAction
 import shellcuts.core.structures.{
-  Action,
   Command,
   Configuration
 }
@@ -42,6 +42,6 @@ object HelpOperation extends Operation {
       |    $ man sc
       |""".stripMargin.replaceFirst("\n", "").dropRight(1)
 
-    Right(Command(Action.PrintLine, List(prompt)))
+    Right(Command(PrintLineAction, List(prompt)))
   }
 }

@@ -4,8 +4,8 @@ import org.scalatest.{
   EitherValues,
   FlatSpec
 }
+import shellcuts.core.actions.PrintLineAction
 import shellcuts.core.structures.{
-  Action,
   Command,
   Configuration,
   Shellcut
@@ -173,7 +173,7 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     val givenProperties = List("home", "working")
     val givenParameters = List("name")
     val expectedCommand = Command(
-      Action.PrintLine,
+      PrintLineAction,
       List(s"""new shellcut "name" created""")
     )
 
@@ -198,7 +198,7 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     val givenProperties = List("home", "working4")
     val givenParameters = List("name4")
     val expectedCommand = Command(
-      Action.PrintLine,
+      PrintLineAction,
       List(s"""new shellcut "name4" created""")
     )
 

@@ -1,7 +1,7 @@
 package shellcuts.core.operations
 
+import shellcuts.core.actions.PrintLineAction
 import shellcuts.core.structures.{
-  Action,
   Command,
   Configuration
 }
@@ -36,7 +36,7 @@ object DeleteOperation extends Operation {
 
     Right(
       Command(
-        Action.PrintLine,
+        PrintLineAction,
         List(s"""shellcut "${parameters(0)}" deleted""")
       )
     )

@@ -4,8 +4,8 @@ import org.scalatest.{
   EitherValues,
   FlatSpec
 }
+import shellcuts.core.actions.PrintLineAction
 import shellcuts.core.structures.{
-  Action,
   Command,
   Configuration,
   Shellcut
@@ -70,7 +70,7 @@ class HelpOperationSpec extends FlatSpec with EitherValues {
       givenProperties,
       givenParameters
     )
-    assert(Action.PrintLine == producedCommand.right.value.action)
+    assert(PrintLineAction == producedCommand.right.value.action)
     assert(!producedCommand.right.value.arguments.isEmpty)
     assert(!producedCommand.right.value.arguments(0).isEmpty)
   }

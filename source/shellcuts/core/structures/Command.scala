@@ -1,3 +1,5 @@
 package shellcuts.core.structures
 
-case class Command(action: Action.Value, arguments: List[String])
+import shellcuts.core.actions.Action
+
+case class Command(action: Action, arguments: List[String])
