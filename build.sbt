@@ -3,15 +3,25 @@ nativeLinkStubs := true
 scalaSource in Compile := baseDirectory.value / "source"
 scalaSource in Test := baseDirectory.value / "specs"
 cleanFiles += baseDirectory.value / "pack"
-
-val programVersion = settingKey[String]("The program version.")
-programVersion := "1.4"
-
-enablePlugins(ScalaNativePlugin)
-
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_native0.3_2.11" % "3.2.0-SNAP10"
 )
+
+enablePlugins(ScalaNativePlugin)
+
+lazy val programVersion = settingKey[String]("The program version.")
+programVersion := "1.4"
+
+lazy val supportedShells = settingKey[List[String]]("All supported shells.")
+supportedShells := List("bash", "dash", "zsh", "ksh", "fish")
+
+lazy val deepClean = taskKey[Unit]("Cleans repo and removes all junk.")
+deepClean := {
+  import scala.sys.process._
+
+  clean.value
+  "rm -rf target/ project/project/ project/target/ dist/" !
+}
 
 lazy val prepackage = taskKey[Unit]("Executes required tasks before packaging.")
 prepackage := Def.sequential(
@@ -34,7 +44,7 @@ packageDeb := {
   val installRoot = s"pack/${packageName}"
 
   // Create all required directories for the packaging process.
-  val requiredDirs = Set(
+  val requiredDirs = List(
     "dist",
     s"${installRoot}/DEBIAN",
     s"${installRoot}/usr/bin",
@@ -81,4 +91,29 @@ packageDeb := {
 
   // Build the deb package.
   s"dpkg-deb --build ${installRoot} dist/${packageName}.deb" !
+}
+
+lazy val integTest = taskKey[Unit]("Executes the integration tests.")
+integTest := {
+  import scala.sys.process._
+
+  val testSuites = List(
+    "integ/shellcut-creation-tests.sh"
+  )
+
+  supportedShells.value foreach {
+    (shell) => {
+      val functionSource = shell match {
+        case "bash" | "dash" | "zsh" | "ksh" => {
+          "/etc/shellcuts/shells/posix/shellcuts.sh"
+        }
+        case "fish" => {
+          "/etc/shellcuts/shells/fish/shellcuts.fish"
+        }
+      }
+      testSuites foreach {
+        (suite) => s"${suite} ${shell} ${functionSource}" !
+      }
+    }
+  }
 }
