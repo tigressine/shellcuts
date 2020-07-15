@@ -15,23 +15,23 @@ programVersion := "1.4"
 lazy val supportedShells = settingKey[List[String]]("All supported shells.")
 supportedShells := List("bash", "dash", "zsh", "ksh", "fish")
 
-lazy val deepClean = taskKey[Unit]("Cleans repo and removes all junk.")
-deepClean := {
+lazy val scrub = taskKey[Unit]("Cleans repo and removes additional junk.")
+scrub := {
   import scala.sys.process._
 
   clean.value
   "rm -rf target/ project/project/ project/target/ dist/" !
 }
 
-lazy val prepackage = taskKey[Unit]("Executes required tasks before packaging.")
-prepackage := Def.sequential(
+lazy val prepack = taskKey[Unit]("Executes required tasks before packaging.")
+prepack := Def.sequential(
   clean,
   Compile / nativeLink
 ).value
 
-lazy val packageDeb = taskKey[Unit]("Creates a Debian package.")
-packageDeb := {
-  prepackage.value
+lazy val packDeb = taskKey[Unit]("Creates a Debian package.")
+packDeb := {
+  prepack.value
 
   import java.nio.charset.StandardCharsets
   import java.nio.file.{
@@ -93,8 +93,13 @@ packageDeb := {
   s"dpkg-deb --build ${installRoot} dist/${packageName}.deb" !
 }
 
-lazy val integTest = taskKey[Unit]("Executes the integration tests.")
-integTest := {
+lazy val pack = taskKey[Unit]("Packages this software.")
+pack := Def.sequential(
+  packDeb
+).value
+
+lazy val integrate = taskKey[Unit]("Executes the integration tests.")
+integrate := {
   import scala.sys.process._
 
   val testSuites = List(

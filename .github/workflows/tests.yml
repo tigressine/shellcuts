@@ -23,3 +23,12 @@ jobs:
 
       - name: Run unit tests
         run: sbt test
+
+      - name: Install integration dependencies
+        run: sudo apt install fish zsh bash dash ksh
+
+      - name: Install package for integration
+        run: sbt packDeb && sudo dpkg -i dist/shellcuts*.deb
+
+      - name: Run integration tests
+        run: sbt integrate
