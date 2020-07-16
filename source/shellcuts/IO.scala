@@ -54,6 +54,11 @@ object IO {
     }
   }
 
+  // Fetch an environment variable safely.
+  def fetchEnvironmentVariable(variable: String): Option[String] = {
+    sys.env.get(variable)
+  }
+
   // Send an error to stdout.
   def error(message: String): Unit = {
     offer(Command(PrintLineAction, List(s"${RED}${message}${RESET}")))

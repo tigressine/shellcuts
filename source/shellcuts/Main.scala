@@ -18,7 +18,9 @@ import shellcuts.core.structures.{
 
 object Main {
   val DefaultCharset = StandardCharsets.UTF_8
-  val ConfigurationFile = "/tmp/junkjunkjunkjunk"
+  val UnexpandedHomePattern = "^(~/.*|~)".r
+  val DefaultConfigFile = "~/.shellcuts"
+  val ConfigFileVariable = "SHELLCUTS_CONF"
   val HomeProperty = "user.home"
   val CurrentDirProperty = "user.dir"
   val Operations = Map(
@@ -44,10 +46,38 @@ object Main {
     // operation.
     val properties = IO.fetchProperties(HomeProperty, CurrentDirProperty)
 
+    // Safely extract the home directory from the properties list.
+    val homeDirectory = properties.right flatMap {
+      (properties) => {
+        properties.lift(0) match {
+          case Some(property) => Right(property)
+          case None => Left("cannot determine home directory")
+        }
+      }
+    }
+
+    // Use the configuration file path set by the user if available, else use
+    // the default path. Expand the user's home directory as necessary.
+    val configFile = (
+      IO.fetchEnvironmentVariable(ConfigFileVariable) match {
+        case Some(configFile) => configFile
+        case None => DefaultConfigFile
+      }
+    ) match {
+      case UnexpandedHomePattern(configFile) => homeDirectory.right map {
+        (homeDirectory) => configFile.replaceFirst("~", homeDirectory)
+      }
+      case configFile => Right(configFile)
+    }
+
     // Load the program configuration from the configuration file.
-    val load = IO.load(DefaultCharset) _
-    val originalConfig = load(ConfigurationFile).right map {
-      (raw) => Encoding.decode(raw)
+    val originalConfig = configFile.right flatMap {
+      (configFile) => {
+        val load = IO.load(DefaultCharset) _
+        load(configFile).right map {
+          (raw) => Encoding.decode(raw)
+        }
+      }
     }
 
     // Modify the configuration via the given operation's modify() function.
@@ -69,10 +99,16 @@ object Main {
     }
 
     // Write the modified configuration to the configuration file.
-    val encode = Encoding.encode(DefaultCharset) _
-    val dump = IO.dump(DefaultCharset) _
     val result = modifiedConfig.right flatMap {
-      (config) => dump(ConfigurationFile, encode(config))
+      (config) => {
+        configFile.right flatMap {
+          (configFile) => {
+            val encode = Encoding.encode(DefaultCharset) _
+            val dump = IO.dump(DefaultCharset) _
+            dump(configFile, encode(config))
+          }
+        }
+      }
     }
 
     // Error messages propagate through this function as Lefts. If any Lefts
