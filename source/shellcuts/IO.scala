@@ -1,5 +1,6 @@
 package shellcuts
 
+import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file.{
   Files,
@@ -22,6 +23,7 @@ object IO {
     } catch {
       case exception: NoSuchFileException => Right("")
       case exception: IndexOutOfBoundsException => Right("")
+      case exception: IOException => Left("an IO exception occurred")
       case exception: Exception => Left(exception.getMessage())
     }
   }
@@ -37,6 +39,7 @@ object IO {
     try {
       Right(Files.write(Paths.get(path), content.getBytes(charset)))
     } catch {
+      case exception: IOException => Left("an IO exception occurred")
       case exception: Exception => Left(exception.getMessage())
     }
   }
