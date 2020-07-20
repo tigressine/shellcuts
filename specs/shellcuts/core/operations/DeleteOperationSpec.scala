@@ -132,7 +132,7 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
     val givenParameters = List("name")
     val expectedCommand = Command(
       PrintLineAction,
-      List(s"""shellcut "name" deleted""")
+      List("""shellcut "name" deleted""")
     )
 
     val producedCommand = DeleteOperation.command(
@@ -157,7 +157,7 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
     val givenParameters = List("name1")
     val expectedCommand = Command(
       PrintLineAction,
-      List(s"""shellcut "name1" deleted""")
+      List("""shellcut "name1" deleted""")
     )
 
     val producedCommand = DeleteOperation.command(
