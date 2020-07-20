@@ -6,10 +6,12 @@ import shellcuts.core.{
   Parsing
 }
 import shellcuts.core.operations.{
+  CrumbOperation,
   DeleteOperation,
   GoOperation,
   HelpOperation,
-  NewOperation
+  NewOperation,
+  RetraceOperation
 }
 import shellcuts.core.structures.{
   Configuration,
@@ -24,6 +26,8 @@ object Main {
   val HomeProperty = "user.home"
   val CurrentDirProperty = "user.dir"
   val Operations = Map(
+    "-c" -> CrumbOperation,
+    "--crumb" -> CrumbOperation,
     "-n" -> NewOperation,
     "--new" -> NewOperation,
     "-d" -> DeleteOperation,
@@ -35,7 +39,7 @@ object Main {
     // Parse the input arguments. This will produce an operation and all
     // necessary parameters for that operation.
     def parse = Parsing.parse(
-      HelpOperation, // Revert to CrumbOperation
+      RetraceOperation,
       GoOperation,
       HelpOperation,
       Operations
@@ -51,7 +55,7 @@ object Main {
       (properties) => {
         properties.lift(0) match {
           case Some(property) => Right(property)
-          case None => Left("cannot determine home directory")
+          case None => Left("home directory could not be determined")
         }
       }
     }

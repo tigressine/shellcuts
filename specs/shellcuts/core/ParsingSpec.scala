@@ -5,12 +5,13 @@ import shellcuts.core.operations.{
   DeleteOperation,
   GoOperation,
   HelpOperation,
-  NewOperation
+  NewOperation,
+  RetraceOperation
 }
 
 class ParsingSpec extends FlatSpec {
   val parse = Parsing.parse(
-    HelpOperation, // Revert to CrumbOperation
+    RetraceOperation,
     GoOperation,
     HelpOperation,
     Map("-n" -> NewOperation, "-d" -> DeleteOperation)
@@ -18,7 +19,7 @@ class ParsingSpec extends FlatSpec {
 
   "parse()" should "process zero arguments" in {
     val givenArguments = Array[String]()
-    val expectedOperation = HelpOperation // Revert to CrumbOperation
+    val expectedOperation = RetraceOperation
     val expectedParameters = List[String]()
 
     val (parsedOperation, parsedParameters) = parse(givenArguments)

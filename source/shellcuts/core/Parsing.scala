@@ -7,7 +7,7 @@ object Parsing {
 
   // Retrieve the appropriate operation for given commandline arguments.
   def parse(
-    crumbOperation: Operation,
+    retraceOperation: Operation,
     goOperation: Operation,
     helpOperation: Operation,
     operations: Map[String, Operation]
@@ -16,7 +16,7 @@ object Parsing {
   ): (Operation, List[String]) = {
 
     arguments.headOption match {
-      case None => (crumbOperation, List())
+      case None => (retraceOperation, List())
       case Some(argument) => argument match {
         case FlagPattern(flag) => {
           if (operations.contains(flag)) {
