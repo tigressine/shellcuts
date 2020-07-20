@@ -11,14 +11,14 @@ import shellcuts.core.structures.{
   Shellcut
 }
 
-class NewOperationSpec extends FlatSpec with EitherValues {
-  "modify()" should "handle a missing shellcut name" in {
+class FollowOperationSpec extends FlatSpec with EitherValues {
+  "modify()" should "handle a missing follow command" in {
     val givenConfig = Configuration(None, None, List())
     val givenProperties = List("home", "working")
     val givenParameters = List()
-    val expectedMessage = "no name provided for new shellcut"
+    val expectedMessage = "no follow command provided"
 
-    val producedMessage = NewOperation.modify(
+    val producedMessage = FollowOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -26,32 +26,27 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     assert(expectedMessage == producedMessage.left.value)
   }
 
-  it should "handle missing properties" in {
-    val givenConfig = Configuration(None, None, List())
-    val givenProperties = List()
-    val givenParameters = List("name")
-    val expectedMessage =
-      "working directory and/or home directory could not be determined"
-
-    val producedMessage = NewOperation.modify(
-      givenConfig,
-      givenProperties,
-      givenParameters
-    )
-    assert(expectedMessage == producedMessage.left.value)
-  }
-
-  it should "create a shellcut in an empty config" in {
+  it should "handle a shellcut that doesn't exist" in {
     val givenConfig = Configuration(None, None, List())
     val givenProperties = List("home", "working")
-    val givenParameters = List("name")
-    val expectedConfig = Configuration(
-      None,
-      None,
-      List(Shellcut("name", None, List("working")))
-    )
+    val givenParameters = List("name", "follow")
+    val expectedMessage = """no shellcut with the name "name""""
 
-    val producedConfig = NewOperation.modify(
+    val producedMessage = FollowOperation.modify(
+      givenConfig,
+      givenProperties,
+      givenParameters
+    )
+    assert(expectedMessage == producedMessage.left.value)
+  }
+
+  it should "set the default follow command when no shellcut is given" in {
+    val givenConfig = Configuration(None, None, List())
+    val givenProperties = List("home", "working")
+    val givenParameters = List("follow")
+    val expectedConfig = Configuration(None, Some("follow"), List())
+
+    val producedConfig = FollowOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -59,42 +54,21 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     assert(expectedConfig == producedConfig.right.value)
   }
 
-  it should "create a shellcut in a non-empty config" in {
+  it should "set a shellcut-specific follow command" in {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name1", None, List("working1")))
+      List(Shellcut("name", None, List("working1")))
     )
     val givenProperties = List("home", "working2")
-    val givenParameters = List("name2")
-    val expectedConfig = Configuration(
-      None,
-      None,
-      List(
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name1", None, List("working1"))
-      )
-    )
-
-    val producedConfig = NewOperation.modify(
-      givenConfig,
-      givenProperties,
-      givenParameters
-    )
-    assert(expectedConfig == producedConfig.right.value)
-  }
-
-  it should "create a shellcut with a given follow command" in {
-    val givenConfig = Configuration(None, None, List())
-    val givenProperties = List("home", "working")
     val givenParameters = List("name", "follow")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow"), List("working")))
+      List(Shellcut("name", Some("follow"), List("working1")))
     )
 
-    val producedConfig = NewOperation.modify(
+    val producedConfig = FollowOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -106,17 +80,17 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working1")))
+      List(Shellcut("name", Some("follow1"), List("working1")))
     )
     val givenProperties = List("home", "working2")
-    val givenParameters = List("name")
+    val givenParameters = List("name", "follow2")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working2")))
+      List(Shellcut("name", Some("follow2"), List("working1")))
     )
 
-    val producedConfig = NewOperation.modify(
+    val producedConfig = FollowOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -135,14 +109,14 @@ class NewOperationSpec extends FlatSpec with EitherValues {
       )
     )
     val givenProperties = List("home", "working4")
-    val givenParameters = List("name")
+    val givenParameters = List("name", "follow")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working4")))
+      List(Shellcut("name", Some("follow"), List("working1")))
     )
 
-    val producedConfig = NewOperation.modify(
+    val producedConfig = FollowOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -151,16 +125,20 @@ class NewOperationSpec extends FlatSpec with EitherValues {
   }
 
   it should "preserve globals in a config" in {
-    val givenConfig = Configuration(Some("crumb"), Some("follow"), List())
-    val givenProperties = List("home", "working")
-    val givenParameters = List("name")
+    val givenConfig = Configuration(
+      Some("crumb"),
+      Some("follow1"),
+      List(Shellcut("name", None, List("working1")))
+    )
+    val givenProperties = List("home", "working2")
+    val givenParameters = List("name", "follow2")
     val expectedConfig = Configuration(
       Some("crumb"),
-      Some("follow"),
-      List(Shellcut("name", None, List("working")))
+      Some("follow1"),
+      List(Shellcut("name", Some("follow2"), List("working1")))
     )
 
-    val producedConfig = NewOperation.modify(
+    val producedConfig = FollowOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -168,16 +146,16 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     assert(expectedConfig == producedConfig.right.value)
   }
 
-  "command()" should "show a creation message with an empty configuration" in {
+  "command()" should "show an update message for a default follow" in {
     val givenConfig = Configuration(None, None, List())
     val givenProperties = List("home", "working")
-    val givenParameters = List("name")
+    val givenParameters = List("follow")
     val expectedCommand = Command(
       PrintLineAction,
-      List("""new shellcut "name" created""")
+      List("default follow command updated")
     )
 
-    val producedCommand = NewOperation.command(
+    val producedCommand = FollowOperation.command(
       givenConfig,
       givenProperties,
       givenParameters
@@ -185,24 +163,20 @@ class NewOperationSpec extends FlatSpec with EitherValues {
     assert(expectedCommand == producedCommand.right.value)
   }
 
-  it should "show a creation message with a populated configuration" in {
+  it should "show an update message for a shellcut-specific follow" in {
     val givenConfig = Configuration(
       None,
       None,
-      List(
-        Shellcut("name1", None, List("working1")),
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name3", None, List("working3"))
-      )
+      List(Shellcut("name", Some("follow"), List("working1")))
     )
-    val givenProperties = List("home", "working4")
-    val givenParameters = List("name4")
+    val givenProperties = List("home", "working2")
+    val givenParameters = List("name", "follow")
     val expectedCommand = Command(
       PrintLineAction,
-      List("""new shellcut "name4" created""")
+      List("""follow command updated for shellcut "name"""")
     )
 
-    val producedCommand = NewOperation.command(
+    val producedCommand = FollowOperation.command(
       givenConfig,
       givenProperties,
       givenParameters

@@ -67,7 +67,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name2")
-    val expectedMessage = s"""no shellcut named "name2""""
+    val expectedMessage = """no shellcut named "name2""""
 
     val producedMessage = GoOperation.command(
       givenConfig,
