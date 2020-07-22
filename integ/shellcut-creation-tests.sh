@@ -7,8 +7,8 @@ _test_shellcut_creation() {
   func_source="$2"
   relative_path="$3"
 
-  # Remove the Shellcuts configuration file if it exists.
-  rm -f "$HOME/.shellcuts"
+  # Remove the custom Shellcuts configuration file if it exists.
+  rm -f "$SHELLCUTS_CONF"
 
   # Save working root and create testing root.
   working_root="$(pwd)"

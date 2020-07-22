@@ -43,6 +43,10 @@ _verify_environment() {
   return 0
 }
 
+# To prevent erasure of developers' personal configuration files the tests use
+# a custom configuration file.
+export SHELLCUTS_CONF="/tmp/shellcuts-integ-test-conf"
+
 # Run all provided tests.
 run_tests() {
   _verify_environment "$@"
