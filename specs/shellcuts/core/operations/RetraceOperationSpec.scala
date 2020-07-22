@@ -34,9 +34,9 @@ class RetraceOperationSpec extends FlatSpec with EitherValues {
       Some("working4"),
       None,
       List(
-        Shellcut("name1", None, List("working1")),
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name3", None, List("working3"))
+        Shellcut("name1", None, "working1"),
+        Shellcut("name2", None, "working2"),
+        Shellcut("name3", None, "working3")
       )
     )
     val givenProperties = List("home", "working4")
@@ -45,9 +45,9 @@ class RetraceOperationSpec extends FlatSpec with EitherValues {
       Some("working4"),
       None,
       List(
-        Shellcut("name1", None, List("working1")),
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name3", None, List("working3"))
+        Shellcut("name1", None, "working1"),
+        Shellcut("name2", None, "working2"),
+        Shellcut("name3", None, "working3")
       )
     )
 

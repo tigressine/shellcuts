@@ -27,7 +27,7 @@ object NewOperation extends Operation {
     val newShellcut = Shellcut(
       parameters(0),
       parameters.lift(1),
-      List(properties(1))
+      properties(1)
     )
 
     val filteredShellcuts = configuration.shellcuts filter {

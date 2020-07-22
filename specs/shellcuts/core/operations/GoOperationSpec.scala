@@ -34,9 +34,9 @@ class GoOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name1", None, List("working1")),
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name3", None, List("working3"))
+        Shellcut("name1", None, "working1"),
+        Shellcut("name2", None, "working2"),
+        Shellcut("name3", None, "working3")
       )
     )
     val givenProperties = List("home", "working4")
@@ -45,9 +45,9 @@ class GoOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name1", None, List("working1")),
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name3", None, List("working3"))
+        Shellcut("name1", None, "working1"),
+        Shellcut("name2", None, "working2"),
+        Shellcut("name3", None, "working3")
       )
     )
 
@@ -63,7 +63,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name1", None, List("working1")))
+      List(Shellcut("name1", None, "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name2")
@@ -81,7 +81,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name1", None, List("working1")))
+      List(Shellcut("name1", None, "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
@@ -99,7 +99,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       Some("default"),
-      List(Shellcut("name1", None, List("working1")))
+      List(Shellcut("name1", None, "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
@@ -120,7 +120,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name1", Some("follow1"), List("working1")))
+      List(Shellcut("name1", Some("follow1"), "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")
@@ -141,7 +141,7 @@ class GoOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       Some("default"),
-      List(Shellcut("name1", Some("follow1"), List("working1")))
+      List(Shellcut("name1", Some("follow1"), "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name1")

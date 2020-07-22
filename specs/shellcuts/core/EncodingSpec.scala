@@ -36,7 +36,7 @@ class EncodingSpec extends FlatSpec {
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("path")))
+      List(Shellcut("name", None, "path"))
     )
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
@@ -47,18 +47,7 @@ class EncodingSpec extends FlatSpec {
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow"), List("path")))
-    )
-
-    assert(expectedConfig == Encoding.decode(encodedConfig))
-  }
-
-  it should "process a string with one shellcut that has multiple paths" in {
-    val encodedConfig = "\0\0\0\0name\0\0path1\0path2\0path3\0path4"
-    val expectedConfig = Configuration(
-      None,
-      None,
-      List(Shellcut("name", None, List("path1", "path2", "path3", "path4")))
+      List(Shellcut("name", Some("follow"), "path"))
     )
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
@@ -69,7 +58,7 @@ class EncodingSpec extends FlatSpec {
     val expectedConfig = Configuration(
       Some("crumb😀"),
       Some("follow😀"),
-      List(Shellcut("name😀", Some("follow😀"), List("path😀")))
+      List(Shellcut("name😀", Some("follow😀"), "path😀"))
     )
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
@@ -94,7 +83,7 @@ class EncodingSpec extends FlatSpec {
     val expectedConfig = Configuration(
       Some("crumb"),
       Some("follow"),
-      List(Shellcut("name", None, List("path")))
+      List(Shellcut("name", None, "path"))
     )
 
     assert(expectedConfig == Encoding.decode(encodedConfig))
@@ -109,9 +98,9 @@ class EncodingSpec extends FlatSpec {
       Some("crumb"),
       Some("follow"),
       List(
-        Shellcut("name1", None, List("path1")),
-        Shellcut("name2", None, List("path2")),
-        Shellcut("name3", None, List("path3"))
+        Shellcut("name1", None, "path1"),
+        Shellcut("name2", None, "path2"),
+        Shellcut("name3", None, "path3")
       )
     )
 
@@ -129,7 +118,7 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("path")))
+      List(Shellcut("name", None, "path"))
     )
     val encodedConfig = "\0\0\0\0name\0\0path"
 
@@ -140,20 +129,9 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow"), List("path")))
+      List(Shellcut("name", Some("follow"), "path"))
     )
     val encodedConfig = "\0\0\0\0name\0follow\0path"
-
-    assert(encodedConfig == encode(givenConfig))
-  }
-
-  it should "process a config with one shellcut that has multiple paths" in {
-    val givenConfig = Configuration(
-      None,
-      None,
-      List(Shellcut("name", None, List("path1", "path2", "path3", "path4")))
-    )
-    val encodedConfig = "\0\0\0\0name\0\0path1\0path2\0path3\0path4"
 
     assert(encodedConfig == encode(givenConfig))
   }
@@ -162,7 +140,7 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(
       Some("crumb😀"),
       Some("follow😀"),
-      List(Shellcut("name😀", Some("follow😀"), List("path😀")))
+      List(Shellcut("name😀", Some("follow😀"), "path😀"))
     )
     val encodedConfig = "crumb😀\0follow😀\0\0\0name😀\0follow😀\0path😀"
 
@@ -187,7 +165,7 @@ class EncodingSpec extends FlatSpec {
     val givenConfig = Configuration(
       Some("crumb"),
       Some("follow"),
-      List(Shellcut("name", None, List("path")))
+      List(Shellcut("name", None, "path"))
     )
     val encodedConfig = "crumb\0follow\0\0\0name\0\0path"
 
@@ -199,9 +177,9 @@ class EncodingSpec extends FlatSpec {
       Some("crumb"),
       Some("follow"),
       List(
-        Shellcut("name1", None, List("path1")),
-        Shellcut("name2", None, List("path2")),
-        Shellcut("name3", None, List("path3"))
+        Shellcut("name1", None, "path1"),
+        Shellcut("name2", None, "path2"),
+        Shellcut("name3", None, "path3")
       )
     )
     val encodedConfig = "crumb\0follow" +

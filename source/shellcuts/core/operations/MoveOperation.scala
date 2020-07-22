@@ -33,7 +33,7 @@ object MoveOperation extends Operation {
     val movedShellcut = Shellcut(
       originalShellcut.get.name,
       originalShellcut.get.follow,
-      List(properties(1))
+      properties(1)
     )
 
     val filteredShellcuts = configuration.shellcuts filter {

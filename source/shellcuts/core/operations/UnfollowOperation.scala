@@ -28,7 +28,7 @@ object UnfollowOperation extends Operation {
       val newShellcut = Shellcut(
         originalShellcut.get.name,
         None,
-        originalShellcut.get.paths
+        originalShellcut.get.path
       )
 
       val filteredShellcuts = configuration.shellcuts filter {

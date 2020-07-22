@@ -44,14 +44,14 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name1", None, List("path1")))
+      List(Shellcut("name1", None, "path1"))
     )
     val givenProperties = List("home", "working")
     val givenParameters = List("name2")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name1", None, List("path1")))
+      List(Shellcut("name1", None, "path1"))
     )
 
     val producedConfig = DeleteOperation.modify(
@@ -66,7 +66,7 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("path")))
+      List(Shellcut("name", None, "path"))
     )
     val givenProperties = List("home", "working")
     val givenParameters = List("name")
@@ -85,11 +85,11 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name1", None, List("path1")),
-        Shellcut("name2", None, List("path2")),
-        Shellcut("name3", None, List("path3")),
-        Shellcut("name1", None, List("path1")),
-        Shellcut("name4", None, List("path4"))
+        Shellcut("name1", None, "path1"),
+        Shellcut("name2", None, "path2"),
+        Shellcut("name3", None, "path3"),
+        Shellcut("name1", None, "path1"),
+        Shellcut("name4", None, "path4")
       )
     )
     val givenProperties = List("home", "working")
@@ -98,9 +98,9 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name2", None, List("path2")),
-        Shellcut("name3", None, List("path3")),
-        Shellcut("name4", None, List("path4"))
+        Shellcut("name2", None, "path2"),
+        Shellcut("name3", None, "path3"),
+        Shellcut("name4", None, "path4")
       )
     )
 
@@ -148,9 +148,9 @@ class DeleteOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name1", None, List("working1")),
-        Shellcut("name2", None, List("working2")),
-        Shellcut("name3", None, List("working3"))
+        Shellcut("name1", None, "working1"),
+        Shellcut("name2", None, "working2"),
+        Shellcut("name3", None, "working3")
       )
     )
     val givenProperties = List("home", "working4")

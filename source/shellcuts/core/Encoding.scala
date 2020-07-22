@@ -10,9 +10,7 @@ object Encoding {
   val SmallDelimiter = "\0"
   val BigDelimiter = "\0\0\0"
   val GlobalsPattern = """^([^\u0000]*)\0([^\u0000]*)""".r
-  val ShellcutPattern =
-    """\0\0\0([^\u0000]+)\0([^\u0000]*)((?:\0[^\u0000]+)+)""".r
-  val PathPattern = """\0([^\u0000]+)""".r
+  val ShellcutPattern = """\0\0\0([^\u0000]+)\0([^\u0000]*)\0([^\u0000]+)""".r
 
   // Decode a configuration string into a Configuration object.
   def decode(encoded: String): Configuration = {
@@ -24,14 +22,8 @@ object Encoding {
     } getOrElse((None, None))
 
     val shellcuts = ShellcutPattern.findAllIn(encoded).toList map {
-      case ShellcutPattern(name, follow, paths) => {
-        Shellcut(
-          name,
-          if (follow.isEmpty) None else Some(follow),
-          PathPattern.findAllIn(paths).toList map {
-            case PathPattern(path) => path
-          }
-        )
+      case ShellcutPattern(name, follow, path) => {
+        Shellcut(name, if (follow.isEmpty) None else Some(follow), path)
       }
     }
 
@@ -46,8 +38,11 @@ object Encoding {
 
     val body = configuration.shellcuts map {
       (shellcut) => {
-        (shellcut.name :: shellcut.follow.getOrElse("") :: shellcut.paths)
-          .mkString(SmallDelimiter)
+        shellcut.name +
+        SmallDelimiter +
+        shellcut.follow.getOrElse("") +
+        SmallDelimiter +
+        shellcut.path
       }
     } mkString(BigDelimiter)
 

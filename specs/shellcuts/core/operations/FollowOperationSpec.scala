@@ -58,14 +58,14 @@ class FollowOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working1")))
+      List(Shellcut("name", None, "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name", "follow")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow"), List("working1")))
+      List(Shellcut("name", Some("follow"), "working1"))
     )
 
     val producedConfig = FollowOperation.modify(
@@ -80,14 +80,14 @@ class FollowOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow1"), List("working1")))
+      List(Shellcut("name", Some("follow1"), "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name", "follow2")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow2"), List("working1")))
+      List(Shellcut("name", Some("follow2"), "working1"))
     )
 
     val producedConfig = FollowOperation.modify(
@@ -103,9 +103,9 @@ class FollowOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name", None, List("working1")),
-        Shellcut("name", None, List("working2")),
-        Shellcut("name", None, List("working3"))
+        Shellcut("name", None, "working1"),
+        Shellcut("name", None, "working2"),
+        Shellcut("name", None, "working3")
       )
     )
     val givenProperties = List("home", "working4")
@@ -113,7 +113,7 @@ class FollowOperationSpec extends FlatSpec with EitherValues {
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow"), List("working1")))
+      List(Shellcut("name", Some("follow"), "working1"))
     )
 
     val producedConfig = FollowOperation.modify(
@@ -128,14 +128,14 @@ class FollowOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       Some("crumb"),
       Some("follow1"),
-      List(Shellcut("name", None, List("working1")))
+      List(Shellcut("name", None, "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name", "follow2")
     val expectedConfig = Configuration(
       Some("crumb"),
       Some("follow1"),
-      List(Shellcut("name", Some("follow2"), List("working1")))
+      List(Shellcut("name", Some("follow2"), "working1"))
     )
 
     val producedConfig = FollowOperation.modify(
@@ -167,7 +167,7 @@ class FollowOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", Some("follow"), List("working1")))
+      List(Shellcut("name", Some("follow"), "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name", "follow")
