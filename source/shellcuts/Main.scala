@@ -14,7 +14,8 @@ import shellcuts.core.operations.{
   MoveOperation,
   NewOperation,
   RetraceOperation,
-  UnfollowOperation
+  UnfollowOperation,
+  VersionOperation
 }
 import shellcuts.core.structures.{
   Configuration,
@@ -40,7 +41,8 @@ object Main {
     "-f" -> FollowOperation,
     "--follow" -> FollowOperation,
     "-u" -> UnfollowOperation,
-    "--unfollow" -> UnfollowOperation
+    "--unfollow" -> UnfollowOperation,
+    "--version" -> VersionOperation
   )
 
   def main(arguments: Array[String]): Unit = {

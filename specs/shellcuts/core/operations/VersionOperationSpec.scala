@@ -11,14 +11,14 @@ import shellcuts.core.structures.{
   Shellcut
 }
 
-class HelpOperationSpec extends FlatSpec with EitherValues {
+class VersionOperationSpec extends FlatSpec with EitherValues {
   "modify()" should "do nothing to an empty configuration" in {
     val givenConfig = Configuration(None, None, List())
     val givenProperties = List("home", "working")
     val givenParameters = List()
     val expectedConfig = Configuration(None, None, List())
 
-    val producedConfig = HelpOperation.modify(
+    val producedConfig = VersionOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -48,7 +48,7 @@ class HelpOperationSpec extends FlatSpec with EitherValues {
       )
     )
 
-    val producedConfig = HelpOperation.modify(
+    val producedConfig = VersionOperation.modify(
       givenConfig,
       givenProperties,
       givenParameters
@@ -56,12 +56,12 @@ class HelpOperationSpec extends FlatSpec with EitherValues {
     assert(expectedConfig == producedConfig.right.value)
   }
 
-  "command()" should "produce a help prompt" in {
+  "command()" should "produce a version prompt" in {
     val givenConfig = Configuration(None, None, List())
     val givenProperties = List("home", "working")
     val givenParameters = List()
 
-    val producedCommand = HelpOperation.command(
+    val producedCommand = VersionOperation.command(
       givenConfig,
       givenProperties,
       givenParameters
