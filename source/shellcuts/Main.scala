@@ -11,6 +11,7 @@ import shellcuts.core.operations.{
   FollowOperation,
   GoOperation,
   HelpOperation,
+  MoveOperation,
   NewOperation,
   RetraceOperation,
   UnfollowOperation
@@ -28,16 +29,18 @@ object Main {
   val HomeProperty = "user.home"
   val CurrentDirProperty = "user.dir"
   val Operations = Map(
-    "-u" -> UnfollowOperation,
-    "--unfollow" -> UnfollowOperation,
-    "-f" -> FollowOperation,
-    "--follow" -> FollowOperation,
-    "-c" -> CrumbOperation,
-    "--crumb" -> CrumbOperation,
     "-n" -> NewOperation,
     "--new" -> NewOperation,
+    "-m" -> MoveOperation,
+    "--move" -> MoveOperation,
     "-d" -> DeleteOperation,
-    "--delete" -> DeleteOperation
+    "--delete" -> DeleteOperation,
+    "-c" -> CrumbOperation,
+    "--crumb" -> CrumbOperation,
+    "-f" -> FollowOperation,
+    "--follow" -> FollowOperation,
+    "-u" -> UnfollowOperation,
+    "--unfollow" -> UnfollowOperation
   )
 
   def main(arguments: Array[String]): Unit = {
