@@ -58,14 +58,14 @@ class MoveOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working1")))
+      List(Shellcut("name", None, "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name")
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working2")))
+      List(Shellcut("name", None, "working2"))
     )
 
     val producedConfig = MoveOperation.modify(
@@ -81,9 +81,9 @@ class MoveOperationSpec extends FlatSpec with EitherValues {
       None,
       None,
       List(
-        Shellcut("name", None, List("working1")),
-        Shellcut("name", None, List("working2")),
-        Shellcut("name", None, List("working3"))
+        Shellcut("name", None, "working1"),
+        Shellcut("name", None, "working2"),
+        Shellcut("name", None, "working3")
       )
     )
     val givenProperties = List("home", "working4")
@@ -91,7 +91,7 @@ class MoveOperationSpec extends FlatSpec with EitherValues {
     val expectedConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working4")))
+      List(Shellcut("name", None, "working4"))
     )
 
     val producedConfig = MoveOperation.modify(
@@ -106,14 +106,14 @@ class MoveOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       Some("crumb"),
       Some("follow1"),
-      List(Shellcut("name", Some("follow2"), List("working1")))
+      List(Shellcut("name", Some("follow2"), "working1"))
     )
     val givenProperties = List("home", "working2")
     val givenParameters = List("name")
     val expectedConfig = Configuration(
       Some("crumb"),
       Some("follow1"),
-      List(Shellcut("name", Some("follow2"), List("working2")))
+      List(Shellcut("name", Some("follow2"), "working2"))
     )
 
     val producedConfig = MoveOperation.modify(
@@ -128,7 +128,7 @@ class MoveOperationSpec extends FlatSpec with EitherValues {
     val givenConfig = Configuration(
       None,
       None,
-      List(Shellcut("name", None, List("working")))
+      List(Shellcut("name", None, "working"))
     )
     val givenProperties = List("home", "working")
     val givenParameters = List("name")

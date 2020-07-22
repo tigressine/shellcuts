@@ -36,7 +36,7 @@ object FollowOperation extends Operation {
       val newShellcut = Shellcut(
         originalShellcut.get.name,
         Some(parameters(1)),
-        originalShellcut.get.paths
+        originalShellcut.get.path
       )
 
       val filteredShellcuts = configuration.shellcuts filter {

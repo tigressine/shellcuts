@@ -34,21 +34,21 @@ object GoOperation extends Operation {
     }
 
     if (shellcut.get.follow.isEmpty && configuration.defaultFollow.isEmpty) {
-        return Right(Command(JumpAction, List(shellcut.get.paths(0))))
+        return Right(Command(JumpAction, List(shellcut.get.path)))
     }
 
     if (shellcut.get.follow.isEmpty) {
       Right(
         Command(
           JumpAndFollowAction,
-          List(shellcut.get.paths(0), configuration.defaultFollow.get)
+          List(shellcut.get.path, configuration.defaultFollow.get)
         )
       )
     } else {
       Right(
         Command(
           JumpAndFollowAction,
-          List(shellcut.get.paths(0), shellcut.get.follow.get)
+          List(shellcut.get.path, shellcut.get.follow.get)
         )
       )
     }
