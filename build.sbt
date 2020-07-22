@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
 enablePlugins(ScalaNativePlugin)
 
 lazy val programVersion = settingKey[String]("The program version.")
-programVersion := "1.4"
+programVersion := "1.4.0"
 
 lazy val supportedShells = settingKey[List[String]]("All supported shells.")
 supportedShells := List("bash", "dash", "zsh", "ksh", "fish")
