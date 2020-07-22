@@ -11,6 +11,7 @@ import shellcuts.core.operations.{
   FollowOperation,
   GoOperation,
   HelpOperation,
+  ListOperation,
   MoveOperation,
   NewOperation,
   RetraceOperation,
@@ -41,6 +42,8 @@ object Main {
     "-f" -> FollowOperation,
     "--follow" -> FollowOperation,
     "-u" -> UnfollowOperation,
+    "-l" -> ListOperation,
+    "--list" -> ListOperation,
     "--unfollow" -> UnfollowOperation,
     "--version" -> VersionOperation
   )
