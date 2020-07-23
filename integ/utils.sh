@@ -2,7 +2,7 @@
 
 # Format and print a failure message.
 _fail() {
-  failed=true
+  failed=$((failed + 1))
   printf "  \e[1;31mFAILED: $1 ($2)\e[0m\n"
 }
 
@@ -13,7 +13,7 @@ _pass() {
 
 # Verify that certain expected environmental conditions are met for the tests.
 _verify_environment() {
-  if [ "$#" -lt 5 ]; then
+  if [ "$#" -lt 4 ]; then
     printf "Must provide a type, shell, function source file, and list of tests.\n"
 
     return 1
@@ -60,7 +60,7 @@ run_tests() {
   shift
   shift
 
-  failed=false
+  failed=0
 
   printf "Running $type tests using $shell shell...\n"
   for test_name in "$@"; do
@@ -68,5 +68,5 @@ run_tests() {
     [ $? -ne 0 ] && _fail "$test_name" "$error" || _pass "$test_name"
   done
 
-  [ $failed = "false" ]
+  return $failed
 }

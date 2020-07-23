@@ -104,10 +104,11 @@ integrate := {
 
   val testSuites = List(
     "integ/new-flag-tests.sh",
-    "integ/crumb-flag-tests.sh"
+    "integ/crumb-flag-tests.sh",
+    "integ/delete-flag-tests.sh"
   )
 
-  supportedShells.value foreach {
+  val failed = supportedShells.value map {
     (shell) => {
       val functionSource = shell match {
         case "bash" | "dash" | "zsh" | "ksh" => {
@@ -117,9 +118,14 @@ integrate := {
           "/etc/shellcuts/shells/fish/shellcuts.fish"
         }
       }
-      testSuites foreach {
+
+      testSuites map {
         (suite) => s"${suite} ${shell} ${functionSource}" !
-      }
+      } sum
     }
+  } sum
+
+  if (failed != 0) {
+    throw new MessageOnlyException(s"$failed tests failed!")
   }
 }
