@@ -103,7 +103,8 @@ integrate := {
   import scala.sys.process._
 
   val testSuites = List(
-    "integ/shellcut-creation-tests.sh"
+    "integ/new-flag-tests.sh",
+    "integ/crumb-flag-tests.sh"
   )
 
   supportedShells.value foreach {
