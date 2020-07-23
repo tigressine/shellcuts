@@ -2,7 +2,7 @@
 
 # Create a path, create a shellcut for that path, and use that shellcut to jump
 # to that path.
-_test_shellcut_creation() {
+_test_new_flag() {
   shell="$1"
   func_source="$2"
   relative_path="$3"
@@ -35,20 +35,20 @@ _test_shellcut_creation() {
   fi
 }
 
-test_shellcut_creation_simple_path() {
-  _test_shellcut_creation "$1" "$2" "a/B_c/1-2/3"
+test_new_flag_simple_path() {
+  _test_new_flag "$1" "$2" "a/B_c/1-2/3"
 }
 
-test_shellcut_creation_path_with_spaces() {
-  _test_shellcut_creation "$1" "$2" "a/b c d/e f"
+test_new_flag_path_with_spaces() {
+  _test_new_flag "$1" "$2" "a/b c d/e f"
 }
 
-test_shellcut_creation_path_with_special_characters() {
-  _test_shellcut_creation "$1" "$2" 'a/!@#$%/^&*()/+=[]{/}|\~`/"'\''?<>/,.'
+test_new_flag_path_with_special_characters() {
+  _test_new_flag "$1" "$2" 'a/!@#$%/^&*()/+=[]{/}|\~`/"'\''?<>/,.'
 }
 
-test_shellcut_creation_path_with_unicode() {
-  _test_shellcut_creation "$1" "$2" "a/😀"
+test_new_flag_path_with_unicode() {
+  _test_new_flag "$1" "$2" "a/😀"
 }
 
 script_root="$(dirname "$(readlink -fm "$0")")"
@@ -60,9 +60,10 @@ func_source="$2"
 
 # Execute all tests.
 run_tests \
+  "--new" \
   "$shell" \
   "$func_source" \
-  test_shellcut_creation_simple_path \
-  test_shellcut_creation_path_with_spaces \
-  test_shellcut_creation_path_with_special_characters \
-  test_shellcut_creation_path_with_unicode
+  test_new_flag_simple_path \
+  test_new_flag_path_with_spaces \
+  test_new_flag_path_with_special_characters \
+  test_new_flag_path_with_unicode
