@@ -59,13 +59,14 @@ packDeb := {
 
   // Copy files into the packaging directory tree.
   val copies = Map(
-    s"target/scala-2.11/shellcuts-out" -> s"${installRoot}/usr/bin/sc-core",
-    s"docs/shellcuts.1" -> s"${installRoot}/usr/share/man/man1/shellcuts.1",
-    s"docs/CHANGES.txt" -> s"${installRoot}/usr/share/doc/CHANGES.txt",
-    s"docs/README.rst" -> s"${installRoot}/usr/share/doc/README.rst",
-    s"docs/LICENSE.txt" -> s"${installRoot}/usr/share/doc/LICENSE.txt",
-    s"shells/fish/shellcuts.fish" -> s"${installRoot}/etc/shellcuts/shells/fish/shellcuts.fish",
-    s"shells/posix/shellcuts.sh" -> s"${installRoot}/etc/shellcuts/shells/posix/shellcuts.sh"
+    "scripts/sc" -> s"${installRoot}/usr/bin/sc",
+    "target/scala-2.11/shellcuts-out" -> s"${installRoot}/usr/bin/sc-core",
+    "docs/shellcuts.1" -> s"${installRoot}/usr/share/man/man1/shellcuts.1",
+    "docs/CHANGES.txt" -> s"${installRoot}/usr/share/doc/CHANGES.txt",
+    "docs/README.rst" -> s"${installRoot}/usr/share/doc/README.rst",
+    "docs/LICENSE.txt" -> s"${installRoot}/usr/share/doc/LICENSE.txt",
+    "shells/fish/shellcuts.fish" -> s"${installRoot}/etc/shellcuts/shells/fish/shellcuts.fish",
+    "shells/posix/shellcuts.sh" -> s"${installRoot}/etc/shellcuts/shells/posix/shellcuts.sh"
   )
   copies foreach {
     case (source, destination) => {

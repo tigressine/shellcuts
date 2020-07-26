@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Create a follow command, then ensure that the follow command can be triggered
+# successfully.
 _test_follow_flag() {
   shell="$1"
   func_source="$2"
