@@ -1,0 +1,64 @@
+#!/bin/sh
+
+ZSH_CONFIG="$HOME/.zshrc"
+KSH_CONFIG="$HOME/.kshrc"
+BASH_CONFIG="$HOME/.bashrc"
+FISH_CONFIG="$HOME/.config/fish/config.fish"
+
+POSIX_FUNCTION_SOURCE='/etc/shellcuts/shells/posix/shellcuts.sh'
+FISH_FUNCTION_SOURCE='/etc/shellcuts/shells/fish/shellcuts.fish'
+
+POSIX_BLURB="
+# Initialize Shellcuts.
+if [ -f \"$POSIX_FUNCTION_SOURCE\" ]; then
+  . \"$POSIX_FUNCTION_SOURCE\"
+fi
+"
+FISH_BLURB="
+# Initialize Shellcuts.
+if test -e \"$FISH_FUNCTION_SOURCE\"
+  . \"$FISH_FUNCTION_SOURCE\"
+end
+"
+
+# Configure Shellcuts for a given shell.
+configure() {
+  shell="$1"
+  config="$2"
+  function_source="$3"
+  blurb="$4"
+
+  if [ ! -f "$config" ]; then
+    printf "  $shell - skipped (no config file)\n"
+    return
+  fi
+
+  if grep -q "$function_source" "$config"; then
+    printf "  $shell - skipped (already configured)\n"
+  else
+    configured=$((configured + 1))
+    printf "$blurb" >> "$config"
+    printf "  $shell - configured\n"
+  fi
+}
+
+read -p "automatically configure shellcuts? (y/n): " answer
+case "$answer" in
+  [yY]*)
+    configured=0
+    configure "bash" "$BASH_CONFIG" "$POSIX_FUNCTION_SOURCE" "$POSIX_BLURB"
+    configure "zsh " "$ZSH_CONFIG" "$POSIX_FUNCTION_SOURCE" "$POSIX_BLURB"
+    configure "fish" "$FISH_CONFIG" "$FISH_FUNCTION_SOURCE" "$FISH_BLURB"
+    configure "ksh " "$KSH_CONFIG" "$POSIX_FUNCTION_SOURCE" "$POSIX_BLURB"
+
+    if [ $configured -ne 0 ]; then
+      printf "\nconfiguration done, please restart your terminal\n"
+    else
+      printf "\nnothing was configured\n"
+    fi
+    ;;
+  *)
+    printf "have a good day!\n"
+    exit 1
+    ;;
+esac
