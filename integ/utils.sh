@@ -23,7 +23,7 @@ _verify_environment() {
   func_source="$3"
 
   case "$shell" in
-    bash | dash | ksh | fish | zsh)
+    "bash" | "dash" | "ksh" | "fish" | "zsh")
       :
       ;;
     *)
