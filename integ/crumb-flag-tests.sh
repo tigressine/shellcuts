@@ -18,16 +18,16 @@ _test_crumb_flag() {
 
   # Create a crumb at the bottom of the relative path within the testing root
   # using the specified shell, then jump back to the working root.
-  first_result="$("$shell" -c ". $func_source; sc -c")"
+  result="$("$shell" -c ". $func_source; sc -c")"
   cd "$working_root"
-  if [ "$first_result" != 'crumb added for this location' ]; then
+  if [ "$result" != 'crumb added for this location' ]; then
     printf "crumb could not be created"
     return 1
   fi
 
   # Jump to the crumb and check that the jump succeeds.
-  second_result="$("$shell" -c ". $func_source; sc; pwd")"
-  if [ "$second_result" = "$testing_root/$relative_path" ]; then
+  result="$("$shell" -c ". $func_source; sc; pwd")"
+  if [ "$result" = "$testing_root/$relative_path" ]; then
     return 0
   else
     printf "shellcut did not jump to the expected directory"

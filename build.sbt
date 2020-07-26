@@ -105,7 +105,8 @@ integrate := {
   val testSuites = List(
     "integ/new-flag-tests.sh",
     "integ/crumb-flag-tests.sh",
-    "integ/delete-flag-tests.sh"
+    "integ/delete-flag-tests.sh",
+    "integ/follow-flag-tests.sh"
   )
 
   val failed = supportedShells.value map {

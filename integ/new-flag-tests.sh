@@ -18,16 +18,16 @@ _test_new_flag() {
 
   # Create a shellcut at the bottom of the relative path within the testing
   # root using the specified shell, then jump back to the working root.
-  first_result="$("$shell" -c ". $func_source; sc -n integ-test")"
+  result="$("$shell" -c ". $func_source; sc -n integ")"
   cd "$working_root"
-  if [ "$first_result" != 'new shellcut "integ-test" created' ]; then
+  if [ "$result" != 'new shellcut "integ" created' ]; then
     printf "shellcut could not be created"
     return 1
   fi
 
   # Jump with the previously-created shellcut and check that the jump succeeds.
-  second_result="$("$shell" -c ". $func_source; sc integ-test; pwd")"
-  if [ "$second_result" = "$testing_root/$relative_path" ]; then
+  result="$("$shell" -c ". $func_source; sc integ; pwd")"
+  if [ "$result" = "$testing_root/$relative_path" ]; then
     return 0
   else
     printf "shellcut did not jump to the expected directory"
