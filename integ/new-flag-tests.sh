@@ -14,10 +14,10 @@ _test_new_flag() {
   working_root="$(pwd)"
   testing_root="/tmp/shellcuts-integ-test-$(date +"%s")"
   mkdir -p "$testing_root/$relative_path"
-  cd "$testing_root/$relative_path"
 
   # Create a shellcut at the bottom of the relative path within the testing
   # root using the specified shell, then jump back to the working root.
+  cd "$testing_root/$relative_path"
   result="$("$shell" -c ". $func_source; sc -n integ")"
   cd "$working_root"
   if [ "$result" != 'new shellcut "integ" created' ]; then
