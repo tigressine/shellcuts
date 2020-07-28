@@ -1,5 +1,0 @@
-
-# Initialize Shellcuts.
-if test -e /etc/shellcuts/shells/fish/shellcuts.fish
-  . /etc/shellcuts/shells/fish/shellcuts.fish
-end
