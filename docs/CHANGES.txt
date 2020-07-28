@@ -1,5 +1,11 @@
 Changelog for Shellcuts
 
+v1.4.0 - 07/27/2020
+  - Rewrote entire project in Scala
+  - Added default follow commands
+  - Changed installation procedure to install man page normally
+  - Added DEB support
+
 v1.3.0 - 09/02/2019
   - Added Ksh support
   - Added follow commands
