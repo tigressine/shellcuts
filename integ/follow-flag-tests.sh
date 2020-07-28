@@ -19,10 +19,10 @@ _test_follow_flag() {
   testing_root="/tmp/shellcuts-integ-test-$(date +"%s")"
   rm -rf "$testing_root"
   mkdir -p "$testing_root/$relative_path"
-  cd "$testing_root/$relative_path"
-  touch "$test_file"
+  touch "$testing_root/$relative_path/$test_file"
 
   # Create a shellcut.
+  cd "$testing_root/$relative_path"
   result="$("$shell" -c ". $func_source; sc -n integ")"
   cd "$working_root"
   if [ "$result" != 'new shellcut "integ" created' ]; then

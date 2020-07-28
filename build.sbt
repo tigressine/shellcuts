@@ -108,7 +108,8 @@ integrate := {
     "integ/crumb-flag-tests.sh",
     "integ/delete-flag-tests.sh",
     "integ/follow-flag-tests.sh",
-    "integ/unfollow-flag-tests.sh"
+    "integ/unfollow-flag-tests.sh",
+    "integ/move-flag-tests.sh"
   )
 
   val failed = supportedShells.value map {
