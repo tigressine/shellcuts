@@ -41,9 +41,9 @@ object Main {
     "--crumb" -> CrumbOperation,
     "-f" -> FollowOperation,
     "--follow" -> FollowOperation,
-    "-u" -> UnfollowOperation,
     "-l" -> ListOperation,
     "--list" -> ListOperation,
+    "-u" -> UnfollowOperation,
     "--unfollow" -> UnfollowOperation,
     "--version" -> VersionOperation
   )

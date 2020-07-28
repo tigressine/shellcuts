@@ -50,7 +50,7 @@ packDeb := {
     s"${installRoot}/usr/bin",
     s"${installRoot}/etc/shellcuts/shells",
     s"${installRoot}/usr/share/man/man1",
-    s"${installRoot}/usr/share/doc"
+    s"${installRoot}/usr/share/doc/shellcuts"
   )
   requiredDirs foreach {
     (path) => Files.createDirectories(Paths.get(path))
@@ -60,10 +60,10 @@ packDeb := {
   val copies = Map(
     "scripts/sc" -> s"${installRoot}/usr/bin/sc",
     "target/scala-2.11/shellcuts-out" -> s"${installRoot}/usr/bin/sc-core",
-    "docs/shellcuts.1" -> s"${installRoot}/usr/share/man/man1/shellcuts.1",
-    "docs/CHANGES.txt" -> s"${installRoot}/usr/share/doc/CHANGES.txt",
-    "docs/README.rst" -> s"${installRoot}/usr/share/doc/README.rst",
-    "docs/LICENSE.txt" -> s"${installRoot}/usr/share/doc/LICENSE.txt",
+    "docs/sc.1" -> s"${installRoot}/usr/share/man/man1/sc.1",
+    "docs/CHANGES.txt" -> s"${installRoot}/usr/share/doc/shellcuts/CHANGES.txt",
+    "docs/README.rst" -> s"${installRoot}/usr/share/doc/shellcuts/README.rst",
+    "docs/LICENSE.txt" -> s"${installRoot}/usr/share/doc/shellcuts/LICENSE.txt",
     "shells/shellcuts.fish" -> s"${installRoot}/etc/shellcuts/shells/shellcuts.fish",
     "shells/shellcuts.sh" -> s"${installRoot}/etc/shellcuts/shells/shellcuts.sh"
   )

@@ -1,0 +1,217 @@
+.TH shellcuts 1 "27 July 2020" "1.4.0"
+
+.SH NAME
+shellcuts - directory shortcuts for your shell.
+
+.SH SYNOPSIS
+.RS 0
+.B sc
+.RI [ shellcut ]
+.RE
+.RS 0
+.B sc
+.I --option
+.RI [ shellcut
+.RI [ args... ]]
+.RE
+
+.SH DESCRIPTION
+Shellcuts allows you to jump between saved/bookmarked locations in your filesystem via a single, short command. Shellcuts can:
+.PP
+.RS 2
+- create a named shellcut for any location in your filesystem
+.RE
+.RS 2
+- add a follow-up command to any shellcut like
+.I ls
+or
+.I clear
+.RE
+.RS 2
+- save a temporary "bread crumb" shellcut
+.RE
+.RS 2
+- delete any old or expired shellcuts
+.RE
+.RS 2
+- list all available shellcuts
+.RE
+
+.SH OPTIONS
+.PP
+.B -n, --new
+.I shellcut
+.RI [ follow ]
+.RS 4
+Creates a new shellcut for the current directory with an optional follow-up command. If no follow-up command is provided then this shellcut will execute the default follow-up command after each jump. Follow-up commands with spaces or non-alphanumeric characters must be wrapped with single quotes.
+.RE
+.PP
+.B -m, --move
+.I shellcut
+.RS 4
+Moves an existing shellcut to the current directory.
+.RE
+.PP
+.B  -d, --delete 
+.I shellcut
+.RS 4
+Deletes the specified shellcut if it exists.
+.RE
+.PP
+.B -f, --follow
+.RI [ shellcut ]
+.I follow
+.RS 4
+Adds a follow-up command that executes after each jump. If a shellcut name is provided, this follow-up command becomes associated with that shellcut only, else it becomes the default follow-up command.
+.RE
+.PP
+.B -u, --unfollow
+.RI [ shellcut ]
+.RS 4
+Removes a follow-up command. If a shellcut name is provided, that shellcut's follow-up command is reset to the default follow-up command. If no shellcut name is provided, the default follow-up command is reset.
+.RE
+.PP
+.B -c, --crumb
+.RS 4
+Creates a temporary bread crumb that can be jumped to via
+.I sc
+alone.
+.RE
+.PP
+.B -l, --list
+.RI [ shellcut ]
+.RS 4
+Lists shellcut details. Include a shellcut name to show a single shellcut, otherwise this flag shows all shellcuts.
+.RE
+.PP
+.B -h, --help
+.RS 4
+Displays a help menu for quick reference.
+.RE
+.PP
+.B --version
+.RS 4
+Displays version information.
+.RE
+
+.SH EXAMPLES
+Save a shellcut named
+.I example
+using the current directory:
+.RS 4
+.B sc -n example
+.RE
+.PP
+Jump to the shellcut named
+.I example
+if it exists:
+.RS 4
+.B sc example
+.RE
+.PP
+Delete a shellcut named
+.I example
+if it exists:
+.RS 4
+.B sc -d example
+.RE
+.PP
+Save a new shellcut named
+.I example
+with a simple follow-up command:
+.RS 4
+.B sc -n example clear
+.RE
+.PP
+Save a new shellcut named
+.I example
+with a complex follow-up command:
+.RS 4
+.B sc -n example 'clear; [ -e .git ] && git branch; ls'
+.RE
+.PP
+Add a follow-up command to the existing
+.I example
+shellcut:
+.RS 4
+.B sc -f example clear
+.RE
+.PP
+Remove the follow-up command from the
+.I example
+shellcut:
+.RS 4
+.B sc -u example
+.RE
+.PP
+Add a default follow-up command:
+.RS 4
+.B sc -f clear
+.RE
+.PP
+Remove the default follow-up command:
+.RS 4
+.B sc -u
+.RE
+.PP
+Save the current directory as a bread crumb:
+.RS 4
+.B sc -c
+.RE
+.PP
+Jump to the most recent bread crumb:
+.RS 4
+.B sc
+.RE
+.PP
+List all saved shellcuts:
+.RS 4
+.B sc -l
+.RE
+.PP
+List the
+.I example
+shellcut:
+.RS 4
+.B sc -l shellcut
+.RE
+.PP
+
+.SH ENVIRONMENT
+.B SHELLCUTS_CONF
+.RS 4
+custom path for the shellcuts configuration file
+.RE
+
+.SH FILES
+.B ~/.shellcuts
+.RS 4
+default location of shellcuts configuration file
+.RE
+.B /etc/shellcuts/shells/
+.RS 4
+location of all shell function files
+.RE
+.B /usr/bin/sc-core
+.RS 4
+core library called by the sourced shell functions
+.RE
+.B /usr/bin/sc
+.RS 4
+a first-time initialization script
+.RE
+.B /usr/share/doc/shellcuts/
+.RS 4
+location of all documentation
+.RE
+
+.SH LICENSE
+MIT
+
+.SH SOURCE
+Visit
+.I https://www.github.com/tgsachse/shellcuts
+to view the complete project. Give the repository a star if you really liked it!
+
+.SH AUTHOR
+Tiger Sachse (tgsachse)
