@@ -5,8 +5,8 @@ KSH_CONFIG="$HOME/.kshrc"
 BASH_CONFIG="$HOME/.bashrc"
 FISH_CONFIG="$HOME/.config/fish/config.fish"
 
-POSIX_FUNCTION_SOURCE='/etc/shellcuts/shells/posix/shellcuts.sh'
-FISH_FUNCTION_SOURCE='/etc/shellcuts/shells/fish/shellcuts.fish'
+POSIX_FUNCTION_SOURCE='/etc/shellcuts/shells/shellcuts.sh'
+FISH_FUNCTION_SOURCE='/etc/shellcuts/shells/shellcuts.fish'
 
 POSIX_BLURB="
 # Initialize Shellcuts.

@@ -48,8 +48,7 @@ packDeb := {
     "dist",
     s"${installRoot}/DEBIAN",
     s"${installRoot}/usr/bin",
-    s"${installRoot}/etc/shellcuts/shells/fish",
-    s"${installRoot}/etc/shellcuts/shells/posix",
+    s"${installRoot}/etc/shellcuts/shells",
     s"${installRoot}/usr/share/man/man1",
     s"${installRoot}/usr/share/doc"
   )
@@ -65,8 +64,8 @@ packDeb := {
     "docs/CHANGES.txt" -> s"${installRoot}/usr/share/doc/CHANGES.txt",
     "docs/README.rst" -> s"${installRoot}/usr/share/doc/README.rst",
     "docs/LICENSE.txt" -> s"${installRoot}/usr/share/doc/LICENSE.txt",
-    "shells/fish/shellcuts.fish" -> s"${installRoot}/etc/shellcuts/shells/fish/shellcuts.fish",
-    "shells/posix/shellcuts.sh" -> s"${installRoot}/etc/shellcuts/shells/posix/shellcuts.sh"
+    "shells/shellcuts.fish" -> s"${installRoot}/etc/shellcuts/shells/shellcuts.fish",
+    "shells/shellcuts.sh" -> s"${installRoot}/etc/shellcuts/shells/shellcuts.sh"
   )
   copies foreach {
     case (source, destination) => {
@@ -116,10 +115,10 @@ integrate := {
     (shell) => {
       val functionSource = shell match {
         case "bash" | "dash" | "zsh" | "ksh" => {
-          "/etc/shellcuts/shells/posix/shellcuts.sh"
+          "/etc/shellcuts/shells/shellcuts.sh"
         }
         case "fish" => {
-          "/etc/shellcuts/shells/fish/shellcuts.fish"
+          "/etc/shellcuts/shells/shellcuts.fish"
         }
       }
 

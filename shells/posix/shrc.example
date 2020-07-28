@@ -1,5 +1,0 @@
-
-# Initialize Shellcuts.
-if [ -f /etc/shellcuts/shells/posix/shellcuts.sh ]; then
-  . /etc/shellcuts/shells/posix/shellcuts.sh
-fi
