@@ -1,6 +1,6 @@
 ## shellcuts - directory shortcuts for your shell
 
-![testing badge](https://github.com/tgsachse/shellcuts/workflows/Tests/badge.svg)
+![testing badge](https://github.com/tgsachse/shellcuts/workflows/tests/badge.svg)
 
 Shellcuts allows you to jump between saved locations in your filesystem via a single, short command. Shellcuts can:
 

@@ -1,12 +1,12 @@
-name: Tests
+name: tests
 
 on:
-  push:
+  pull_request:
     branches:
      - mainline
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
