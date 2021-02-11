@@ -25,16 +25,16 @@ object ListOperation extends Operation {
     parameters: List[String]
   ): Either[String, Command] = {
 
-    if (parameters.length > 0) {
+    if (configuration.shellcuts.length == 0) {
+      Left("no shellcuts yet")
+    } else if (parameters.length > 0) {
       val shellcut = configuration.shellcuts find {
         (shellcut) => shellcut.name == parameters(0)
       }
 
       if (shellcut.isEmpty) {
-        return Left(s"""no shellcut with the name "${parameters(0)}"""")
-      }
-
-      if (shellcut.get.follow.isEmpty) {
+        Left(s"""no shellcut with the name "${parameters(0)}"""")
+      } else if (shellcut.get.follow.isEmpty) {
         Right(
           Command(
             PrintLineAction,
