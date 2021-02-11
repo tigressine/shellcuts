@@ -56,11 +56,29 @@ class ListOperationSpec extends FlatSpec with EitherValues {
     assert(expectedConfig == producedConfig.right.value)
   }
 
-  "command()" should "handle a shellcut that doesn't exist" in {
+  "command()" should "handle an empty list of shellcuts" in {
     val givenConfig = Configuration(None, None, List())
     val givenProperties = List("home", "working")
-    val givenParameters = List("name")
-    val expectedMessage = """no shellcut with the name "name""""
+    val givenParameters = List()
+    val expectedMessage = """no shellcuts yet"""
+
+    val producedMessage = ListOperation.command(
+      givenConfig,
+      givenProperties,
+      givenParameters
+    )
+    assert(expectedMessage == producedMessage.left.value)
+  }
+
+  it should "handle a shellcut that doesn't exist" in {
+    val givenConfig = Configuration(
+      None,
+      None,
+      List(Shellcut("name1", None, "working1"))
+    )
+    val givenProperties = List("home", "working2")
+    val givenParameters = List("name2")
+    val expectedMessage = """no shellcut with the name "name2""""
 
     val producedMessage = ListOperation.command(
       givenConfig,
