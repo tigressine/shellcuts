@@ -1,3 +1,5 @@
+**NOTE: This project is archived. A good alternative is [goto](https://github.com/iridakos/goto).**
+
 ## shellcuts - directory shortcuts for your shell
 
 ![testing badge](https://github.com/tgsachse/shellcuts/workflows/tests/badge.svg)
